@@ -1,0 +1,55 @@
+# Smartist UI Rules & Design System Guidelines
+
+Apply these constraints to any UI development, refactoring, or code generation inside the Smartist Studio repository.
+
+---
+
+## 1. Project Context & Design System
+
+*   **Stack:** Next.js (App Router), React, Tailwind CSS, TypeScript, Prisma.
+*   **Typography:**
+    *   Headings: Outfit font (`var(--font-heading)`)
+    *   Body text: Inter font (`var(--font-body)`)
+*   **Theme & Colors:**
+    *   Default is **Light Mode**, with a class-based `.dark` switch.
+    *   **NEVER** hardcode default dark colors (like `bg-slate-900`) without prefixing them with `.dark:` (e.g. `dark:bg-slate-900`).
+    *   Prefer using the project's CSS variables (defined in [globals.css](file:///c:/Users/User/Documents/Sublimacion/sublimacion/src/app/globals.css)) or Tailwind utilities that map to them:
+        *   Primary colors: `--primary` (`#6366f1`), `--primary-light` (`#818cf8`), `--primary-dark` (`#4f46e5`).
+        *   Text: `--text-primary` (`#0f172a`), `--text-secondary` (`#475569`), `--text-muted` (`#94a3b8`).
+        *   Backgrounds: `--bg-dark` (`#f8fafc`), `--bg-dark-2` (`#ffffff`), `--bg-dark-3` (`#f1f5f9`).
+        *   Interactive inputs: `--input-bg`, `--input-focus-bg`, `--upload-bg`.
+*   **AI Aesthetic Prevention ("No Slop"):**
+    *   Avoid generic AI-generated styles (like neon purple/indigo on everything or excessive gradients).
+    *   Keep gradients clean and mapped to `--gradient-primary`, `--gradient-rose`, etc.
+    *   Do not overuse large rounded corners (`rounded-2xl` or `rounded-3xl`) unless they align with the design system specifications.
+
+---
+
+## 2. Baseline UI Constraints
+
+### Spacing & Layout
+*   Maintain a strict visual hierarchy using standard Tailwind padding and margins.
+*   Ensure all components are fully responsive using responsive utility variants (`sm:`, `md:`, `lg:`, `xl:`).
+*   Avoid absolute positioning for layout-critical elements unless explicitly needed (e.g., floating overlays).
+
+### Accessibility (a11y)
+*   **Primitives:** Use accessible HTML elements or reliable component primitives for focus or keyboard interaction (like Radix, Base UI, or standard HTML elements with proper ARIA attributes).
+*   **Icon-only Elements:** Icon-only buttons or link elements **MUST** include an explicit `aria-label` or visually hidden screen-reader text (`sr-only`) describing their purpose.
+*   **Keyboard Friendly:** Focus visible outlines (`focus-visible:outline-...` or `focus:ring-2`) should never be removed.
+*   **Form Inputs:**
+    *   Always connect labels to inputs using `htmlFor` and `id`.
+    *   Show error states directly beneath the corresponding inputs.
+    *   Never block standard user interactions like copying/pasting.
+
+### Animations
+*   **Compositor Properties only:** Limit animations and transitions to graphics-card-friendly properties (`opacity` and `transform`). Avoid animating layout properties (`width`, `height`, `top`, `left`, `margin`, `padding`) as this causes layout thrashing and compromises performance.
+*   **Duration:** Keep interaction transitions fast (ideally <= 200ms) to ensure the interface feels snappy.
+*   **Reduce Motion:** Respect the user's system preferences using Tailwind's `motion-reduce:` modifier where appropriate.
+
+---
+
+## 3. Code Quality & Component Architecture
+
+*   **Composition:** Prefer building components through composition rather than rigid configuration prop objects.
+*   **Client vs Server Component Boundaries:** Keep data-fetching logic in Server Components and push interactivity (event handlers, hooks, state) to leaf Client Components (`"use client"`).
+*   **Class Merging:** Use a class-merging utility like `cn(...)` (defined in the project's helper utilities) for handling conditional CSS classes cleanly and avoiding class name clashes.

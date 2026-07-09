@@ -1,0 +1,32 @@
+# Smartist — Sublimación y Regalos Personalizados
+
+Smartist es una plataforma peruana de comercio electrónico especializada en la sublimación y estampación de productos personalizados premium (tazas, mousepads, ropa de algodón y artículos de oficina) con visualizador y personalizador 2D/3D interactivo.
+
+## Estructura de Páginas Públicas
+
+- `/`: Inicio, propuesta de valor y catálogo destacado.
+- `/productos`: Catálogo completo con buscador, filtros de categorías y etiquetas.
+- `/productos/[id]`: Ficha técnica del producto y el Personalizador 2D/3D interactivo para lienzos de sublimación.
+- `/carrito`: Revisión de compras y configuraciones de diseño guardadas.
+- `/checkout`: Formulario de datos, método de entrega (Recojo o Delivery Lima S/. 10) y pasarela de pago manual mediante Yape/Plin con carga de captura (voucher).
+- `/pedidos/[id]`: Rexistro y rastreo en tiempo real del estado del pedido (PENDIENTE, PAGADO, PRODUCCIÓN, ENVIADO).
+- `/rastrear`: Página pública para buscar pedidos por su identificador UUID.
+- `/empresas`: Cotización al por mayor para merchandising corporativo.
+- `/emprendedores`: Módulo de dropshipping para revendedores de productos personalizados.
+- `/politica-de-privacidad`: Términos de protección de datos personales.
+- `/terminos-y-condiciones`: Políticas de despacho, reembolsos de productos personalizados y condiciones.
+
+## Módulos del Administrador
+
+- `/admin/dashboard`: Estadísticas de venta de productos e ingresos validados.
+- `/admin/pedidos`: Lista de pedidos, inspección de capturas de Yape/Plin, descarga de archivos de impresión de alta definición creados por los clientes, y actualización de estados del pedido.
+- `/admin/productos`: Panel de administración del catálogo (CRUD de productos base, variantes de stock, precios y archivos .glb de modelos 3D).
+- `/admin/usuarios`: Administración de credenciales de administradores y personal.
+- `/admin/ajustes`: Configuración de datos del negocio (teléfono de WhatsApp, correo, QR de Yape/Plin de cobro).
+
+## APIs Públicas para Integraciones
+
+- `POST /api/orders`: Crea una orden de pedido. Espera nombre, correo, teléfono, método de envío, voucher de pago y lista de ítems con sus configuraciones de sublimación.
+- `GET /api/orders/[id]`: Consulta el estado de entrega y tracking del pedido actual.
+- `GET /api/products`: Obtiene el catálogo completo de productos con sus variantes.
+- `POST /api/upload`: Sube archivos (diseños en formato PNG y capturas de Yape/Plin) a Supabase Storage y retorna la URL pública del recurso.

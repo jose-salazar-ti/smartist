@@ -1,0 +1,149 @@
+// ==========================================
+// ESQUEMA DE BASE DE DATOS (E-Commerce Completo Avanzado)
+// Formato: DBML (Copia y pega este código en dbdiagram.io)
+// ==========================================
+
+Table usuarios {
+  id uuid [pk, note: 'ID único generado por Supabase']
+  nombre varchar
+  correo varchar [unique]
+  telefono varchar
+  rol varchar [default: 'cliente', note: 'cliente, revendedor, admin']
+  doc_tipo varchar [null, note: 'DNI o RUC']
+  doc_numero varchar [null, note: 'Número de documento de identidad']
+  razon_social varchar [null, note: 'Razón Social para empresas']
+  creado_en timestamp
+}
+
+
+Table direcciones {
+  id int [pk, increment]
+  usr_id uuid [ref: > usuarios.id]
+  calle varchar
+  distrito varchar
+  ciudad varchar
+  ref varchar [note: 'Referencia para delivery']
+  principal boolean
+}
+
+Table proveedores {
+  id int [pk, increment]
+  nombre varchar [note: 'Ej. Joyería San José, Importador de Tazas']
+  contacto varchar
+  correo varchar
+  telefono varchar
+  tipo varchar [default: 'interno', note: 'interno (donde compras insumos) o socio (quien vende en tu web)']
+  comision_porcentaje decimal [default: 0, note: 'Porcentaje de comisión si aplica']
+}
+
+
+Table categorias {
+  id int [pk, increment]
+  nombre varchar [note: 'Ej. Tazas, Joyería, Combos']
+  slug varchar [unique, note: 'URL amigable, ej: tazas-magicas']
+  imagen varchar
+}
+
+Table productos {
+  id int [pk, increment]
+  cat_id int [ref: > categorias.id]
+  prov_id int [ref: > proveedores.id, null, note: 'Socio/Proveedor dueño del producto base. Nulo si es propio.']
+  nombre varchar
+  descrip text
+  costo decimal [note: 'Precio que te cobra a ti el proveedor o tu costo de fabricación']
+  precio decimal [note: 'Precio de venta al público']
+  imagen varchar
+  etiquetas varchar [note: 'Ej: anime, regalo. Sirve para Productos Relacionados']
+  es_custom boolean [default: true, note: '¿Permite diseño en 3D?']
+  activo boolean [default: true]
+}
+
+Table variantes {
+  id int [pk, increment]
+  prod_id int [ref: > productos.id]
+  sku varchar [unique]
+  atributo varchar [note: 'Ej: 11oz, Talla M, Plata 925']
+  costo_ext decimal [default: 0, note: 'Costo extra que te cobra el proveedor por esta variante']
+  precio_ext decimal [default: 0, note: 'Suma al precio base de venta']
+  stock int [default: 0]
+}
+
+Table precios_volumen {
+  id int [pk, increment]
+  prod_id int [ref: > productos.id]
+  cant_min int [note: 'Ej: 6']
+  cant_max int [null, note: 'Ej: 29. Nulo significa a más (sin límite)']
+  precio_unit decimal [note: 'Precio unitario especial para este rango de cantidad']
+}
+
+
+Table cupones {
+  id int [pk, increment]
+  codigo varchar [unique, note: 'Ej: VERANO20']
+  tipo varchar [note: 'porcentaje o monto_fijo']
+  valor decimal [note: 'Ej: 20 (para 20%) o 15 (para S/.15)']
+  fecha_expira timestamp
+  activo boolean [default: true]
+}
+
+Table pedidos {
+  id varchar [pk, note: 'Ej: #7A926E93']
+  usr_id uuid [ref: > usuarios.id, note: 'Nulo si compró como invitado']
+  cupon_id int [ref: > cupones.id, null, note: 'Cupón usado en esta compra']
+  estado varchar [default: 'pendiente', note: 'pendiente, pagado, produccion, enviado']
+  tipo_entrega varchar [note: 'delivery o recojo']
+  dir_envio varchar [note: 'Dirección de entrega']
+  nombre_cliente_final varchar [note: 'Nombre del destinatario final (para dropshipping de revendedores)']
+  telf_cliente_final varchar [note: 'Teléfono del destinatario final (para dropshipping de revendedores)']
+  tipo_comprobante varchar [default: 'boleta', note: 'boleta o factura']
+  doc_tipo varchar [null, note: 'DNI o RUC']
+  doc_numero varchar [null, note: 'Número de documento']
+  razon_social varchar [null, note: 'Razón Social para factura de empresa']
+  total decimal
+  metodo_pago varchar [note: 'yape, plin, tarjeta']
+  voucher_url varchar [note: 'Captura de pago manual']
+  creado_en timestamp
+}
+
+
+
+Table pedido_items {
+  id int [pk, increment]
+  ped_id varchar [ref: > pedidos.id]
+  prod_id int [ref: > productos.id]
+  var_id int [ref: > variantes.id, null]
+  cant int
+  precio_unit decimal [note: 'Precio pagado en ese momento']
+  costo_unit decimal [note: 'Costo de compra/insumo en ese momento (para histórico de ganancias)']
+  diseno_url varchar [note: 'PNG ANCHO 20cm LISTO PARA IMPRIMIR']
+}
+
+
+// ==========================================
+// MÓDULOS AVANZADOS DE E-COMMERCE
+// ==========================================
+
+Table resenas {
+  id int [pk, increment]
+  prod_id int [ref: > productos.id]
+  usr_id uuid [ref: > usuarios.id]
+  calificacion int [note: 'Estrellas del 1 al 5']
+  comentario text
+  creado_en timestamp
+}
+
+Table lista_deseos {
+  id int [pk, increment]
+  usr_id uuid [ref: > usuarios.id]
+  prod_id int [ref: > productos.id]
+  creado_en timestamp
+  note: 'Productos guardados con el botón de Corazón'
+}
+
+Table carrito_abandonado {
+  id int [pk, increment]
+  usr_id uuid [ref: - usuarios.id, unique, note: '1 carrito activo por usuario']
+  data_json text [note: 'JSON con los productos que dejó a medias']
+  modificado_en timestamp
+  note: 'Sirve para enviarle un correo recordatorio si no compró'
+}

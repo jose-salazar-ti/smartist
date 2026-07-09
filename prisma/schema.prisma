@@ -1,0 +1,314 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+
+model Usuario {
+  id                String             @id @default(uuid())
+  nombre            String
+  correo            String             @unique
+  telefono          String?
+  rolId             String             @default("CLIENTE") @map("rol_id")
+  rol               Rol                @relation(fields: [rolId], references: [id])
+  docTipo           String?            @map("doc_tipo") // DNI o RUC
+  docNumero         String?            @map("doc_numero")
+  razonSocial       String?            @map("razon_social")
+  creadoEn          DateTime           @default(now()) @map("creado_en")
+  direcciones       Direccion[]
+  pedidos           Pedido[]
+  resenas           Resena[]
+  listaDeseos       ListaDeseos[]
+  carritoAbandonado CarritoAbandonado?
+  productos         Producto[]
+
+  @@map("usuarios")
+}
+
+model Direccion {
+  id        Int     @id @default(autoincrement())
+  usrId     String  @map("usr_id")
+  usuario   Usuario @relation(fields: [usrId], references: [id], onDelete: Cascade)
+  calle     String
+  distrito  String
+  ciudad    String
+  ref       String?
+  principal Boolean @default(false)
+
+  @@map("direcciones")
+}
+
+model Proveedor {
+  id                 Int        @id @default(autoincrement())
+  nombre             String
+  contacto           String?
+  correo             String?
+  telefono           String?
+  tipo               String     @default("interno") // "interno" o "socio"
+  comisionPorcentaje Decimal    @default(0) @db.Decimal(5, 2) @map("comision_porcentaje")
+  productos          Producto[]
+
+  @@map("proveedores")
+}
+
+model Categoria {
+  id        Int        @id @default(autoincrement())
+  nombre    String
+  slug      String     @unique
+  imagen    String?
+  productos Producto[]
+
+  @@map("categorias")
+}
+
+model Producto {
+  id              String             @id @default(uuid())
+  catId           Int                @map("cat_id")
+  categoria       Categoria          @relation(fields: [catId], references: [id])
+  provId          Int?               @map("prov_id")
+  proveedor       Proveedor?         @relation(fields: [provId], references: [id], onDelete: SetNull)
+  nombre          String
+  descrip         String             @map("descrip")
+  costo           Decimal            @db.Decimal(10, 2)
+  precio          Decimal            @db.Decimal(10, 2)
+  imagen          String?
+  etiquetas       String?            @map("etiquetas")
+  esCustom        Boolean            @default(true) @map("es_custom")
+  activo          Boolean            @default(true)
+  destacado       Boolean            @default(false)
+  galleryImages   String[]           @default([]) @map("gallery_images")
+  blankMockupUrl  String?            @map("blank_mockup_url")
+  maskImageUrl    String?            @map("mask_image_url")
+  glbModelUrl     String?            @map("glb_model_url") // URL para archivo 3D .glb
+  mockupConfig    Json?              @map("mockup_config") // Configuraciones de vista del mockup
+  printDimensions Json?              @map("print_dimensions") // Ancho y alto para Plantilla Plana
+  features        Json?              @map("features")
+  benefits        Json?              @map("benefits")
+  createdAt       DateTime           @default(now()) @map("created_at")
+  usuarioId       String?            @map("usuario_id")
+  usuario         Usuario?           @relation(fields: [usuarioId], references: [id])
+  variantes       VarianteProducto[]
+  pedidoItems     PedidoItem[]
+  resenas         Resena[]
+  listaDeseos     ListaDeseos[]
+  preciosVolumen  PrecioVolumen[]
+
+  @@map("productos")
+}
+
+model VarianteProducto {
+  id              String       @id @default(uuid())
+  prodId          String       @map("prod_id")
+  producto        Producto     @relation(fields: [prodId], references: [id], onDelete: Cascade)
+  sku             String       @unique
+  atributo        String // e.g. "Taza Blanca 11oz"
+  costoExt        Decimal      @default(0) @db.Decimal(10, 2) @map("costo_ext")
+  precioExt       Decimal      @default(0) @db.Decimal(10, 2) @map("precio_ext")
+  stock           Int          @default(0)
+  imageUrl        String?      @map("image_url")
+  glbModelUrl     String?      @map("glb_model_url") // URL para archivo 3D .glb por variante
+  blankMockupUrl  String?      @map("blank_mockup_url") // Imagen de mockup por variante
+  maskImageUrl    String?      @map("mask_image_url") // Máscara de recorte por variante
+  printDimensions Json?        @map("print_dimensions") // Ancho y alto de plantilla plana por variante
+  mockupConfig    Json?        @map("mockup_config") // Configuración de transformación del mockup por variante
+  orderItems      PedidoItem[]
+
+  @@map("variantes")
+}
+
+model PrecioVolumen {
+  id         Int      @id @default(autoincrement())
+  prodId     String   @map("prod_id")
+  producto   Producto @relation(fields: [prodId], references: [id], onDelete: Cascade)
+  cantMin    Int      @map("cant_min")
+  cantMax    Int?     @map("cant_max")
+  precioUnit Decimal  @db.Decimal(10, 2) @map("precio_unit")
+
+  @@map("precios_volumen")
+}
+
+model Cupon {
+  id           Int      @id @default(autoincrement())
+  codigo       String   @unique
+  tipo         String // "porcentaje" o "monto_fijo"
+  valor        Decimal  @db.Decimal(10, 2)
+  fechaExpira  DateTime @map("fecha_expira")
+  activo       Boolean  @default(true)
+  pedidos      Pedido[]
+
+  @@map("cupones")
+}
+
+model Pedido {
+  id                  String       @id @default(uuid())
+  usrId               String?      @map("usr_id")
+  usuario             Usuario?     @relation(fields: [usrId], references: [id])
+  cuponId             Int?         @map("cupon_id")
+  cupon               Cupon?       @relation(fields: [cuponId], references: [id], onDelete: SetNull)
+  estadoId            String       @default("PENDING") @map("estado_id")
+  estado              EstadoPedido @relation(fields: [estadoId], references: [id])
+  tipoEntregaId       String       @default("PICKUP") @map("tipo_entrega_id")
+  tipoEntrega         MetodoEnvio  @relation(fields: [tipoEntregaId], references: [id])
+  dirEnvio            String?      @map("dir_envio")
+  nombreClienteFinal  String?      @map("nombre_cliente_final")
+  telfClienteFinal    String?      @map("telf_cliente_final")
+  tipoComprobante     String       @default("boleta") @map("tipo_comprobante")
+  docTipo             String?      @map("doc_tipo")
+  docNumero           String?      @map("doc_numero")
+  razonSocial         String?      @map("razon_social")
+  total               Decimal      @db.Decimal(10, 2)
+  metodoPagoId        String       @default("YAPE") @map("metodo_pago_id")
+  metodoPago          MetodoPago   @relation(fields: [metodoPagoId], references: [id])
+  voucherUrl          String?      @map("voucher_url")
+  creadoEn            DateTime     @default(now()) @map("creado_en")
+  pedidoItems         PedidoItem[]
+  dedicatoria         Dedicatoria?
+
+  @@map("pedidos")
+}
+
+model PedidoItem {
+  id         String            @id @default(uuid())
+  pedId      String            @map("ped_id")
+  pedido     Pedido            @relation(fields: [pedId], references: [id], onDelete: Cascade)
+  prodId     String            @map("prod_id")
+  producto   Producto          @relation(fields: [prodId], references: [id])
+  varId      String?           @map("var_id")
+  variante   VarianteProducto? @relation(fields: [varId], references: [id])
+  cant       Int
+  precioUnit Decimal           @db.Decimal(10, 2) @map("precio_unit")
+  costoUnit  Decimal           @db.Decimal(10, 2) @map("costo_unit")
+  disenoUrl  String?           @map("diseno_url")
+  detalles   Json?             @map("detalles")
+
+  @@map("pedido_items")
+}
+
+model Resena {
+  id           Int      @id @default(autoincrement())
+  prodId       String   @map("prod_id")
+  producto     Producto @relation(fields: [prodId], references: [id], onDelete: Cascade)
+  usrId        String   @map("usr_id")
+  usuario      Usuario  @relation(fields: [usrId], references: [id], onDelete: Cascade)
+  calificacion Int
+  comentario   String?
+  creadoEn     DateTime @default(now()) @map("creado_en")
+
+  @@map("resenas")
+}
+
+model ListaDeseos {
+  id       Int      @id @default(autoincrement())
+  usrId    String   @map("usr_id")
+  usuario  Usuario  @relation(fields: [usrId], references: [id], onDelete: Cascade)
+  prodId   String   @map("prod_id")
+  producto Producto @relation(fields: [prodId], references: [id], onDelete: Cascade)
+  creadoEn DateTime @default(now()) @map("creado_en")
+
+  @@map("lista_deseos")
+}
+
+model CarritoAbandonado {
+  id           Int      @id @default(autoincrement())
+  usrId        String   @unique @map("usr_id")
+  usuario      Usuario  @relation(fields: [usrId], references: [id], onDelete: Cascade)
+  dataJson     String   @map("data_json")
+  modificadoEn DateTime @updatedAt @map("modificado_en")
+
+  @@map("carrito_abandonado")
+}
+
+model Ajustes {
+  clave String @id
+  valor String
+
+  @@map("ajustes")
+}
+
+model Rol {
+  id       String    @id
+  nombre   String
+  inEstado Boolean   @default(true) @map("in_estado")
+  usuarios Usuario[]
+
+  @@map("roles")
+}
+
+model EstadoPedido {
+  id               String   @id
+  nombre           String
+  descripcion      String?
+  color            String   @default("indigo")
+  emailTitulo      String?
+  emailDescripcion String?
+  inEstado         Boolean  @default(true) @map("in_estado")
+  pedidos          Pedido[]
+
+  @@map("estados_pedido")
+}
+
+model MetodoPago {
+  id       String   @id
+  nombre   String
+  tipo     String   // "QR" | "TRANSFERENCIA"
+  numero   String?
+  titular  String?
+  qrUrl    String?
+  inEstado Boolean  @default(true) @map("in_estado")
+  pedidos  Pedido[]
+
+  @@map("metodos_pago")
+}
+
+model MetodoEnvio {
+  id             String   @id
+  nombre         String
+  costo          Decimal  @db.Decimal(10, 2)
+  tiempoEstimado String?  @map("tiempo_estimado")
+  inEstado       Boolean  @default(true) @map("in_estado")
+  pedidos        Pedido[]
+
+  @@map("metodos_envio")
+}
+
+model MensajeContacto {
+  id               String    @id @default(uuid())
+  nombre           String
+  correo           String?   // Opcional para soportar formularios de solo celular/WhatsApp
+  telefono         String?
+  asunto           String
+  mensaje          String
+  tipo             String    @default("CONTACTO") // "CONTACTO" | "SOPORTE" | "EMPRESA" | "EMPRENDEDOR"
+  estado           String    @default("PENDIENTE") // "PENDIENTE" | "LEIDO" | "RESPONDIDO"
+  datosAdicionales Json?     @map("datos_adicionales") // Almacena datos B2B como razonSocial, logoUrl, cantidad, etc.
+  respuesta        String?
+  respondidoEn     DateTime? @map("respondido_en")
+  creadoEn         DateTime  @default(now()) @map("creado_en")
+
+  @@map("mensajes_contacto")
+}
+
+model Dedicatoria {
+  id           String   @id @default(uuid())
+  orderId      String?  @unique @map("order_id")
+  pedido       Pedido?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  remitente    String
+  destinatario String
+  mensaje      String   @db.Text
+  imagenUrl    String?  @map("imagen_url")
+  spotifyUri   String?  @map("spotify_uri")
+  patronKey    String   @default("corazones") @map("patron_key")
+  bgColor      String?  @map("bg_color")
+  vistaContador Int     @default(0) @map("vista_contador")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("dedicatorias")
+}
+
