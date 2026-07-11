@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyAdmin } from "@/lib/auth-utils";
+import { revalidatePath } from "next/cache";
 
 function slugify(text: string) {
   return text
@@ -251,6 +252,11 @@ export async function POST(req: NextRequest) {
         mockupConfig: v.mockupConfig || null
       }))
     };
+
+    // Revalidate Next.js cache so the new product appears immediately on the catalog and home pages
+    revalidatePath("/productos");
+    revalidatePath(`/productos/${createdProduct.id}`);
+    revalidatePath("/");
 
     return NextResponse.json({ success: true, product: clientProduct });
   } catch (error: any) {

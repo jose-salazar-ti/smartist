@@ -216,7 +216,7 @@ function Viewer3DLoadingFallback() {
 }
 
 
-function GLBMugModel({ textureUrl, baseColor = "#ffffff", modelUrl = "/models/mug.glb", wrapMode = "center" }: MugViewer3DProps) {
+function GLBMugModelInner({ textureUrl, baseColor = "#ffffff", modelUrl = "/models/mug.glb", wrapMode = "center" }: MugViewer3DProps) {
   const { scene } = useGLTF(modelUrl) as any;
   const transparentPixel = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
   
@@ -388,9 +388,53 @@ function GLBMugModel({ textureUrl, baseColor = "#ffffff", modelUrl = "/models/mu
   );
 }
 
+const decryptionCache = new Map<string, string>();
+const decryptionPromises = new Map<string, Promise<string>>();
+
+function useDecryptedUrl(url: string): string {
+  if (decryptionCache.has(url)) return decryptionCache.get(url)!;
+  if (!decryptionPromises.has(url)) {
+    const promise = fetch(url)
+      .then(res => res.arrayBuffer())
+      .then(buffer => {
+        const view = new Uint8Array(buffer);
+        const KEY = 42;
+        for (let i = 0; i < view.length; i++) {
+          view[i] ^= KEY;
+        }
+        const blob = new Blob([view], { type: 'model/gltf-binary' });
+        const blobUrl = URL.createObjectURL(blob);
+        decryptionCache.set(url, blobUrl);
+        return blobUrl;
+      })
+      .catch(e => {
+        console.error("Error decrypting model:", e);
+        throw e;
+      });
+    decryptionPromises.set(url, promise);
+  }
+  throw decryptionPromises.get(url);
+}
+
+function GLBMugModel({ textureUrl, baseColor = "#ffffff", modelUrl = "/models/asset_core_01.dat", wrapMode = "center" }: MugViewer3DProps) {
+  const decryptedUrl = useDecryptedUrl(modelUrl);
+
+  return (
+    <GLBMugModelInner
+      textureUrl={textureUrl}
+      baseColor={baseColor}
+      modelUrl={decryptedUrl}
+      wrapMode={wrapMode}
+    />
+  );
+}
+
 export default function MugViewer3D({ textureUrl, baseColor, modelUrl, wrapMode = "center" }: MugViewer3DProps) {
   return (
-    <div style={{ width: "100%", height: "100%", cursor: "grab", borderRadius: "12px", overflow: "hidden", background: "transparent", position: "relative" }}>
+    <div 
+      onContextMenu={(e) => e.preventDefault()}
+      style={{ width: "100%", height: "100%", cursor: "grab", borderRadius: "12px", overflow: "hidden", background: "transparent", position: "relative" }}
+    >
       <CanvasErrorBoundary>
         {/* Show animated loader while Canvas + GLB + shaders are compiling */}
         <Suspense fallback={<Viewer3DLoadingFallback />}>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyAdmin } from "@/lib/auth-utils";
+import { revalidatePath } from "next/cache";
 
 function slugify(text: string) {
   return text
@@ -173,6 +174,11 @@ export async function PATCH(
       return p;
     });
 
+    // Revalidate Next.js cache so changes are immediately visible to clients
+    revalidatePath("/productos");
+    revalidatePath(`/productos/${id}`);
+    revalidatePath("/");
+
     return NextResponse.json({ success: true, product: updatedProduct });
   } catch (error: any) {
     console.error(`Product edit API error for ${req.url}:`, error);
@@ -211,6 +217,11 @@ export async function DELETE(
       where: { id },
       data: { activo: false }
     });
+
+    // Revalidate Next.js cache so deactivation is immediately visible to clients
+    revalidatePath("/productos");
+    revalidatePath(`/productos/${id}`);
+    revalidatePath("/");
 
     return NextResponse.json({ success: true, product: deactivatedProduct });
   } catch (error: any) {

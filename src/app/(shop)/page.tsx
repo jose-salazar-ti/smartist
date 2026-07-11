@@ -115,8 +115,8 @@ export default function HomePage({
                   <StepTruckIcon />
                 </span>
               </div>
-              <h3 className="step-title">Recibe en casa</h3>
-              <p className="step-desc">Producción en 24h. Envío a domicilio o recojo gratis en nuestro taller.</p>
+              <h3 className="step-title">Recibe tu pedido</h3>
+              <p className="step-desc">Envíos a domicilio, despacho por courier o puntos de encuentro.</p>
             </div>
           </div>
         </div>

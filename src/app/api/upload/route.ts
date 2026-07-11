@@ -1,12 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { verifyAdmin } from "@/lib/auth-utils";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File;
     const type = (formData.get("type") as string) || "designs"; // "vouchers" | "designs" | "products" | "models"
+
+    // Apply rate limiting (5 uploads/min) on public uploads to prevent storage exhaustion
+    if (type === "vouchers" || type === "designs" || type === "disenos-personalizados" || type === "audio") {
+      const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
+      const limitResult = rateLimit(ip, 5, 60000);
+      if (!limitResult.success) {
+        return NextResponse.json(
+          { error: "Límite de subidas excedido (máximo 5 por minuto). Intente de nuevo más tarde." },
+          { status: 429 }
+        );
+      }
+    }
 
     if (!file) {
       return NextResponse.json({ error: "No se encontró ningún archivo para cargar." }, { status: 400 });

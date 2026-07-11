@@ -12,7 +12,6 @@ export async function verifyAdmin() {
     const { data: { user }, error } = await supabase.auth.getUser();
 
     if (error || !user) {
-      console.log("verifyAdmin: No Supabase user found or error:", error);
       return {
         errorResponse: NextResponse.json(
           { error: "No autorizado. Inicie sesión." },
@@ -23,14 +22,10 @@ export async function verifyAdmin() {
       };
     }
 
-    console.log("verifyAdmin: Supabase user email =", user.email);
-
     const dbUser = await prisma.usuario.findUnique({
       where: { correo: user.email! },
       select: { rolId: true, id: true, nombre: true, correo: true },
     });
-
-    console.log("verifyAdmin: Database user record =", dbUser);
 
     if (!dbUser || (dbUser.rolId !== "ADMIN" && dbUser.rolId !== "VENDEDOR")) {
       return {
