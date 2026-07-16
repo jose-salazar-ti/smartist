@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "engram": {
-      "command": "c:/Users/User/Documents/Sublimacion/sublimacion/.bin/engram.exe",
-      "args": ["mcp"]
-    }
-  }
-}
