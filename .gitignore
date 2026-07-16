@@ -45,3 +45,9 @@ next-env.d.ts
 # local development tools
 /.bin/
 /.cursor/
+
+# uploads
+/public/uploads/
+
+# scratch files
+/scratch/
