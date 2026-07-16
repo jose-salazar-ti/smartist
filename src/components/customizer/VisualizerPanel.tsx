@@ -163,7 +163,7 @@ export default function VisualizerPanel({
                 transition: 'border-color 0.3s', background: 'var(--bg-dark-3)'
               }}
             >
-              <Image src={img} alt={`Gallery ${idx}`} fill style={{ objectFit: 'cover' }} />
+              <Image src={img} alt={`Gallery ${idx}`} fill sizes="80px" style={{ objectFit: 'cover' }} />
             </div>
           ))}
         </div>

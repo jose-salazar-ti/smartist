@@ -1060,7 +1060,7 @@ export default function AdminProductsPage() {
 
                 <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
                   {variants.map((v, index) => (
-                    <div key={index} className="border border-slate-200 dark:border-white/5 rounded-2xl p-4 bg-slate-50 dark:bg-white/2/40 dark:bg-white/2 dark:border-white/5 grid grid-cols-1 md:grid-cols-12 gap-3 items-center relative hover:border-slate-350 dark:hover:border-white/10 transition-colors">
+                    <div key={index} className="border border-slate-200 dark:border-white/5 rounded-2xl p-4 bg-slate-50 dark:bg-white/2/40 dark:bg-white/2 grid grid-cols-1 md:grid-cols-12 gap-3 items-center relative hover:border-slate-350 dark:hover:border-white/10 transition-colors">
                       
                       {/* Delete Variant Button */}
                       <button

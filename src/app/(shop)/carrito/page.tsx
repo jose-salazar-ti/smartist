@@ -104,6 +104,7 @@ export default function CartPage() {
                                 src={item.productImage || item.customDesignBase64 || ""}
                                 alt={item.productName}
                                 fill
+                                sizes="(max-width: 768px) 64px, 80px"
                                 className="object-cover pointer-events-none select-none"
                                 draggable={false}
                                 onDragStart={(e) => e.preventDefault()}
@@ -185,6 +186,7 @@ export default function CartPage() {
                         src={item.productImage || item.customDesignBase64 || ""}
                         alt={item.productName}
                         fill
+                        sizes="64px"
                         className="object-cover pointer-events-none select-none"
                         draggable={false}
                         onDragStart={(e) => e.preventDefault()}
