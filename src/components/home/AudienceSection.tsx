@@ -97,10 +97,10 @@ export default function AudienceSection() {
         <div className="audience-block reveal" id="enamorados">
           <div className="audience-image">
             <img src="/img/secciones/regalos.png" alt="Regalos Especiales" />
-            <div className="audience-image-badge sky">🎁 El regalo perfecto</div>
+            <div className="audience-image-badge rose">🎁 El regalo perfecto</div>
           </div>
           <div className="audience-content">
-            <div className="section-label" style={{background: "rgba(14,165,233,0.1)", borderColor: "rgba(14,165,233,0.2)", color: "#38bdf8"}}>
+            <div className="section-label" style={{background: "rgba(244,63,94,0.1)", borderColor: "rgba(244,63,94,0.2)", color: "#fb7185"}}>
               🎁 Regalos Especiales
             </div>
             <h2 className="section-title">
@@ -111,28 +111,28 @@ export default function AudienceSection() {
             </p>
             <div className="audience-features">
               <div className="audience-feature">
-                <div className="audience-feature-icon sky">🎁</div>
+                <div className="audience-feature-icon rose">🎁</div>
                 <div className="audience-feature-text">
                   <h4>Packaging premium de regalo</h4>
                   <p>Caja decorativa, lazo de seda y tarjeta personalizada incluida.</p>
                 </div>
               </div>
               <div className="audience-feature">
-                <div className="audience-feature-icon sky">💌</div>
+                <div className="audience-feature-icon rose">💌</div>
                 <div className="audience-feature-text">
                   <h4>Mensaje secreto</h4>
                   <p>Agrega un mensaje oculto que solo se revela con agua caliente (taza mágica).</p>
                 </div>
               </div>
               <div className="audience-feature">
-                <div className="audience-feature-icon sky">📅</div>
+                <div className="audience-feature-icon rose">📅</div>
                 <div className="audience-feature-text">
                   <h4>Entrega programada</h4>
                   <p>Elige la fecha exacta de entrega. Ideal para sorprender en su día.</p>
                 </div>
               </div>
             </div>
-            <Link href="/regalos" className="btn btn-glass-sky" style={{marginTop: "28px"}}>
+            <Link href="/regalos" className="btn btn-glass-rose" style={{marginTop: "28px"}}>
               Crear Regalo Personalizado →
             </Link>
           </div>

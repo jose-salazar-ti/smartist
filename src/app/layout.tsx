@@ -34,6 +34,9 @@ export default function RootLayout({
       className={`${outfit.variable} ${inter.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="preconnect" href="https://wpmnsyqabcdxkpfydamn.supabase.co" crossOrigin="anonymous" />
+      </head>
       <body suppressHydrationWarning className="min-h-full flex flex-col font-sans overflow-x-hidden">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {children}

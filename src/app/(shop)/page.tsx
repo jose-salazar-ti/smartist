@@ -34,27 +34,27 @@ export default function HomePage({
       <AudienceSection />
 
       {/* DEDICATION BANNER */}
-      <section className="py-16 bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <section className="py-20 bg-gradient-to-br from-[var(--bg-dark-3)] via-[var(--bg-dark-2)] to-pink-50 dark:to-pink-950/20 text-slate-800 dark:text-slate-200 border-y border-[var(--border)] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--primary)]/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[var(--accent-rose)]/5 rounded-full blur-3xl pointer-events-none"></div>
         
         <div className="container mx-auto px-4 max-w-5xl text-center relative z-10 space-y-6">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/10 text-indigo-300 backdrop-blur-md">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[var(--primary)]/10 text-[var(--primary)] border border-[var(--primary)]/10 backdrop-blur-md">
             🎁 Regala con Inteligencia Emocional
           </span>
           
-          <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight max-w-3xl mx-auto leading-tight">
+          <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight max-w-3xl mx-auto leading-tight text-slate-900 dark:text-white">
             Sorprende a tu persona favorita con una <span className="gradient-text">Dedicatoria Digital</span> gratis
           </h2>
           
-          <p className="text-base text-indigo-200/80 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
             ¿Vas a obsequiar una taza, gorra o camiseta? Acompáñala con un enlace personalizado que incluye tu mensaje, fotos y su canción de Spotify preferida. ¡Es gratis y súper fácil!
           </p>
           
           <div className="pt-4">
             <a 
               href="/regalos/crear" 
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-indigo-950 hover:bg-indigo-50 font-extrabold text-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[var(--primary-dark)] to-[var(--accent-rose)] hover:from-[var(--primary)] hover:to-[var(--accent-rose)] text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-[var(--primary)]/10 hover:shadow-[var(--primary)]/20 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
             >
               Diseñar Dedicatoria Gratis →
             </a>

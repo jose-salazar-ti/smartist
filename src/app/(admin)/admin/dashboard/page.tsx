@@ -245,7 +245,7 @@ export default async function AdminDashboardPage() {
                     }
 
                     return (
-                      <TableRow key={order.id} className="border-slate-100 dark:border-white/5 dark:border-white/[0.05] transition-colors hover:bg-slate-50 dark:bg-white/[0.02]/80 dark:hover:bg-white/[0.02]">
+                      <TableRow key={order.id} className="border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:bg-white/[0.02]/80 dark:hover:bg-white/[0.02]">
                         <TableCell className="font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
                           #{order.id.slice(0, 8).toUpperCase()}
                         </TableCell>

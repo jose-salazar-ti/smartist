@@ -67,7 +67,7 @@ export default async function AdminLayout({
           <Link href="/" className="flex items-center gap-2">
             <span className="font-heading font-extrabold text-base text-slate-900 dark:text-white tracking-wider flex items-center gap-1">
               Smart<span className="text-indigo-600 dark:text-indigo-400">ist</span>
-              <span className="text-[9px] px-1.5 py-0.5 bg-indigo-600 text-white rounded font-sans font-bold uppercase tracking-normal text-[9px] leading-none">Admin</span>
+              <span className="text-[9px] px-1.5 py-0.5 bg-indigo-600 text-white rounded font-sans font-bold uppercase tracking-normal leading-none">Admin</span>
             </span>
           </Link>
           <div className="flex items-center gap-3 text-xs font-semibold">

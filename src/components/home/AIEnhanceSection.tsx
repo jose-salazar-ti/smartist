@@ -61,7 +61,7 @@ export default function AIEnhanceSection() {
   return (
     <section
       id="mejora-ia"
-      className="py-20 relative overflow-hidden bg-white dark:bg-slate-900/60"
+      className="py-20 relative overflow-hidden bg-[var(--bg-dark-2)]"
     >
       {/* Ambient glows */}
       <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] bg-rose-400/8 rounded-full blur-[140px] pointer-events-none" />

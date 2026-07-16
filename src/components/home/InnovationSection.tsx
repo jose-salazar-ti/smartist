@@ -89,7 +89,7 @@ export default function InnovationSection() {
   const isCustomActive = activeId === "custom";
 
   return (
-    <section id="innovacion" className="py-20 relative overflow-hidden bg-slate-50/50 dark:bg-slate-950/20">
+    <section id="innovacion" className="py-20 relative overflow-hidden bg-[var(--bg-dark-3)]/50 dark:bg-[var(--bg-dark-3)]/30">
       {/* Hidden file input */}
       <input
         id="hero-file-upload"

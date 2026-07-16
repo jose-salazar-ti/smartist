@@ -55,7 +55,7 @@ export default function DashboardLoading() {
               </TableHeader>
               <TableBody>
                 {[1, 2, 3, 4, 5].map((idx) => (
-                  <TableRow key={idx} className="border-slate-100 dark:border-white/5 dark:border-white/[0.05]">
+                  <TableRow key={idx} className="border-slate-100 dark:border-white/5">
                     <TableCell><div className="h-4 w-16 bg-slate-200 dark:bg-white/5 rounded" /></TableCell>
                     <TableCell>
                       <div className="space-y-1">

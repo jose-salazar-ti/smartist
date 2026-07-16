@@ -503,14 +503,10 @@ export default function CategoriasPage() {
                       {/* Category Thumbnail */}
                       <TableCell className="py-3">
                         <div className="relative h-12 w-12 rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-slate-900 flex items-center justify-center shadow-inner text-indigo-600 dark:text-indigo-400">
-                          {cat.imagen ? (
-                            cat.imagen.startsWith("http") || cat.imagen.startsWith("/") ? (
-                              <img src={cat.imagen} alt={cat.nombre} className="object-cover w-11 h-11" />
-                            ) : (
-                              getCategoryIconByKey(cat.imagen, { size: 24 })
-                            )
+                          {cat.imagen && (cat.imagen.startsWith("http") || cat.imagen.includes("/uploads/")) ? (
+                            <img src={cat.imagen} alt={cat.nombre} className="object-cover w-11 h-11" />
                           ) : (
-                            <FolderOpen className="h-5 w-5 text-slate-400" />
+                            getCategoryIconByKey(cat.imagen || cat.slug || cat.nombre, { size: 24 })
                           )}
                         </div>
                       </TableCell>

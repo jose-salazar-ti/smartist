@@ -417,9 +417,16 @@ export default function OrderTrackingPage({
                           {/* Image */}
                           <div className="h-16 w-16 bg-slate-900 border rounded-xl overflow-hidden flex-shrink-0">
                             <img
-                              src={item.customization?.userDesignUrl || "/images/products/taza-blanca.png"}
+                              src={item.customization?.userDesignUrl || "/img/placeholder.png"}
                               alt={item.variant.product.name}
                               className="object-cover h-full w-full"
+                              onError={(e) => {
+                                const target = e.currentTarget;
+                                if (!target.getAttribute('data-error')) {
+                                  target.setAttribute('data-error', 'true');
+                                  target.src = "/img/placeholder.png";
+                                }
+                              }}
                             />
                           </div>
 
@@ -528,9 +535,16 @@ export default function OrderTrackingPage({
                   <div key={item.id} className="flex gap-2.5 text-xs">
                     <div className="relative h-10 w-10 bg-slate-900 border rounded flex-shrink-0 overflow-hidden">
                       <img
-                        src={item.customization?.userDesignUrl || "/images/products/taza-blanca.png"}
+                        src={item.customization?.userDesignUrl || "/img/placeholder.png"}
                         alt={item.variant.product.name}
                         className="object-cover h-full w-full"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          if (!target.getAttribute('data-error')) {
+                            target.setAttribute('data-error', 'true');
+                            target.src = "/img/placeholder.png";
+                          }
+                        }}
                       />
                     </div>
                     <div className="flex-grow flex flex-col justify-center min-w-0">

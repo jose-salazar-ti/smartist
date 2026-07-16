@@ -244,14 +244,18 @@ function GLBMugModelInner({ textureUrl, baseColor = "#ffffff", modelUrl = "/mode
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     if (designTexture.image) {
       const img = designTexture.image as any;
+      const isTemplate = Math.abs((img.width / img.height) - (1024 / 384)) < 0.02;
       
-      if (wrapMode === "both-sides") {
+      if (isTemplate) {
+        // Direct draw of pre-composed template to preserve 20cm x 9.5cm sublimation proportions
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      } else if (wrapMode === "both-sides") {
         // Double side logo layout (left centered at 256, right centered at 768)
         const targetHeight = canvas.height * 0.70; // Increased logo size for better presence
         const aspectRatio = img.width / img.height;
         const targetWidth = targetHeight * aspectRatio;
-        // Shift up by 25px to visually center it on the physical mug (accounting for base geometry)
-        const y = ((canvas.height - targetHeight) / 2) - 25; 
+        // Perfectly centered vertically
+        const y = (canvas.height - targetHeight) / 2; 
         
         // Left side
         const x1 = 256 - targetWidth / 2;
@@ -295,8 +299,8 @@ function GLBMugModelInner({ textureUrl, baseColor = "#ffffff", modelUrl = "/mode
         const aspectRatio = img.width / img.height;
         const targetWidth = targetHeight * aspectRatio;
         const x = 512 - targetWidth / 2;
-        // Shift up by 20px to visually center
-        const y = ((canvas.height - targetHeight) / 2) - 20;
+        // Perfectly centered vertically
+        const y = (canvas.height - targetHeight) / 2;
         ctx.drawImage(img, x, y, targetWidth, targetHeight);
       }
     }
@@ -377,14 +381,36 @@ function GLBMugModelInner({ textureUrl, baseColor = "#ffffff", modelUrl = "/mode
     });
   }, [clonedScene, baseColor]);
 
+  React.useEffect(() => {
+    return () => {
+      clonedScene.traverse((child: any) => {
+        if (child.isMesh) {
+          if (child.geometry) {
+            child.geometry.dispose();
+          }
+          if (child.material) {
+            if (Array.isArray(child.material)) {
+              child.material.forEach((m: any) => m.dispose());
+            } else {
+              child.material.dispose();
+            }
+          }
+        }
+      });
+      blendedTexture.dispose();
+    };
+  }, [clonedScene, blendedTexture]);
+
   return (
-    <Center>
-      <primitive 
-        object={clonedScene} 
-        rotation={[0, -Math.PI / 2, 0]}
-        scale={[scaleFactor, scaleFactor, scaleFactor]}
-      />
-    </Center>
+    <group position={[0, 0, 0]}>
+      <Center>
+        <primitive 
+          object={clonedScene} 
+          rotation={[0, -Math.PI / 2, 0]}
+          scale={[scaleFactor, scaleFactor, scaleFactor]}
+        />
+      </Center>
+    </group>
   );
 }
 
@@ -392,6 +418,9 @@ const decryptionCache = new Map<string, string>();
 const decryptionPromises = new Map<string, Promise<string>>();
 
 function useDecryptedUrl(url: string): string {
+  if (url.endsWith(".glb")) {
+    return url;
+  }
   if (decryptionCache.has(url)) return decryptionCache.get(url)!;
   if (!decryptionPromises.has(url)) {
     const promise = fetch(url)
@@ -430,6 +459,21 @@ function GLBMugModel({ textureUrl, baseColor = "#ffffff", modelUrl = "/models/as
 }
 
 export default function MugViewer3D({ textureUrl, baseColor, modelUrl, wrapMode = "center" }: MugViewer3DProps) {
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [isAppleDevice, setIsAppleDevice] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const ua = navigator.userAgent;
+      const isMobileDevice = /Mobi|Android|iPhone|iPad|iPod/i.test(ua) || 
+        (navigator.maxTouchPoints > 0 && /Intel Mac/i.test(ua));
+      const isApple = /Macintosh|MacIntel|iPad|iPhone|iPod/i.test(ua);
+      
+      setIsMobile(isMobileDevice);
+      setIsAppleDevice(isApple);
+    }
+  }, []);
+
   return (
     <div 
       onContextMenu={(e) => e.preventDefault()}
@@ -438,21 +482,31 @@ export default function MugViewer3D({ textureUrl, baseColor, modelUrl, wrapMode 
       <CanvasErrorBoundary>
         {/* Show animated loader while Canvas + GLB + shaders are compiling */}
         <Suspense fallback={<Viewer3DLoadingFallback />}>
-          <Canvas camera={{ position: [0, 2.4, 4.0], fov: 45 }} gl={{ alpha: true }}>
+          <Canvas 
+            camera={{ position: [0, 1.8, 4.0], fov: 45 }} 
+            dpr={isMobile ? 1 : (isAppleDevice ? 1.5 : [1, 1.5])}
+            gl={{ 
+              alpha: true, 
+              antialias: !isMobile, 
+              powerPreference: "high-performance",
+              precision: isMobile ? "mediump" : "highp"
+            }}
+          >
             <Suspense fallback={null}>
-              <Environment preset="studio" />
+              {!isMobile && <Environment preset="studio" />}
               <ambientLight intensity={0.4} />
               <directionalLight position={[5, 8, 5]} intensity={0.8} />
               <directionalLight position={[-5, 3, 2]} intensity={0.4} />
               <directionalLight position={[0, 5, -5]} intensity={0.4} />
               <GLBMugModel textureUrl={textureUrl} baseColor={baseColor} modelUrl={modelUrl} wrapMode={wrapMode} />
-              <OrbitControls 
+               <OrbitControls 
                 enableZoom={true} 
                 enablePan={false} 
                 autoRotate={true}
                 autoRotateSpeed={1.5}
                 minPolarAngle={Math.PI / 4}
                 maxPolarAngle={Math.PI / 2 + 0.05}
+                target={[0, 0, 0]}
               />
             </Suspense>
           </Canvas>

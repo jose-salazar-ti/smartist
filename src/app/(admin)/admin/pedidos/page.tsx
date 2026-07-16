@@ -376,7 +376,7 @@ export default function AdminOrdersPage() {
             <TableBody>
               {loading ? (
                 Array.from({ length: 5 }).map((_, idx) => (
-                  <TableRow key={idx} className="border-slate-100 dark:border-white/5 dark:border-white/[0.05]">
+                  <TableRow key={idx} className="border-slate-100 dark:border-white/5">
                     <TableCell><div className="h-4 w-16 bg-slate-200 dark:bg-white/5 rounded animate-pulse" /></TableCell>
                     <TableCell>
                       <div className="space-y-1">
@@ -399,7 +399,7 @@ export default function AdminOrdersPage() {
                   const statusClass = getStatusBadgeClass(statusColor);
 
                   return (
-                    <TableRow key={order.id} className="border-slate-100 dark:border-white/5 dark:border-white/[0.05] transition-colors hover:bg-slate-50 dark:bg-white/[0.02]/80 dark:hover:bg-white/[0.02]">
+                    <TableRow key={order.id} className="border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:bg-white/[0.02]/80 dark:hover:bg-white/[0.02]">
                       <TableCell className="font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
                         #{order.id.slice(0, 8).toUpperCase()}
                       </TableCell>

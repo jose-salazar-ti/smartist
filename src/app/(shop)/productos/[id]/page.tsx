@@ -1,4 +1,4 @@
-import { getProductById } from "@/services/products";
+import { getProductById, getProducts } from "@/services/products";
 import { notFound } from "next/navigation";
 import ProductCustomizer from "./ProductCustomizer";
 import { Metadata } from "next";
@@ -34,5 +34,11 @@ export default async function ProductPage({ params }: PageProps) {
     notFound();
   }
 
-  return <ProductCustomizer product={product} />;
+  // Fetch similar products in the same category
+  const allProductsInCat = await getProducts(product.category);
+  const relatedProducts = allProductsInCat
+    .filter((p) => p.id !== product.id)
+    .slice(0, 4); // Limit to 4 related products
+
+  return <ProductCustomizer product={product} relatedProducts={relatedProducts} />;
 }

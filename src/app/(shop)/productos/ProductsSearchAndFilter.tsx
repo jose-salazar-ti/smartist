@@ -27,19 +27,38 @@ function getCategoryEmoji(name: string): string {
   if (norm.includes("regalo") || norm.includes("detalle")) return "gift";
   if (norm.includes("llavero")) return "key";
   if (norm.includes("gorra")) return "cap";
-  if (norm.includes("termo") || norm.includes("tomatodo") || norm.includes("vaso")) return "bottle";
+  if (norm.includes("termo") || norm.includes("tomatodo") || norm.includes("vaso") || norm.includes("botella") || norm.includes("vasos")) return "bottle";
+  if (norm.includes("joyeria") || norm.includes("joya") || norm.includes("gema") || norm.includes("collar") || norm.includes("pulsera")) return "joyeria";
+  if (norm.includes("rompecabezas") || norm.includes("puzzle")) return "rompecabezas";
   return "tag";
 }
 
 const renderFilterIcon = (emojiOrKey: string) => {
   if (!emojiOrKey) return "🏷️";
+  
+  const iconKeys = [
+    "taza", "tazas", "mug", 
+    "ropa", "polos", "textil", "shirt", "prendas", "prenda",
+    "gift", "regalo", "regalos", 
+    "key", "llavero", "llaveros", 
+    "cap", "gorra", "gorras", 
+    "bottle", "termo", "vaso", "tomatodo", "vasos",
+    "laptop", "tech", "oficina", 
+    "heart", "pareja", "amor", 
+    "facebook", "instagram", "tiktok", "whatsapp", "tag",
+    "joyeria", "joyería", "gem",
+    "puzzle", "rompecabezas"
+  ];
+
+  const normKey = emojiOrKey.toLowerCase().trim();
+  if (iconKeys.includes(normKey)) {
+    return getCategoryIconByKey(normKey, { size: 16, style: { display: 'inline-block', verticalAlign: 'middle' } });
+  }
+
   if (emojiOrKey.startsWith("http") || emojiOrKey.startsWith("/")) {
     return <img src={emojiOrKey} alt="icon" style={{ width: '16px', height: '16px', objectFit: 'cover', borderRadius: '3px', display: 'inline-block', verticalAlign: 'middle' }} />;
   }
-  const iconKeys = ["taza", "tazas", "mug", "ropa", "polos", "textil", "shirt", "gift", "regalo", "regalos", "key", "llavero", "llaveros", "cap", "gorra", "gorras", "bottle", "termo", "vaso", "tomatodo", "laptop", "tech", "oficina", "heart", "pareja", "amor", "facebook", "instagram", "tiktok", "whatsapp", "tag"];
-  if (iconKeys.includes(emojiOrKey.toLowerCase().trim())) {
-    return getCategoryIconByKey(emojiOrKey, { size: 16, style: { display: 'inline-block', verticalAlign: 'middle' } });
-  }
+
   return emojiOrKey;
 };
 
@@ -67,7 +86,9 @@ export default function ProductsSearchAndFilter() {
               ...data.map((c: any) => ({
                 id: c.slug, // Uses slug as ID for robust query matching
                 label: c.nombre,
-                emoji: c.imagen || getCategoryEmoji(c.nombre)
+                emoji: (c.imagen && (c.imagen.startsWith("http") || c.imagen.includes("/uploads/"))) 
+                  ? c.imagen 
+                  : getCategoryEmoji(c.nombre)
               }))
             ];
             setFilters(mapped);

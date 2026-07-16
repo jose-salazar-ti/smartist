@@ -91,6 +91,7 @@ export default function VisualizerPanel({
                   src={viewMode === "customize" ? (currentBlankMockupUrl || product.imageUrl) : selectedCatalogImage}
                   alt={product.name}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={{ objectFit: 'cover', objectPosition: 'center', pointerEvents: 'none', userSelect: 'none' }}
                   priority
                   draggable={false}
@@ -123,6 +124,7 @@ export default function VisualizerPanel({
                         src={warpedPreview}
                         alt="Customization preview"
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         style={{ objectFit: 'cover', pointerEvents: 'none', userSelect: 'none' }} 
                         unoptimized
                         draggable={false}

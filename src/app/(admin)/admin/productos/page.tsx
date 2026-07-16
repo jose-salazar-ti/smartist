@@ -501,7 +501,7 @@ export default function AdminProductsPage() {
             <TableBody>
               {loading ? (
                 Array.from({ length: 5 }).map((_, idx) => (
-                  <TableRow key={idx} className="border-slate-100 dark:border-white/5 dark:border-white/[0.05]">
+                  <TableRow key={idx} className="border-slate-100 dark:border-white/5">
                     <TableCell><div className="h-11 w-11 bg-slate-200 dark:bg-white/5 rounded-xl animate-pulse" /></TableCell>
                     <TableCell>
                       <div className="space-y-1">
@@ -520,19 +520,22 @@ export default function AdminProductsPage() {
               ) : filteredProducts.length > 0 ? (
                 filteredProducts.map((p) => {
                   const basePrice = p.variants.length > 0 ? Math.min(...p.variants.map(v => Number(v.price))) : 0;
-                  const firstImg = p.variants.find(v => v.imageUrl)?.imageUrl || "/images/products/taza-blanca.png"; // Fallback image
+                  const firstImg = p.variants.find(v => v.imageUrl)?.imageUrl || "/img/placeholder.png"; // Fallback image
 
                   return (
-                    <TableRow key={p.id} className={`border-slate-100 dark:border-white/5 dark:border-white/[0.05] transition-colors hover:bg-slate-50 dark:bg-white/[0.02]/80 dark:hover:bg-white/[0.02] ${!p.isActive ? "opacity-60 bg-slate-50 dark:bg-white/[0.02]/50 dark:bg-transparent" : ""}`}>
+                    <TableRow key={p.id} className={`border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:bg-white/[0.02]/80 dark:hover:bg-white/[0.02] ${!p.isActive ? "opacity-60 bg-slate-50 dark:bg-white/[0.02]/50 dark:bg-transparent" : ""}`}>
                       <TableCell className="py-3">
-                        <div className="relative h-11 w-11 rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 dark:border-white/10 bg-slate-100 dark:bg-slate-900 flex items-center justify-center shadow-inner">
+                        <div className="relative h-11 w-11 rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-slate-900 flex items-center justify-center shadow-inner">
                           <img 
                             src={firstImg} 
                             alt={p.name} 
                             className="object-cover h-10 w-10"
                             onError={(e) => {
-                              // If image fails to load, fallback to standard cup mockup
-                              (e.target as HTMLImageElement).src = "/images/products/taza-blanca.png";
+                              const target = e.currentTarget;
+                              if (!target.getAttribute('data-error')) {
+                                target.setAttribute('data-error', 'true');
+                                target.src = "/img/placeholder.png";
+                              }
                             }}
                           />
                         </div>
@@ -550,15 +553,15 @@ export default function AdminProductsPage() {
                             Sí
                           </span>
                         ) : (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wide uppercase bg-slate-100 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10 dark:bg-white/5 dark:text-slate-400 dark:border-white/10 shadow-sm">
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wide uppercase bg-slate-100 text-slate-500 border border-slate-200 dark:border-white/10 dark:bg-white/5 dark:text-slate-400 shadow-sm">
                             Estándar
                           </span>
                         )}
                       </TableCell>
-                      <TableCell className="font-bold text-sm text-right text-slate-950 dark:text-white dark:text-white">
+                      <TableCell className="font-bold text-sm text-right text-slate-950 dark:text-white">
                         S/. {basePrice.toFixed(2)}
                       </TableCell>
-                      <TableCell className="text-center text-xs font-semibold text-slate-700 dark:text-slate-300 dark:text-slate-300">
+                      <TableCell className="text-center text-xs font-semibold text-slate-700 dark:text-slate-300">
                         {p.variants.length}
                       </TableCell>
                       <TableCell className="text-center">

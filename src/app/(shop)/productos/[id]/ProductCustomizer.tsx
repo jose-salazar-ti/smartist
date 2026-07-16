@@ -14,9 +14,10 @@ import AddToCartBar from "@/components/customizer/AddToCartBar";
 
 interface ProductCustomizerProps {
   product: Product;
+  relatedProducts?: Product[];
 }
 
-export default function ProductCustomizer({ product }: ProductCustomizerProps) {
+export default function ProductCustomizer({ product, relatedProducts = [] }: ProductCustomizerProps) {
   const router = useRouter();
   const customizer = useProductCustomizer(product);
 
@@ -235,6 +236,67 @@ export default function ProductCustomizer({ product }: ProductCustomizerProps) {
             />
           </div>
         </div>
+
+        {/* Productos Relacionados */}
+        {relatedProducts && relatedProducts.length > 0 && (
+          <div style={{ marginTop: '80px', paddingTop: '60px', borderTop: '1px solid var(--border-hover)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '40px' }}>
+              <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', color: 'var(--primary)', textTransform: 'uppercase' }}>
+                Te podría interesar
+              </span>
+              <h2 style={{ fontSize: '28px', fontWeight: 800, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', margin: 0 }}>
+                Productos <span className="gradient-text">Similares</span>
+              </h2>
+            </div>
+
+            <div className="products-grid">
+              {relatedProducts.map((related) => (
+                <a 
+                  key={related.id} 
+                  href={`/productos/${related.id}`}
+                  className="product-card visible" 
+                  style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}
+                >
+                  <div className="product-image">
+                    <img 
+                      src={related.imageUrl || "/img/placeholder.png"} 
+                      alt={related.name} 
+                    />
+                    {related.isCustomizable ? (
+                      <span className="product-badge customizable">🎨 <span className="hidden sm:inline">Personalizable</span></span>
+                    ) : (
+                      <span className="product-badge popular">🔥 <span className="hidden sm:inline">Más Vendido</span></span>
+                    )}
+                  </div>
+                  
+                  <div className="product-info" style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                    <div className="product-header-row">
+                      <span className="product-category" style={{ marginBottom: 0 }}>{related.category}</span>
+                      <div className="product-rating">★★★★★ <span style={{ color: 'var(--text-muted)', marginLeft: '4px' }}>4.9</span></div>
+                    </div>
+                    <h3 className="product-name">{related.name}</h3>
+                    <p className="product-desc">{related.description}</p>
+                    
+                    <div style={{ flexGrow: 1 }} />
+                    
+                    <div className="product-footer" style={{ width: '100%' }}>
+                      <span className="product-price">
+                        <span className="currency">S/.</span> {related.basePrice.toFixed(2)}
+                      </span>
+                      <div className="product-action-link" style={{ marginTop: 0 }}>
+                        <span>Personalizar ahora</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="14" height="14">
+                          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
 
       {/* Add to Cart Footer section (Mobile variant) */}
