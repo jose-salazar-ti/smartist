@@ -262,7 +262,7 @@ export default function AdminOrderStatusesPage() {
                 ))
               ) : statuses.length > 0 ? (
                 statuses.map((s) => (
-                  <TableRow key={s.id} className={`border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:bg-white/[0.02]/80 dark:hover:bg-white/[0.02] ${!s.inEstado ? "opacity-60" : ""}`}>
+                  <TableRow key={s.id} className={`border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-white/[0.02] ${!s.inEstado ? "opacity-60" : ""}`}>
                     <TableCell className="font-mono font-bold text-xs text-indigo-600 dark:text-indigo-400">{s.id}</TableCell>
                     <TableCell className="font-medium text-slate-900 dark:text-white">{s.nombre}</TableCell>
                     <TableCell>
@@ -461,7 +461,7 @@ export default function AdminOrderStatusesPage() {
             </div>
 
             {/* Submit / Cancel Buttons */}
-            <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-white/5 mt-4 flex-shrink-0">
+            <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-white/5 mt-4 shrink-0">
               <Button 
                 type="button" 
                 variant="ghost" 

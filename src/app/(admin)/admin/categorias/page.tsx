@@ -257,7 +257,7 @@ export default function CategoriasPage() {
         {/* ── CREATE/EDIT FORM CARD ── */}
         <Card className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl rounded-2xl">
           <CardHeader className="flex flex-row items-center gap-3 pb-4 border-b border-slate-100 dark:border-white/5">
-            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center shrink-0">
               <FolderPlus className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
             </div>
             <CardTitle className="font-heading font-bold text-base text-slate-900 dark:text-white">
@@ -335,7 +335,7 @@ export default function CategoriasPage() {
                     Imagen de Categoría
                   </label>
                   <div className="flex gap-3 items-center">
-                    <div className="relative h-16 w-16 border rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 dark:border-white/10 flex-shrink-0 flex items-center justify-center shadow-inner text-indigo-600 dark:text-indigo-400">
+                    <div className="relative h-16 w-16 border rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 dark:border-white/10 shrink-0 flex items-center justify-center shadow-inner text-indigo-600 dark:text-indigo-400">
                       {imagen ? (
                         <img src={imagen} alt="Preview" className="object-cover w-full h-full" />
                       ) : (
@@ -410,7 +410,7 @@ export default function CategoriasPage() {
                 <Button
                   type="submit"
                   disabled={saving || uploading}
-                  className="flex-2 flex-grow h-11 font-heading font-bold text-sm bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all hover:-translate-y-0.5"
+                  className="flex-2 grow h-11 font-heading font-bold text-sm bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all hover:-translate-y-0.5"
                 >
                   {saving ? (
                     <><RefreshCw className="h-4 w-4 animate-spin mr-2" /> Guardando...</>
@@ -429,7 +429,7 @@ export default function CategoriasPage() {
         {/* ── CATEGORIES LIST CARD ── */}
         <Card className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl rounded-2xl overflow-hidden">
           <CardHeader className="flex flex-row items-center gap-3 pb-4 border-b border-slate-100 dark:border-white/5">
-            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center shrink-0">
               <FolderOpen className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
             </div>
             <CardTitle className="font-heading font-bold text-base text-slate-900 dark:text-white flex-1">
@@ -464,7 +464,7 @@ export default function CategoriasPage() {
               <div className="p-4 space-y-3">
                 {[1, 2, 3].map(n => (
                   <div key={n} className="flex items-center gap-3 p-3">
-                    <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-white/5 animate-pulse flex-shrink-0" />
+                    <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-white/5 animate-pulse shrink-0" />
                     <div className="flex-1 space-y-2">
                       <div className="h-3 w-2/5 bg-slate-100 dark:bg-white/5 rounded-full animate-pulse" />
                       <div className="h-2.5 w-1/5 bg-slate-100 dark:bg-white/5 rounded-full animate-pulse" />

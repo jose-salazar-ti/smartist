@@ -226,7 +226,7 @@ export default function AdminShippingMethodsPage() {
                 ))
               ) : methods.length > 0 ? (
                 methods.map((m) => (
-                  <TableRow key={m.id} className={`border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:bg-white/[0.02]/80 dark:hover:bg-white/[0.02] ${!m.inEstado ? "opacity-60" : ""}`}>
+                  <TableRow key={m.id} className={`border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-white/[0.02] ${!m.inEstado ? "opacity-60" : ""}`}>
                     <TableCell className="font-mono font-bold text-xs text-indigo-600 dark:text-indigo-400">{m.id}</TableCell>
                     <TableCell className="font-medium text-slate-900 dark:text-white">{m.nombre}</TableCell>
                     <TableCell className="font-bold text-sm">S/. {Number(m.costo).toFixed(2)}</TableCell>
@@ -375,7 +375,7 @@ export default function AdminShippingMethodsPage() {
             </div>
 
             {/* Submit / Cancel Buttons */}
-            <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-white/5 mt-4 flex-shrink-0">
+            <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-white/5 mt-4 shrink-0">
               <Button 
                 type="button" 
                 variant="ghost" 

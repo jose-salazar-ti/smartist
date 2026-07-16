@@ -173,7 +173,7 @@ export default function AIEnhanceSection() {
               {benefits.map(({ icon: Icon, title, desc, color, bg }) => (
                 <div
                   key={title}
-                  className="flex items-start gap-3 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-white/[0.05] hover:border-slate-200 dark:hover:border-white/10 transition-colors"
+                  className="flex items-start gap-3 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 hover:border-slate-200 dark:hover:border-white/10 transition-colors"
                 >
                   <div className={`w-8 h-8 rounded-xl ${bg} flex items-center justify-center shrink-0`}>
                     <Icon className={`h-4 w-4 ${color}`} />

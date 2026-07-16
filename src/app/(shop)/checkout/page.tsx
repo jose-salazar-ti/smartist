@@ -444,16 +444,16 @@ export default function CheckoutPage() {
                   if (!currentMethod) return null;
 
                   return (
-                    <div className="flex flex-col md:flex-row items-center gap-6 bg-slate-100/60 dark:bg-slate-950/60 p-5 rounded-2xl border border-slate-200 dark:border-white/[0.05] w-full">
+                    <div className="flex flex-col md:flex-row items-center gap-6 bg-slate-100/60 dark:bg-slate-950/60 p-5 rounded-2xl border border-slate-200 w-full">
                       {currentMethod.tipo === "QR" && currentMethod.qrUrl ? (
-                        <div className="flex flex-col items-center justify-center bg-white p-2 rounded-xl shadow border border-slate-100 flex-shrink-0">
+                        <div className="flex flex-col items-center justify-center bg-white p-2 rounded-xl shadow border border-slate-100 shrink-0">
                           <div className="relative h-28 w-28 flex items-center justify-center rounded-lg overflow-hidden">
                             <img src={currentMethod.qrUrl} alt={`QR ${currentMethod.nombre}`} className="object-contain h-full w-full" />
                           </div>
                           <span className="text-[10px] font-bold text-indigo-650 mt-1.5 uppercase tracking-wider">QR {currentMethod.nombre}</span>
                         </div>
                       ) : (
-                        <div className="flex flex-col items-center justify-center bg-white p-3 rounded-xl shadow border border-slate-100 flex-shrink-0">
+                        <div className="flex flex-col items-center justify-center bg-white p-3 rounded-xl shadow border border-slate-100 shrink-0">
                           <div className="relative h-28 w-28 flex items-center justify-center bg-slate-50 text-slate-600 rounded-lg overflow-hidden">
                             <QrCode className="h-24 w-24 text-indigo-600 animate-pulse" />
                           </div>
@@ -461,7 +461,7 @@ export default function CheckoutPage() {
                         </div>
                       )}
 
-                      <div className="flex-grow space-y-2 text-center md:text-left">
+                      <div className="grow space-y-2 text-center md:text-left">
                         <h3 className="font-bold text-sm text-slate-800 dark:text-slate-200">Instrucciones para {currentMethod.nombre}</h3>
                         <div className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed space-y-2">
                           <p>1. Abre tu aplicación de pago y escanea el código QR o realiza la transferencia.</p>
@@ -562,14 +562,14 @@ export default function CheckoutPage() {
             <div className="space-y-4 max-h-60 overflow-y-auto mb-6 pr-2">
               {cart.map((item) => (
                 <div key={item.id} className="flex gap-3 text-xs">
-                  <div className="relative h-12 w-12 flex-shrink-0 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/[0.08] rounded overflow-hidden">
+                  <div className="relative h-12 w-12 shrink-0 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/[0.08] rounded overflow-hidden">
                     <img
                       src={item.customDesignBase64 || item.productImage}
                       alt={item.productName}
                       className="object-cover h-full w-full"
                     />
                   </div>
-                  <div className="flex-grow flex flex-col justify-center min-w-0">
+                  <div className="grow flex flex-col justify-center min-w-0">
                     <h4 className="font-semibold text-slate-800 dark:text-slate-200 truncate leading-tight">
                       {item.productName}
                     </h4>

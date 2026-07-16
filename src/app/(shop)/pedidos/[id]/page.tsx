@@ -361,7 +361,7 @@ export default function OrderTrackingPage({
                       </span>
 
                       {/* Content Card */}
-                      <div className={`flex-grow border p-4 rounded-xl transition-all ${
+                      <div className={`grow border p-4 rounded-xl transition-all ${
                         isActive 
                           ? "border-indigo-100 bg-indigo-50/10 dark:border-indigo-950/30" 
                           : "border-slate-100 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/50"
@@ -415,7 +415,7 @@ export default function OrderTrackingPage({
                       <div key={item.id} className={`pt-6 ${idx === 0 ? "pt-0" : ""}`}>
                         <div className="flex gap-4">
                           {/* Image */}
-                          <div className="h-16 w-16 bg-slate-900 border rounded-xl overflow-hidden flex-shrink-0">
+                          <div className="h-16 w-16 bg-slate-900 border rounded-xl overflow-hidden shrink-0">
                             <img
                               src={item.customization?.userDesignUrl || "/img/placeholder.png"}
                               alt={item.variant.product.name}
@@ -431,7 +431,7 @@ export default function OrderTrackingPage({
                           </div>
 
                           {/* Info */}
-                          <div className="flex-grow space-y-1">
+                          <div className="grow space-y-1">
                             <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200">
                               {item.variant.product.name}
                             </h4>
@@ -533,7 +533,7 @@ export default function OrderTrackingPage({
               <div className="space-y-3.5 max-h-48 overflow-y-auto pr-1">
                 {order.orderItems.map((item) => (
                   <div key={item.id} className="flex gap-2.5 text-xs">
-                    <div className="relative h-10 w-10 bg-slate-900 border rounded flex-shrink-0 overflow-hidden">
+                    <div className="relative h-10 w-10 bg-slate-900 border rounded shrink-0 overflow-hidden">
                       <img
                         src={item.customization?.userDesignUrl || "/img/placeholder.png"}
                         alt={item.variant.product.name}
@@ -547,7 +547,7 @@ export default function OrderTrackingPage({
                         }}
                       />
                     </div>
-                    <div className="flex-grow flex flex-col justify-center min-w-0">
+                    <div className="grow flex flex-col justify-center min-w-0">
                       <h4 className="font-bold text-slate-800 dark:text-slate-200 truncate leading-tight">
                         {item.variant.product.name}
                       </h4>

@@ -348,7 +348,7 @@ export default function AdminMessagesPage() {
           <Card className="md:col-span-5 border border-slate-200 dark:border-white/5 bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl rounded-2xl shadow-xl flex flex-col h-[70vh] overflow-hidden">
             
             {/* Search header */}
-            <div className="p-4 border-b border-slate-100 dark:border-white/5 flex-shrink-0 relative">
+            <div className="p-4 border-b border-slate-100 dark:border-white/5 shrink-0 relative">
               <Search className="absolute left-7 top-7 h-4 w-4 text-slate-400" />
               <Input 
                 placeholder="Buscar remitente, asunto..."
@@ -359,7 +359,7 @@ export default function AdminMessagesPage() {
             </div>
 
             {/* Scrollable list content */}
-            <div className="flex-grow overflow-y-auto divide-y divide-slate-100 dark:divide-white/5">
+            <div className="grow overflow-y-auto divide-y divide-slate-100 dark:divide-white/5">
               {loading ? (
                 Array.from({ length: 4 }).map((_, idx) => (
                   <div key={idx} className="p-4 space-y-2.5">
@@ -395,7 +395,7 @@ export default function AdminMessagesPage() {
                       <div className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
                         {m.nombre}
                         {m.estado === "PENDIENTE" && (
-                          <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse flex-shrink-0" />
+                          <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse shrink-0" />
                         )}
                       </div>
                       <div className="text-xs text-slate-700 dark:text-slate-350 truncate font-semibold mt-0.5">{m.asunto}</div>
@@ -429,7 +429,7 @@ export default function AdminMessagesPage() {
               <div className="h-full flex flex-col">
                 
                 {/* Detail Header */}
-                <div className="p-6 border-b border-slate-100 dark:border-white/5 flex-shrink-0 flex items-start justify-between gap-4 bg-slate-50/50 dark:bg-slate-950/20">
+                <div className="p-6 border-b border-slate-100 dark:border-white/5 shrink-0 flex items-start justify-between gap-4 bg-slate-50/50 dark:bg-slate-950/20">
                   <div>
                     <div className="flex items-center gap-2 mb-2">
                       <span className={`inline-flex px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide border ${getTypeBadgeClass(selectedMessage.tipo)}`}>
@@ -463,7 +463,7 @@ export default function AdminMessagesPage() {
                 </div>
 
                 {/* Scrollable details and body */}
-                <div className="flex-grow overflow-y-auto p-6 space-y-6">
+                <div className="grow overflow-y-auto p-6 space-y-6">
                   
                   {/* Metadata and Contact Methods Card */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border border-slate-100 dark:border-white/5 rounded-xl p-4 bg-slate-50/50 dark:bg-white/[0.01]">
@@ -595,7 +595,7 @@ export default function AdminMessagesPage() {
                 </div>
 
                 {/* Bottom Reply Form Area */}
-                <div className="p-6 border-t border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-slate-950/20 flex-shrink-0">
+                <div className="p-6 border-t border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-slate-950/20 shrink-0">
                   {selectedMessage.correo ? (
                     <form onSubmit={handleSendReply} className="space-y-3">
                       <div className="space-y-1.5">
@@ -627,7 +627,7 @@ export default function AdminMessagesPage() {
                     </form>
                   ) : (
                     <div className="border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-amber-500/5 flex items-start gap-3">
-                      <AlertCircle className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                      <AlertCircle className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
                       <div>
                         <div className="text-xs font-bold text-slate-800 dark:text-slate-200">
                           Este cliente no registró correo electrónico

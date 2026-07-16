@@ -486,8 +486,8 @@ export default function AdminProductsPage() {
       <Card className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl overflow-hidden rounded-2xl">
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50 dark:bg-white/[0.02]/80 dark:bg-white/[0.02]">
-              <TableRow className="border-slate-200 dark:border-white/10 dark:border-white/[0.05]">
+            <TableHeader className="bg-slate-50 dark:bg-white/[0.02]">
+              <TableRow className="border-slate-200 dark:border-white/10">
                 <TableHead className="w-16 font-bold text-slate-500 dark:text-slate-400">Imagen</TableHead>
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">Producto</TableHead>
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">Categoría</TableHead>
@@ -523,7 +523,7 @@ export default function AdminProductsPage() {
                   const firstImg = p.variants.find(v => v.imageUrl)?.imageUrl || "/img/placeholder.png"; // Fallback image
 
                   return (
-                    <TableRow key={p.id} className={`border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:bg-white/[0.02]/80 dark:hover:bg-white/[0.02] ${!p.isActive ? "opacity-60 bg-slate-50 dark:bg-white/[0.02]/50 dark:bg-transparent" : ""}`}>
+                    <TableRow key={p.id} className={`border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-white/[0.02] ${!p.isActive ? "opacity-60 bg-slate-50 dark:bg-white/[0.02]/50 dark:bg-transparent" : ""}`}>
                       <TableCell className="py-3">
                         <div className="relative h-11 w-11 rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-slate-900 flex items-center justify-center shadow-inner">
                           <img 
@@ -622,7 +622,7 @@ export default function AdminProductsPage() {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-2xl md:max-w-3xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 shadow-2xl max-h-[90vh] p-0 rounded-2xl overflow-hidden flex flex-col">
           {/* Fixed Header */}
-          <div className="p-6 pb-2 flex-shrink-0 border-b border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-slate-950/30">
+          <div className="p-6 pb-2 shrink-0 border-b border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-slate-950/30">
             <DialogHeader>
               <DialogTitle className="font-heading font-bold text-2xl text-slate-900 dark:text-white">
                 {editingProduct ? `Editar Producto: ${editingProduct.name}` : "Registrar Nuevo Producto"}
@@ -857,7 +857,7 @@ export default function AdminProductsPage() {
                   <div className="space-y-2">
                     <Label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Mockup 2D (Blanco)</Label>
                     <div className="flex gap-2">
-                      <div className="relative h-10 w-10 border rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 dark:border-white/10 flex-shrink-0 flex items-center justify-center shadow-inner animate-none">
+                      <div className="relative h-10 w-10 border rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 dark:border-white/10 shrink-0 flex items-center justify-center shadow-inner animate-none">
                         {blankMockupUrl ? <img src={blankMockupUrl} className="object-cover w-10 h-10" /> : <ImageIcon className="h-4 w-4 text-slate-400" />}
                       </div>
                       <Input 
@@ -882,7 +882,7 @@ export default function AdminProductsPage() {
                   <div className="space-y-2">
                     <Label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Máscara 2D (Recorte PNG)</Label>
                     <div className="flex gap-2">
-                      <div className="relative h-10 w-10 border rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 dark:border-white/10 flex-shrink-0 flex items-center justify-center shadow-inner animate-none">
+                      <div className="relative h-10 w-10 border rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 dark:border-white/10 shrink-0 flex items-center justify-center shadow-inner animate-none">
                         {maskImageUrl ? <img src={maskImageUrl} className="object-cover w-10 h-10" /> : <ImageIcon className="h-4 w-4 text-slate-400" />}
                       </div>
                       <Input 
@@ -1123,7 +1123,7 @@ export default function AdminProductsPage() {
                       <div className="md:col-span-2 space-y-1">
                         <Label className="text-[10px] uppercase font-bold text-slate-455 dark:text-slate-400 block">Imagen</Label>
                         <div className="flex items-center gap-1.5">
-                          <div className="relative h-9 w-9 border rounded-xl overflow-hidden bg-white dark:bg-zinc-900 flex-shrink-0 dark:border-white/10 flex items-center justify-center">
+                          <div className="relative h-9 w-9 border rounded-xl overflow-hidden bg-white dark:bg-zinc-900 shrink-0 dark:border-white/10 flex items-center justify-center">
                             {v.imageUrl ? (
                               <img 
                                 src={v.imageUrl} 
@@ -1174,7 +1174,7 @@ export default function AdminProductsPage() {
           </div>
 
           {/* Fixed Footer Actions */}
-          <div className="border-t border-slate-100 dark:border-white/5 p-4 bg-slate-50/50 dark:bg-slate-900/40 flex justify-end gap-2 flex-shrink-0 rounded-b-2xl">
+          <div className="border-t border-slate-100 dark:border-white/5 p-4 bg-slate-50/50 dark:bg-slate-900/40 flex justify-end gap-2 shrink-0 rounded-b-2xl">
             <Button 
               type="button" 
               variant="outline" 

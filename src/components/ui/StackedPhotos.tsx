@@ -140,7 +140,7 @@ export function StackedPhotos({ imageUrls, mode = "stack" }: StackedPhotosProps)
               <div
                 key={index}
                 onClick={() => setActiveIndex(index)}
-                className={`relative flex-shrink-0 w-28 h-36 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 p-1.5 rounded-sm shadow-md cursor-pointer transition-all duration-500 origin-top ${
+                className={`relative shrink-0 w-28 h-36 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 p-1.5 rounded-sm shadow-md cursor-pointer transition-all duration-500 origin-top ${
                   isActive 
                     ? "scale-110 -translate-y-[-8px] rotate-0 shadow-lg border-indigo-400 dark:border-indigo-400" 
                     : "opacity-60 scale-90 rotate-[-4deg] hover:opacity-90"

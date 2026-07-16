@@ -71,7 +71,7 @@ export default function DashboardCharts({ salesData, statusData }: DashboardChar
           </p>
         </div>
 
-        <div className="relative flex-grow h-[220px]">
+        <div className="relative grow h-[220px]">
           <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${width} ${height}`}>
             <defs>
               <linearGradient id="areaGlow" x1="0" y1="0" x2="0" y2="1">
@@ -191,7 +191,7 @@ export default function DashboardCharts({ salesData, statusData }: DashboardChar
           </p>
         </div>
 
-        <div className="flex-grow flex flex-col justify-center space-y-4">
+        <div className="grow flex flex-col justify-center space-y-4">
           {statusData.map((item, idx) => {
             const maxVal = Math.max(...statusData.map(s => s.count), 1);
             const percentage = (item.count / maxVal) * 100;

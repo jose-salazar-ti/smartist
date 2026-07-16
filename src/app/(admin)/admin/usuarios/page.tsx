@@ -175,7 +175,7 @@ export default function UsuariosPage() {
         {/* ── CREATE FORM CARD ── */}
         <Card className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl rounded-2xl">
           <CardHeader className="flex flex-row items-center gap-3 pb-4 border-b border-slate-100 dark:border-white/5">
-            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center shrink-0">
               <UserPlus className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
             </div>
             <CardTitle className="font-heading font-bold text-base text-slate-900 dark:text-white">
@@ -289,7 +289,7 @@ export default function UsuariosPage() {
         {/* ── USERS LIST CARD ── */}
         <Card className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl rounded-2xl">
           <CardHeader className="flex flex-row items-center gap-3 pb-4 border-b border-slate-100 dark:border-white/5">
-            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center shrink-0">
               <Users className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
             </div>
             <CardTitle className="font-heading font-bold text-base text-slate-900 dark:text-white flex-1">
@@ -311,7 +311,7 @@ export default function UsuariosPage() {
               <div className="p-4 space-y-3">
                 {[1, 2, 3].map(n => (
                   <div key={n} className="flex items-center gap-3 p-3">
-                    <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/5 animate-pulse flex-shrink-0" />
+                    <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/5 animate-pulse shrink-0" />
                     <div className="flex-1 space-y-2">
                       <div className="h-3 w-3/5 bg-slate-100 dark:bg-white/5 rounded-full animate-pulse" />
                       <div className="h-2.5 w-2/5 bg-slate-100 dark:bg-white/5 rounded-full animate-pulse" />
@@ -335,7 +335,7 @@ export default function UsuariosPage() {
                   <li key={user.id} className="flex items-center gap-4 px-5 py-4 hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors group">
 
                     {/* Avatar */}
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-sm font-extrabold font-heading flex-shrink-0 shadow-md shadow-indigo-500/20">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-sm font-extrabold font-heading shrink-0 shadow-md shadow-indigo-500/20">
                       {getInitials(user)}
                     </div>
 
@@ -351,7 +351,7 @@ export default function UsuariosPage() {
                     </div>
 
                     {/* Status + Delete */}
-                    <div className="flex items-center gap-2 flex-shrink-0">
+                    <div className="flex items-center gap-2 shrink-0">
                       <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full border ${
                         user.confirmed
                           ? "bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20"

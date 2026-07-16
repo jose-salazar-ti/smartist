@@ -55,10 +55,10 @@ export default function AdminSidebar({ currentUser, isAdmin, isSeller }: AdminSi
   const inactiveLinkClass = "flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-white/5 dark:hover:text-white transition-all";
 
   return (
-    <aside className="w-64 h-screen sticky top-0 bg-white/90 dark:bg-slate-950/50 backdrop-blur-2xl text-slate-700 dark:text-slate-300 flex-shrink-0 hidden md:flex flex-col border-r border-slate-200 dark:border-white/10 shadow-2xl z-20">
+    <aside className="w-64 h-screen sticky top-0 bg-white/90 dark:bg-slate-950/50 backdrop-blur-2xl text-slate-700 dark:text-slate-300 shrink-0 hidden md:flex flex-col border-r border-slate-200 dark:border-white/10 shadow-2xl z-20">
       
       {/* Top scrollable section: Header & Navigation */}
-      <div className="flex-grow flex flex-col overflow-y-auto">
+      <div className="grow flex flex-col overflow-y-auto">
         {/* Sidebar Header */}
         <div className="h-16 px-6 flex items-center gap-2.5 border-b border-slate-200 dark:border-slate-850 bg-slate-50/50 dark:bg-slate-950/40">
           <span className="font-heading font-extrabold text-base text-slate-900 dark:text-white tracking-wider flex flex-col justify-center">
@@ -177,7 +177,7 @@ export default function AdminSidebar({ currentUser, isAdmin, isSeller }: AdminSi
       </div>
 
       {/* Bottom fixed section: Theme, Logout & Connection status */}
-      <div className="p-4 border-t border-slate-200 dark:border-white/5 space-y-3 flex-shrink-0 bg-slate-50/50 dark:bg-slate-950/20">
+      <div className="p-4 border-t border-slate-200 dark:border-white/5 space-y-3 shrink-0 bg-slate-50/50 dark:bg-slate-950/20">
         <Link href="/" className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-white/5 dark:hover:text-white transition-all text-slate-500 dark:text-slate-450">
           <ShoppingBag className="h-4.5 w-4.5 text-slate-400" />
           <span>Ver Tienda Pública</span>

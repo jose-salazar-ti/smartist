@@ -1456,7 +1456,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  shrink: 0;
   font-size: 16px;
 }
 
@@ -2424,7 +2424,7 @@ select.form-input {
   height: 16px;
   color: var(--text-muted);
   pointer-events: none;
-  flex-shrink: 0;
+  shrink: 0;
 }
 
 .login-input {
@@ -2699,7 +2699,7 @@ html:not(.dark) .login-error {
   align-items: center;
   justify-content: center;
   color: var(--primary-light);
-  flex-shrink: 0;
+  shrink: 0;
 }
 
 .usuarios-card-title {
@@ -2900,7 +2900,7 @@ html:not(.dark) .login-error {
   font-size: 13px;
   font-weight: 800;
   color: white;
-  flex-shrink: 0;
+  shrink: 0;
   font-family: var(--font-heading);
 }
 
@@ -2936,7 +2936,7 @@ html:not(.dark) .login-error {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-shrink: 0;
+  shrink: 0;
 }
 
 .usuarios-status {
@@ -3012,7 +3012,7 @@ html:not(.dark) .login-error {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.06);
   animation: skeleton-pulse 1.5s ease-in-out infinite;
-  flex-shrink: 0;
+  shrink: 0;
 }
 
 .usuarios-skeleton-text {

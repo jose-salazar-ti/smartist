@@ -43,8 +43,8 @@ export default function DashboardLoading() {
         <Card className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl overflow-hidden rounded-2xl">
           <CardContent className="p-0">
             <Table>
-              <TableHeader className="bg-slate-50 dark:bg-white/[0.02]/80 dark:bg-white/[0.02]">
-                <TableRow className="border-slate-200 dark:border-white/10 dark:border-white/[0.05]">
+              <TableHeader className="bg-slate-50 dark:bg-white/[0.02]">
+                <TableRow className="border-slate-200 dark:border-white/10">
                   <TableHead className="w-24"><div className="h-4 w-16 bg-slate-200 dark:bg-white/5 rounded" /></TableHead>
                   <TableHead><div className="h-4 w-24 bg-slate-200 dark:bg-white/5 rounded" /></TableHead>
                   <TableHead><div className="h-4 w-20 bg-slate-200 dark:bg-white/5 rounded" /></TableHead>

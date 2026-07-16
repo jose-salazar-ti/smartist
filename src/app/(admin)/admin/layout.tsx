@@ -60,7 +60,7 @@ export default async function AdminLayout({
       />
 
       {/* Main Backoffice Content Area */}
-      <div className="flex-grow flex flex-col min-w-0 relative z-10">
+      <div className="grow flex flex-col min-w-0 relative z-10">
         
         {/* Mobile Header Nav */}
         <header className="h-16 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/10 flex items-center justify-between px-6 md:hidden sticky top-0 z-50 shadow-sm">
@@ -81,7 +81,7 @@ export default async function AdminLayout({
         </header>
 
         {/* Content Children */}
-        <main className="p-6 md:p-8 flex-grow">
+        <main className="p-6 md:p-8 grow">
           {children}
         </main>
       </div>

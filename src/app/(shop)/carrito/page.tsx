@@ -97,7 +97,7 @@ export default function CartPage() {
                         <TableCell className="py-4">
                           <div className="flex gap-4">
                             <div 
-                              className="relative h-20 w-20 flex-shrink-0 bg-slate-900 rounded-lg overflow-hidden border border-border/40 select-none"
+                              className="relative h-20 w-20 shrink-0 bg-slate-900 rounded-lg overflow-hidden border border-border/40 select-none"
                               onContextMenu={(e) => e.preventDefault()}
                             >
                               <Image
@@ -178,7 +178,7 @@ export default function CartPage() {
                 <Card key={item.id} className="border border-slate-200 dark:border-white/[0.08] bg-white/50 dark:bg-slate-950/20 backdrop-blur-sm p-4">
                   <div className="flex gap-4">
                     <div 
-                      className="relative h-16 w-16 flex-shrink-0 bg-slate-900 rounded-lg overflow-hidden border border-border/40 select-none"
+                      className="relative h-16 w-16 shrink-0 bg-slate-900 rounded-lg overflow-hidden border border-border/40 select-none"
                       onContextMenu={(e) => e.preventDefault()}
                     >
                       <Image
@@ -191,7 +191,7 @@ export default function CartPage() {
                         onContextMenu={(e) => e.preventDefault()}
                       />
                     </div>
-                    <div className="flex-grow">
+                    <div className="grow">
                       <div className="flex items-start justify-between gap-2">
                         <h3 className="font-semibold text-sm text-slate-900 dark:text-white leading-tight">
                           {item.productName}

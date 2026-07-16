@@ -130,7 +130,7 @@ export default function ContactoPage() {
             
             <div className="space-y-6">
               <div className="flex gap-4 items-start">
-                <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400 flex-shrink-0">
+                <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400 shrink-0">
                   <Phone className="h-5 w-5" />
                 </div>
                 <div>
@@ -142,7 +142,7 @@ export default function ContactoPage() {
               </div>
 
               <div className="flex gap-4 items-start">
-                <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-500 dark:text-indigo-400 flex-shrink-0">
+                <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-500 dark:text-indigo-400 shrink-0">
                   <Mail className="h-5 w-5" />
                 </div>
                 <div>
@@ -154,7 +154,7 @@ export default function ContactoPage() {
               </div>
 
               <div className="flex gap-4 items-start">
-                <div className="h-10 w-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-500 dark:text-sky-400 flex-shrink-0">
+                <div className="h-10 w-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-500 dark:text-sky-400 shrink-0">
                   <MapPin className="h-5 w-5" />
                 </div>
                 <div>
@@ -166,7 +166,7 @@ export default function ContactoPage() {
               </div>
 
               <div className="flex gap-4 items-start">
-                <div className="h-10 w-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-500 dark:text-purple-400 flex-shrink-0">
+                <div className="h-10 w-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-500 dark:text-purple-400 shrink-0">
                   <Clock className="h-5 w-5" />
                 </div>
                 <div>

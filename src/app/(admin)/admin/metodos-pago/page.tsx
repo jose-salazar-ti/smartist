@@ -272,7 +272,7 @@ export default function AdminPaymentMethodsPage() {
                 ))
               ) : methods.length > 0 ? (
                 methods.map((m) => (
-                  <TableRow key={m.id} className={`border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:bg-white/[0.02]/80 dark:hover:bg-white/[0.02] ${!m.inEstado ? "opacity-60" : ""}`}>
+                  <TableRow key={m.id} className={`border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-white/[0.02] ${!m.inEstado ? "opacity-60" : ""}`}>
                     <TableCell className="font-mono font-bold text-xs text-indigo-600 dark:text-indigo-400">{m.id}</TableCell>
                     <TableCell className="font-medium text-slate-900 dark:text-white">{m.nombre}</TableCell>
                     <TableCell>
@@ -420,7 +420,7 @@ export default function AdminPaymentMethodsPage() {
               <div className="space-y-1.5 pt-1">
                 <Label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Código QR (Imagen)</Label>
                 <div className="flex gap-2 items-center">
-                  <div className="relative h-10 w-10 border rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 dark:border-white/10 flex-shrink-0 flex items-center justify-center shadow-inner">
+                  <div className="relative h-10 w-10 border rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 dark:border-white/10 shrink-0 flex items-center justify-center shadow-inner">
                     {qrUrl ? <img src={qrUrl} className="object-cover w-10 h-10" /> : <ImageIcon className="h-4 w-4 text-slate-400" />}
                   </div>
                   <Input 
@@ -464,7 +464,7 @@ export default function AdminPaymentMethodsPage() {
             </div>
 
             {/* Submit / Cancel Buttons */}
-            <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-white/5 flex-shrink-0">
+            <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-white/5 shrink-0">
               <Button 
                 type="button" 
                 variant="ghost" 

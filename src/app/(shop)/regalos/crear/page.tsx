@@ -461,7 +461,7 @@ export default function CrearDedicatoriaPage() {
                   {imagenUrls.length > 0 && (
                     <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
                       {imagenUrls.map((url, index) => (
-                        <div key={index} className="relative h-20 w-20 border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
+                        <div key={index} className="relative h-20 w-20 border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden bg-slate-100 shrink-0">
                           <img src={url} alt={`Preview ${index}`} className="object-cover w-full h-full" />
                           <button
                             type="button"
