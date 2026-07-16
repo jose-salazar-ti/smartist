@@ -236,7 +236,7 @@ export default function AdminOrderStatusesPage() {
       <Card className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl overflow-hidden rounded-2xl">
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50 dark:bg-white/[0.02]">
+            <TableHeader className="bg-slate-50 dark:bg-white/2">
               <TableRow className="border-slate-200 dark:border-white/10">
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">Código ID</TableHead>
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">Nombre</TableHead>
@@ -308,7 +308,7 @@ export default function AdminOrderStatusesPage() {
                           variant="ghost" 
                           size="icon" 
                           onClick={() => handleOpenEdit(s)}
-                          className="hover:text-indigo-600 hover:bg-slate-50 dark:bg-white/[0.02] dark:hover:bg-zinc-800 h-8 w-8"
+                          className="hover:text-indigo-600 hover:bg-slate-50 dark:bg-white/2 dark:hover:bg-zinc-800 h-8 w-8"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -316,7 +316,7 @@ export default function AdminOrderStatusesPage() {
                           variant="ghost" 
                           size="icon" 
                           onClick={() => handleDelete(s.id)}
-                          className="hover:text-red-500 hover:bg-slate-50 dark:bg-white/[0.02] dark:hover:bg-zinc-800 h-8 w-8 text-slate-400"
+                          className="hover:text-red-500 hover:bg-slate-50 dark:bg-white/2 dark:hover:bg-zinc-800 h-8 w-8 text-slate-400"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -385,7 +385,7 @@ export default function AdminOrderStatusesPage() {
                 id="status-color"
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
-                className="flex h-10 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.05] px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer"
+                className="flex h-10 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer"
               >
                 {colorOptions.map(option => (
                   <option key={option.value} value={option.value} className="bg-white dark:bg-slate-900">
@@ -403,7 +403,7 @@ export default function AdminOrderStatusesPage() {
                 placeholder="Ej. El pedido ha sido registrado pero falta el pago o verificación del mismo."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="flex min-h-[60px] w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.05] px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                className="flex min-h-[60px] w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               />
             </div>
 
@@ -433,14 +433,14 @@ export default function AdminOrderStatusesPage() {
                   placeholder="Ej. Buenas noticias, hemos entregado tu pedido al courier. Muy pronto estará en tus manos."
                   value={emailDescription}
                   onChange={(e) => setEmailDescription(e.target.value)}
-                  className="flex min-h-[80px] w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.05] px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                  className="flex min-h-[80px] w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                 />
                 <p className="text-[10px] text-slate-400">Si dejas estos campos vacíos, no se enviará correo de notificación automática para este estado.</p>
               </div>
             </div>
 
             {/* Active Toggle Switch */}
-            <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-3 bg-slate-50 dark:bg-white/[0.02] transition-colors hover:bg-slate-100/50 dark:hover:bg-white/[0.04]">
+            <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-3 bg-slate-50 dark:bg-white/2 transition-colors hover:bg-slate-100/50 dark:hover:bg-white/4">
               <div className="flex flex-col gap-0.5">
                 <span className="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
                   <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />

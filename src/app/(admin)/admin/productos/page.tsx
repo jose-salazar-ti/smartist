@@ -486,7 +486,7 @@ export default function AdminProductsPage() {
       <Card className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl overflow-hidden rounded-2xl">
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50 dark:bg-white/[0.02]">
+            <TableHeader className="bg-slate-50 dark:bg-white/2">
               <TableRow className="border-slate-200 dark:border-white/10">
                 <TableHead className="w-16 font-bold text-slate-500 dark:text-slate-400">Imagen</TableHead>
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">Producto</TableHead>
@@ -589,7 +589,7 @@ export default function AdminProductsPage() {
                             variant="ghost" 
                             size="icon" 
                             onClick={() => handleOpenEdit(p)}
-                            className="hover:text-indigo-600 hover:bg-slate-50 dark:bg-white/[0.02] dark:hover:bg-zinc-800 h-8 w-8"
+                            className="hover:text-indigo-600 hover:bg-slate-50 dark:bg-white/2 dark:hover:bg-zinc-800 h-8 w-8"
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
@@ -720,7 +720,7 @@ export default function AdminProductsPage() {
                       id="prod-cat"
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className="flex h-10 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.05] px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer animate-none"
+                      className="flex h-10 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer animate-none"
                     >
                       {categories.map((c) => (
                         <option key={c.id} value={c.nombre} className="bg-white dark:bg-slate-900">
@@ -739,7 +739,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   {/* Custom Toggle Switch for Personalizable */}
-                  <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-slate-50 dark:bg-white/[0.02] transition-colors hover:bg-slate-100/50 dark:hover:bg-white/[0.04]">
+                  <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-slate-50 dark:bg-white/2 transition-colors hover:bg-slate-100/50 dark:hover:bg-white/4">
                     <div className="flex flex-col gap-0.5">
                       <span className="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
                         <Palette className="h-3.5 w-3.5 text-indigo-500" />
@@ -770,7 +770,7 @@ export default function AdminProductsPage() {
                       id="owner-select"
                       value={usuarioId}
                       onChange={(e) => setUsuarioId(e.target.value)}
-                      className="flex h-10 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.05] px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer font-semibold"
+                      className="flex h-10 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer font-semibold"
                     >
                       <option value="admin">Administrador (Sistema General)</option>
                       {sellers.map((s) => (
@@ -783,7 +783,7 @@ export default function AdminProductsPage() {
                 )}
 
                 {/* Custom Toggle Switch for Active Product */}
-                <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-slate-50 dark:bg-white/[0.02] transition-colors hover:bg-slate-100/50 dark:hover:bg-white/[0.04]">
+                <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-slate-50 dark:bg-white/2 transition-colors hover:bg-slate-100/50 dark:hover:bg-white/4">
                   <div className="flex flex-col gap-0.5">
                     <span className="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
                       <Eye className="h-3.5 w-3.5 text-emerald-500" />
@@ -804,7 +804,7 @@ export default function AdminProductsPage() {
                 </div>
 
                 {/* Custom Toggle Switch for Featured Product */}
-                <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-slate-50 dark:bg-white/[0.02] transition-colors hover:bg-slate-100/50 dark:hover:bg-white/[0.04]">
+                <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-slate-50 dark:bg-white/2 transition-colors hover:bg-slate-100/50 dark:hover:bg-white/4">
                   <div className="flex flex-col gap-0.5">
                     <span className="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
                       <Star className="h-3.5 w-3.5 text-amber-500" />
@@ -838,7 +838,7 @@ export default function AdminProductsPage() {
                       onChange={(e) => setGlbModelUrl(e.target.value)}
                       className="rounded-xl flex-1 text-xs"
                     />
-                    <label className="flex h-10 items-center justify-center border rounded bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-300 dark:border-white/10 cursor-pointer px-4 text-xs font-semibold text-slate-700 dark:text-slate-200 gap-2 select-none shrink-0 rounded-xl">
+                    <label className="flex h-10 items-center justify-center border bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-300 dark:border-white/10 cursor-pointer px-4 text-xs font-semibold text-slate-700 dark:text-slate-200 gap-2 select-none shrink-0 rounded-xl">
                       {uploadingFiles["glb"] ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                       Subir
                       <input 
@@ -866,7 +866,7 @@ export default function AdminProductsPage() {
                         onChange={(e) => setBlankMockupUrl(e.target.value)}
                         className="h-10 text-xs flex-1 rounded-xl"
                       />
-                      <label className="flex h-10 w-12 items-center justify-center border rounded bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-355 dark:border-white/10 cursor-pointer text-slate-700 dark:text-slate-200 shrink-0 rounded-xl">
+                      <label className="flex h-10 w-12 items-center justify-center border bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-355 dark:border-white/10 cursor-pointer text-slate-700 dark:text-slate-200 shrink-0 rounded-xl">
                         {uploadingFiles["blank"] ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                         <input 
                           type="file" 
@@ -891,7 +891,7 @@ export default function AdminProductsPage() {
                         onChange={(e) => setMaskImageUrl(e.target.value)}
                         className="h-10 text-xs flex-1 rounded-xl"
                       />
-                      <label className="flex h-10 w-12 items-center justify-center border rounded bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-350 dark:border-white/10 cursor-pointer text-slate-700 dark:text-slate-200 shrink-0 rounded-xl">
+                      <label className="flex h-10 w-12 items-center justify-center border bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-350 dark:border-white/10 cursor-pointer text-slate-700 dark:text-slate-200 shrink-0 rounded-xl">
                         {uploadingFiles["mask"] ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                         <input 
                           type="file" 
@@ -944,7 +944,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   {/* Grid Visual de Miniaturas */}
-                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 bg-slate-50 dark:bg-white/[0.01] p-3 rounded-2xl border border-slate-150 dark:border-white/5">
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 bg-slate-50 dark:bg-white/1 p-3 rounded-2xl border border-slate-150 dark:border-white/5">
                     {galleryImages.map((imgUrl, i) => (
                       <div key={i} className="relative aspect-square group border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm">
                         <img src={imgUrl} alt={`Galería ${i}`} className="object-cover w-full h-full" />
@@ -1006,7 +1006,7 @@ export default function AdminProductsPage() {
                   </div>
                   <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">
                     {features.map((f, i) => (
-                      <div key={i} className="flex gap-2 items-center bg-slate-50 dark:bg-white/[0.01] p-1.5 rounded-xl border border-slate-100 dark:border-white/5">
+                      <div key={i} className="flex gap-2 items-center bg-slate-50 dark:bg-white/1 p-1.5 rounded-xl border border-slate-100 dark:border-white/5">
                         <Input placeholder="Ej. Material" value={f.label} onChange={(e) => { const n = [...features]; n[i] = { ...n[i], label: e.target.value }; setFeatures(n); }} className="w-1/3 h-8 text-xs bg-white dark:bg-slate-900" />
                         <Input placeholder="Ej. Cerámica Premium" value={f.value} onChange={(e) => { const n = [...features]; n[i] = { ...n[i], value: e.target.value }; setFeatures(n); }} className="h-8 text-xs bg-white dark:bg-slate-900 flex-1" />
                         <button type="button" onClick={() => setFeatures(features.filter((_, idx) => idx !== i))} className="text-slate-400 hover:text-red-500 transition-colors p-1 cursor-pointer"><Trash2 className="h-4 w-4" /></button>
@@ -1029,7 +1029,7 @@ export default function AdminProductsPage() {
                   </div>
                   <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">
                     {benefits.map((b, i) => (
-                      <div key={i} className="flex gap-2 items-center bg-slate-50 dark:bg-white/[0.01] p-1.5 rounded-xl border border-slate-100 dark:border-white/5">
+                      <div key={i} className="flex gap-2 items-center bg-slate-50 dark:bg-white/1 p-1.5 rounded-xl border border-slate-100 dark:border-white/5">
                         <Input placeholder="Ej. Apto para microondas y lavavajillas..." value={b} onChange={(e) => { const n = [...benefits]; n[i] = e.target.value; setBenefits(n); }} className="h-8 text-xs bg-white dark:bg-slate-900 flex-1" />
                         <button type="button" onClick={() => setBenefits(benefits.filter((_, idx) => idx !== i))} className="text-slate-400 hover:text-red-500 transition-colors p-1 cursor-pointer"><Trash2 className="h-4 w-4" /></button>
                       </div>
@@ -1060,7 +1060,7 @@ export default function AdminProductsPage() {
 
                 <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
                   {variants.map((v, index) => (
-                    <div key={index} className="border border-slate-200 dark:border-white/5 rounded-2xl p-4 bg-slate-50 dark:bg-white/[0.02]/40 dark:bg-white/[0.02] dark:border-white/5 grid grid-cols-1 md:grid-cols-12 gap-3 items-center relative hover:border-slate-350 dark:hover:border-white/10 transition-colors">
+                    <div key={index} className="border border-slate-200 dark:border-white/5 rounded-2xl p-4 bg-slate-50 dark:bg-white/2/40 dark:bg-white/2 dark:border-white/5 grid grid-cols-1 md:grid-cols-12 gap-3 items-center relative hover:border-slate-350 dark:hover:border-white/10 transition-colors">
                       
                       {/* Delete Variant Button */}
                       <button
@@ -1136,7 +1136,7 @@ export default function AdminProductsPage() {
                           </div>
                         
                           {/* Hidden File Input */}
-                          <label className="flex h-9 w-full items-center justify-center border rounded-xl bg-white dark:bg-white/5 hover:bg-slate-50 dark:bg-white/[0.02] dark:hover:bg-white/10 dark:border-white/10 cursor-pointer text-[10px] font-semibold text-slate-500 dark:text-slate-400 gap-1 select-none">
+                          <label className="flex h-9 w-full items-center justify-center border rounded-xl bg-white dark:bg-white/5 hover:bg-slate-50 dark:bg-white/2 dark:hover:bg-white/10 dark:border-white/10 cursor-pointer text-[10px] font-semibold text-slate-500 dark:text-slate-400 gap-1 select-none">
                             <Upload className="h-3.5 w-3.5" />
                             <input 
                               type="file" 
@@ -1229,7 +1229,7 @@ export default function AdminProductsPage() {
                     onChange={(e) => handleUpdateVariant(editingVariantIndex, "glbModelUrl", e.target.value)}
                     className="h-9 text-xs"
                   />
-                  <label className="flex h-9 items-center justify-center border rounded bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-300 dark:border-white/10 cursor-pointer px-4 text-xs font-semibold text-slate-700 dark:text-slate-200 gap-1.5 select-none shrink-0 rounded-xl">
+                  <label className="flex h-9 items-center justify-center border bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-300 dark:border-white/10 cursor-pointer px-4 text-xs font-semibold text-slate-700 dark:text-slate-200 gap-1.5 select-none shrink-0 rounded-xl">
                     {uploadingFiles[`v-glb-${editingVariantIndex}`] ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
                     Subir
                     <input 
@@ -1252,7 +1252,7 @@ export default function AdminProductsPage() {
                     onChange={(e) => handleUpdateVariant(editingVariantIndex, "blankMockupUrl", e.target.value)}
                     className="h-9 text-xs"
                   />
-                  <label className="flex h-9 items-center justify-center border rounded bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-300 dark:border-white/10 cursor-pointer px-4 text-xs font-semibold text-slate-700 dark:text-slate-200 gap-1.5 select-none shrink-0 rounded-xl">
+                  <label className="flex h-9 items-center justify-center border bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-300 dark:border-white/10 cursor-pointer px-4 text-xs font-semibold text-slate-700 dark:text-slate-200 gap-1.5 select-none shrink-0 rounded-xl">
                     {uploadingFiles[`v-blank-${editingVariantIndex}`] ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
                     Subir
                     <input 
@@ -1275,7 +1275,7 @@ export default function AdminProductsPage() {
                     onChange={(e) => handleUpdateVariant(editingVariantIndex, "maskImageUrl", e.target.value)}
                     className="h-9 text-xs"
                   />
-                  <label className="flex h-9 items-center justify-center border rounded bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-300 dark:border-white/10 cursor-pointer px-4 text-xs font-semibold text-slate-700 dark:text-slate-200 gap-1.5 select-none shrink-0 rounded-xl">
+                  <label className="flex h-9 items-center justify-center border bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-300 dark:border-white/10 cursor-pointer px-4 text-xs font-semibold text-slate-700 dark:text-slate-200 gap-1.5 select-none shrink-0 rounded-xl">
                     {uploadingFiles[`v-mask-${editingVariantIndex}`] ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
                     Subir
                     <input 

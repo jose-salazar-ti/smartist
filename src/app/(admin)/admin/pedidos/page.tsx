@@ -362,7 +362,7 @@ export default function AdminOrdersPage() {
       <Card className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl overflow-hidden rounded-2xl">
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50 dark:bg-white/[0.02]">
+            <TableHeader className="bg-slate-50 dark:bg-white/2">
               <TableRow className="border-slate-200 dark:border-white/10">
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">Pedido</TableHead>
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">Cliente</TableHead>
@@ -399,7 +399,7 @@ export default function AdminOrdersPage() {
                   const statusClass = getStatusBadgeClass(statusColor);
 
                   return (
-                    <TableRow key={order.id} className="border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-white/[0.02]">
+                    <TableRow key={order.id} className="border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-white/2">
                       <TableCell className="font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
                         #{order.id.slice(0, 8).toUpperCase()}
                       </TableCell>
@@ -442,7 +442,7 @@ export default function AdminOrdersPage() {
                           variant="ghost" 
                           size="icon" 
                           onClick={() => openDetails(order)}
-                          className="hover:text-indigo-600 hover:bg-slate-50 dark:bg-white/[0.02] h-8 w-8"
+                          className="hover:text-indigo-600 hover:bg-slate-50 dark:bg-white/2 h-8 w-8"
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
@@ -468,7 +468,7 @@ export default function AdminOrdersPage() {
           {selectedOrder && (
             <>
               {/* Premium Gradient Header - Compact */}
-              <div className="relative overflow-hidden bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-transparent p-4 sm:p-5 border-b border-slate-100 dark:border-white/5 shrink-0 flex justify-between items-center">
+              <div className="relative overflow-hidden bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-transparent p-4 sm:p-5 border-b border-slate-100 dark:border-white/5 shrink-0 flex justify-between items-center">
                 <DialogHeader className="relative z-10 flex flex-row items-center gap-4">
                   <DialogTitle className="font-heading font-extrabold text-xl tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
                     <span className="text-indigo-600 dark:text-indigo-400">#</span>
@@ -497,7 +497,7 @@ export default function AdminOrdersPage() {
                 {/* Col Left: Client & Delivery Info & Payment Voucher */}
                 <div className="space-y-6">
                   {/* Contact Card */}
-                  <div className="bg-slate-50 dark:bg-white/[0.02] rounded-xl p-5 border border-slate-100 dark:border-white/5 space-y-3">
+                  <div className="bg-slate-50 dark:bg-white/2 rounded-xl p-5 border border-slate-100 dark:border-white/5 space-y-3">
                     <h3 className="font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2 text-xs uppercase tracking-widest opacity-80">
                       <User className="h-4 w-4 text-indigo-400" /> Contacto
                     </h3>
@@ -510,7 +510,7 @@ export default function AdminOrdersPage() {
                       href={`https://wa.me/${selectedOrder.telfClienteFinal ? selectedOrder.telfClienteFinal.replace(/[^0-9]/g, "") : "51999999999"}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center w-full gap-2 font-bold bg-gradient-to-r from-[#25D366] to-[#128C7E] hover:opacity-90 text-white py-3 rounded-xl transition-all shadow-md shadow-emerald-500/10 mt-4 text-sm hover:scale-[1.02] active:scale-[0.98]"
+                      className="inline-flex items-center justify-center w-full gap-2 font-bold bg-linear-to-r from-[#25D366] to-[#128C7E] hover:opacity-90 text-white py-3 rounded-xl transition-all shadow-md shadow-emerald-500/10 mt-4 text-sm hover:scale-[1.02] active:scale-[0.98]"
                     >
                       <Phone className="h-4 w-4" />
                       Escribir al WhatsApp
@@ -518,7 +518,7 @@ export default function AdminOrdersPage() {
                   </div>
 
                   {/* Shipping Card */}
-                  <div className="bg-slate-50 dark:bg-white/[0.02] rounded-xl p-5 border border-slate-100 dark:border-white/5 space-y-3">
+                  <div className="bg-slate-50 dark:bg-white/2 rounded-xl p-5 border border-slate-100 dark:border-white/5 space-y-3">
                     <h3 className="font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2 text-xs uppercase tracking-widest opacity-80">
                       <Truck className="h-4 w-4 text-indigo-400" /> Despacho
                     </h3>
@@ -542,7 +542,7 @@ export default function AdminOrdersPage() {
                       <CreditCard className="h-4 w-4 text-emerald-400" /> Voucher de Pago
                     </h3>
                     {selectedOrder.voucherUrl ? (
-                      <div className="border border-slate-100 dark:border-white/5 rounded-xl overflow-hidden shadow-sm relative group bg-slate-50 dark:bg-white/[0.02] max-h-48 flex items-center justify-center">
+                      <div className="border border-slate-100 dark:border-white/5 rounded-xl overflow-hidden shadow-sm relative group bg-slate-50 dark:bg-white/2 max-h-48 flex items-center justify-center">
                         <img 
                           src={selectedOrder.voucherUrl} 
                           alt="Comprobante de pago" 
@@ -567,7 +567,7 @@ export default function AdminOrdersPage() {
 
                   {/* Dedicatoria Card */}
                   {selectedOrder.dedicatoria && (
-                    <div className="bg-gradient-to-br from-indigo-50 to-violet-50 dark:bg-white/[0.02] rounded-xl p-5 border border-indigo-100/50 dark:border-white/5 space-y-3 mt-4">
+                    <div className="bg-linear-to-br from-indigo-50 to-violet-50 dark:bg-white/2 rounded-xl p-5 border border-indigo-100/50 dark:border-white/5 space-y-3 mt-4">
                       <h3 className="font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2 text-xs uppercase tracking-widest opacity-80">
                         <Gift className="h-4 w-4 text-indigo-500" /> Dedicatoria Digital
                       </h3>
@@ -605,7 +605,7 @@ export default function AdminOrdersPage() {
                   
                   <div className="space-y-4">
                     {selectedOrder.orderItems.map((item) => (
-                      <div key={item.id} className="relative overflow-hidden border-0 rounded-2xl p-4 bg-slate-50 dark:bg-white/[0.03] space-y-3 shadow-inner shadow-white/5">
+                      <div key={item.id} className="relative overflow-hidden border-0 rounded-2xl p-4 bg-slate-50 dark:bg-white/3 space-y-3 shadow-inner shadow-white/5">
                         {/* Soft background glow */}
                         <div className="absolute -top-10 -right-10 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
                         
@@ -638,7 +638,7 @@ export default function AdminOrdersPage() {
                                 </span>
                                 
                                 {item.customization.userDesignUrl && (
-                                  <div className="flex justify-between items-center gap-3 bg-slate-50 dark:bg-white/[0.02] border border-slate-100 dark:border-white/5 p-2 rounded-lg">
+                                  <div className="flex justify-between items-center gap-3 bg-slate-50 dark:bg-white/2 border border-slate-100 dark:border-white/5 p-2 rounded-lg">
                                     <div className="flex items-center gap-2">
                                       <div className="bg-indigo-500/10 p-1.5 rounded-md">
                                         <Image className="h-4 w-4 text-indigo-400" />
@@ -669,7 +669,7 @@ export default function AdminOrdersPage() {
                                       )}
                                     </div>
                                     {item.customization.details.textShadowEnabled && (
-                                      <div className="text-[9px] text-slate-500 dark:text-slate-400 font-mono flex flex-wrap gap-x-3 gap-y-1 bg-slate-50 dark:bg-white/[0.02] p-1 rounded">
+                                      <div className="text-[9px] text-slate-500 dark:text-slate-400 font-mono flex flex-wrap gap-x-3 gap-y-1 bg-slate-50 dark:bg-white/2 p-1 rounded">
                                         <span>Sombra: <span className="font-bold uppercase" style={{color: item.customization.details.textShadowColor}}>{item.customization.details.textShadowColor}</span></span>
                                         <span>Blur: {item.customization.details.textShadowBlur}px</span>
                                         <span>Offset: {item.customization.details.textShadowOffset}px</span>
@@ -679,7 +679,7 @@ export default function AdminOrdersPage() {
                                 )}
 
                                 {item.customization.userDesignUrl && (
-                                  <div className="text-[9px] font-mono text-slate-400 flex flex-wrap gap-x-3 gap-y-1 bg-slate-50 dark:bg-white/[0.02] p-1 rounded">
+                                  <div className="text-[9px] font-mono text-slate-400 flex flex-wrap gap-x-3 gap-y-1 bg-slate-50 dark:bg-white/2 p-1 rounded">
                                     <span>Scale: {item.customization.details?.scale}%</span>
                                     <span>Offset: ({item.customization.details?.x}px, {item.customization.details?.y}px)</span>
                                     <span>Rot: {item.customization.details?.rotation}°</span>
@@ -696,7 +696,7 @@ export default function AdminOrdersPage() {
                                 </span>
                                 
                                 {item.customization.details?.userDesignUrlRight && (
-                                  <div className="flex justify-between items-center gap-3 bg-slate-50 dark:bg-white/[0.02] border border-slate-100 dark:border-white/5 p-2 rounded-lg">
+                                  <div className="flex justify-between items-center gap-3 bg-slate-50 dark:bg-white/2 border border-slate-100 dark:border-white/5 p-2 rounded-lg">
                                     <div className="flex items-center gap-2">
                                       <div className="bg-purple-500/10 p-1.5 rounded-md">
                                         <Image className="h-4 w-4 text-purple-400" />
@@ -727,7 +727,7 @@ export default function AdminOrdersPage() {
                                       )}
                                     </div>
                                     {item.customization.details.textShadowEnabled && (
-                                      <div className="text-[9px] text-slate-500 dark:text-slate-400 font-mono flex flex-wrap gap-x-3 gap-y-1 bg-slate-50 dark:bg-white/[0.02] p-1 rounded">
+                                      <div className="text-[9px] text-slate-500 dark:text-slate-400 font-mono flex flex-wrap gap-x-3 gap-y-1 bg-slate-50 dark:bg-white/2 p-1 rounded">
                                         <span>Sombra: <span className="font-bold uppercase" style={{color: item.customization.details.textShadowColor}}>{item.customization.details.textShadowColor}</span></span>
                                         <span>Blur: {item.customization.details.textShadowBlur}px</span>
                                         <span>Offset: {item.customization.details.textShadowOffset}px</span>
@@ -737,7 +737,7 @@ export default function AdminOrdersPage() {
                                 )}
 
                                 {item.customization.details.userDesignUrlRight && (
-                                  <div className="text-[9px] font-mono text-slate-400 flex flex-wrap gap-x-3 gap-y-1 bg-slate-50 dark:bg-white/[0.02] p-1 rounded">
+                                  <div className="text-[9px] font-mono text-slate-400 flex flex-wrap gap-x-3 gap-y-1 bg-slate-50 dark:bg-white/2 p-1 rounded">
                                     <span>Scale: {item.customization.details?.scaleRight}%</span>
                                     <span>Offset: ({item.customization.details?.xRight}px, {item.customization.details?.yRight}px)</span>
                                     <span>Rot: {item.customization.details?.rotationRight}°</span>
@@ -758,7 +758,7 @@ export default function AdminOrdersPage() {
               </div>
 
               {/* Footer Actions - Fixed at bottom */}
-              <div className="shrink-0 p-4 sm:p-5 bg-slate-50 dark:bg-white/[0.02] border-t border-slate-100 dark:border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div className="shrink-0 p-4 sm:p-5 bg-slate-50 dark:bg-white/2 border-t border-slate-100 dark:border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div className="flex flex-col">
                   <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Monto Total del Pedido</span>
                   <span className="text-lg font-extrabold text-slate-950 dark:text-white">

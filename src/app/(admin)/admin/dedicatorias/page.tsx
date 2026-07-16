@@ -143,7 +143,7 @@ export default function AdminDedicatoriasPage() {
       <Card className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl overflow-hidden rounded-2xl">
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50 dark:bg-white/[0.02]">
+            <TableHeader className="bg-slate-50 dark:bg-white/2">
               <TableRow className="border-slate-200 dark:border-white/10">
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">ID / Fecha</TableHead>
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">Remitente</TableHead>
@@ -167,7 +167,7 @@ export default function AdminDedicatoriasPage() {
                 ))
               ) : filtered.length > 0 ? (
                 filtered.map((ded) => (
-                  <TableRow key={ded.id} className="border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-white/[0.02]">
+                  <TableRow key={ded.id} className="border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-white/2">
                     <TableCell className="text-xs text-slate-500 dark:text-slate-400">
                       <div className="font-mono font-semibold text-slate-700 dark:text-slate-350">
                         #{ded.id.slice(0, 8).toUpperCase()}
@@ -200,7 +200,7 @@ export default function AdminDedicatoriasPage() {
                         variant="ghost"
                         size="icon"
                         onClick={() => openPreview(ded)}
-                        className="hover:text-indigo-600 dark:hover:text-indigo-400 dark:bg-white/[0.02] h-8 w-8"
+                        className="hover:text-indigo-600 dark:hover:text-indigo-400 dark:bg-white/2 h-8 w-8"
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
@@ -316,7 +316,7 @@ export default function AdminDedicatoriasPage() {
                   </div>
 
                   {/* Conversion Banner Hook */}
-                  <div className="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-2xl p-4 text-center text-white shadow-xl shadow-indigo-600/10 w-full">
+                  <div className="bg-linear-to-br from-indigo-600 to-violet-600 rounded-2xl p-4 text-center text-white shadow-xl shadow-indigo-600/10 w-full">
                     <p className="text-[10px] font-extrabold tracking-wider uppercase mb-1">¿Te encantó tu detalle?</p>
                     <p className="text-[10px] opacity-90 leading-tight mb-2">
                       Tú también puedes diseñar un regalo 3D personalizado con dedicatoria interactiva gratis en Smartist.

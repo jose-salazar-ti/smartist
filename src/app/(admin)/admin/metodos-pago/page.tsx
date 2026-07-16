@@ -246,7 +246,7 @@ export default function AdminPaymentMethodsPage() {
       <Card className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl overflow-hidden rounded-2xl">
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50 dark:bg-white/[0.02]">
+            <TableHeader className="bg-slate-50 dark:bg-white/2">
               <TableRow className="border-slate-200 dark:border-white/10">
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">Código ID</TableHead>
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">Nombre</TableHead>
@@ -306,7 +306,7 @@ export default function AdminPaymentMethodsPage() {
                           variant="ghost" 
                           size="icon" 
                           onClick={() => handleOpenEdit(m)}
-                          className="hover:text-indigo-600 hover:bg-slate-50 dark:bg-white/[0.02] dark:hover:bg-zinc-800 h-8 w-8"
+                          className="hover:text-indigo-600 hover:bg-slate-50 dark:bg-white/2 dark:hover:bg-zinc-800 h-8 w-8"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -314,7 +314,7 @@ export default function AdminPaymentMethodsPage() {
                           variant="ghost" 
                           size="icon" 
                           onClick={() => handleDelete(m.id)}
-                          className="hover:text-red-500 hover:bg-slate-50 dark:bg-white/[0.02] dark:hover:bg-zinc-800 h-8 w-8 text-slate-400"
+                          className="hover:text-red-500 hover:bg-slate-50 dark:bg-white/2 dark:hover:bg-zinc-800 h-8 w-8 text-slate-400"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -383,7 +383,7 @@ export default function AdminPaymentMethodsPage() {
                 id="method-type"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                className="flex h-10 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.05] px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer"
+                className="flex h-10 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer"
               >
                 <option value="QR" className="bg-white dark:bg-slate-900">QR (Yape/Plin)</option>
                 <option value="TRANSFERENCIA" className="bg-white dark:bg-slate-900">Transferencia Bancaria</option>
@@ -429,7 +429,7 @@ export default function AdminPaymentMethodsPage() {
                     onChange={(e) => setQrUrl(e.target.value)}
                     className="h-10 text-xs flex-1 rounded-xl"
                   />
-                  <label className="flex h-10 w-12 items-center justify-center border rounded bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-300 dark:border-white/10 cursor-pointer text-slate-700 dark:text-slate-200 shrink-0 rounded-xl">
+                  <label className="flex h-10 w-12 items-center justify-center border bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-300 dark:border-white/10 cursor-pointer text-slate-700 dark:text-slate-200 shrink-0 rounded-xl">
                     {uploadingQr ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                     <input 
                       type="file" 
@@ -443,7 +443,7 @@ export default function AdminPaymentMethodsPage() {
             )}
 
             {/* Active Toggle Switch */}
-            <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-3 bg-slate-50 dark:bg-white/[0.02] transition-colors hover:bg-slate-100/50 dark:hover:bg-white/[0.04]">
+            <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-3 bg-slate-50 dark:bg-white/2 transition-colors hover:bg-slate-100/50 dark:hover:bg-white/4">
               <div className="flex flex-col gap-0.5">
                 <span className="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
                   <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />

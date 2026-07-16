@@ -268,7 +268,7 @@ export default function VerRegaloPage() {
           </div>
 
           {/* Conversion CTA Loop */}
-          <div className="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-3xl p-5 text-center text-white shadow-xl shadow-indigo-600/25 w-full">
+          <div className="bg-linear-to-br from-indigo-600 to-violet-600 rounded-3xl p-5 text-center text-white shadow-xl shadow-indigo-600/25 w-full">
             <p className="text-xs font-extrabold tracking-wider uppercase mb-1">¿Te encantó tu detalle?</p>
             <p className="text-[11px] opacity-90 leading-tight mb-4">
               Tú también puedes diseñar un regalo 3D personalizado con dedicatoria interactiva gratis en Smartist.

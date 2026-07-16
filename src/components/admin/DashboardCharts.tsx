@@ -31,7 +31,7 @@ export default function DashboardCharts({ salesData, statusData }: DashboardChar
   }, []);
 
   if (!mounted) {
-    return <div className="h-[300px] w-full bg-slate-100/50 dark:bg-white/[0.02] animate-pulse rounded-2xl" />;
+    return <div className="h-[300px] w-full bg-slate-100/50 dark:bg-white/2 animate-pulse rounded-2xl" />;
   }
 
   const isDark = resolvedTheme === "dark";

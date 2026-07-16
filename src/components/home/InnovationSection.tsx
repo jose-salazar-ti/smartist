@@ -89,7 +89,7 @@ export default function InnovationSection() {
   const isCustomActive = activeId === "custom";
 
   return (
-    <section id="innovacion" className="py-20 relative overflow-hidden bg-[var(--bg-dark-3)]/50 dark:bg-[var(--bg-dark-3)]/30">
+    <section id="innovacion" className="py-20 relative overflow-hidden bg-(--bg-dark-3)/50 dark:bg-(--bg-dark-3)/30">
       {/* Hidden file input */}
       <input
         id="hero-file-upload"
@@ -113,7 +113,7 @@ export default function InnovationSection() {
           </div>
           <h2 className="font-heading font-extrabold text-3xl md:text-5xl text-slate-900 dark:text-white tracking-tight mb-4">
             Diseña tu taza{" "}
-            <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-indigo-500 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent">
               en vivo, en 3D
             </span>
           </h2>
@@ -218,7 +218,7 @@ export default function InnovationSection() {
               }`}
               onClick={() => document.getElementById("hero-file-upload")?.click()}
             >
-              <div className="w-full aspect-video rounded-xl flex items-center justify-center bg-gradient-to-br from-indigo-50/80 to-purple-50/80 dark:from-indigo-500/8 dark:to-purple-500/8 overflow-hidden relative">
+              <div className="w-full aspect-video rounded-xl flex items-center justify-center bg-linear-to-br from-indigo-50/80 to-purple-50/80 dark:from-indigo-500/8 dark:to-purple-500/8 overflow-hidden relative">
                 {customImage ? (
                   <img src={customImage} alt="Tu foto" className="w-full h-full object-cover" />
                 ) : (
@@ -232,7 +232,7 @@ export default function InnovationSection() {
           </div>{/* end thumbnails */}
 
           {/* ── Trust strip + CTA ── */}
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-slate-200 dark:border-white/[0.06] bg-white/70 dark:bg-slate-900/40 backdrop-blur px-6 py-4 shadow-sm">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-slate-200 dark:border-white/6 bg-white/70 dark:bg-slate-900/40 backdrop-blur px-6 py-4 shadow-sm">
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
               <span className="flex items-center gap-1.5">
                 <Sparkles className="h-3.5 w-3.5 text-indigo-500" />
@@ -249,7 +249,7 @@ export default function InnovationSection() {
             </div>
             <a
               href={customImage ? `/regalos/crear?imageUrl=${encodeURIComponent(customImage)}` : "/productos"}
-              className="shrink-0 inline-flex items-center gap-2 px-7 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold text-sm rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.03] active:scale-[0.97] transition-all duration-200"
+              className="shrink-0 inline-flex items-center gap-2 px-7 py-3 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold text-sm rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.03] active:scale-[0.97] transition-all duration-200"
             >
               {customImage ? "¡Comprar con mi foto!" : "Diseñar mi Regalo"} <ArrowRight className="h-4 w-4" />
             </a>

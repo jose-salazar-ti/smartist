@@ -311,7 +311,7 @@ export default function CheckoutPage() {
         <div className="lg:col-span-7 space-y-6">
           
           {/* Section 1: Datos de Contacto */}
-          <Card className="border border-slate-200 dark:border-white/[0.08] bg-white/70 dark:bg-slate-950/40 backdrop-blur-md shadow-md">
+          <Card className="border border-slate-200 dark:border-white/8 bg-white/70 dark:bg-slate-950/40 backdrop-blur-md shadow-md">
             <CardContent className="space-y-4">
               <h2 className="font-heading font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-950 text-indigo-400 text-xs font-bold border border-indigo-500/20">1</span>
@@ -358,7 +358,7 @@ export default function CheckoutPage() {
           </Card>
 
           {/* Section 2: Método de Entrega */}
-          <Card className="border border-slate-200 dark:border-white/[0.08] bg-white/70 dark:bg-slate-950/40 backdrop-blur-md shadow-md">
+          <Card className="border border-slate-200 dark:border-white/8 bg-white/70 dark:bg-slate-950/40 backdrop-blur-md shadow-md">
             <CardContent className="space-y-4">
               <h2 className="font-heading font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-950 text-indigo-400 text-xs font-bold border border-indigo-500/20">2</span>
@@ -414,7 +414,7 @@ export default function CheckoutPage() {
           </Card>
 
           {/* Section 3: Pago QR Manual */}
-          <Card className="border border-slate-200 dark:border-white/[0.08] bg-white/70 dark:bg-slate-950/40 backdrop-blur-md shadow-md">
+          <Card className="border border-slate-200 dark:border-white/8 bg-white/70 dark:bg-slate-950/40 backdrop-blur-md shadow-md">
             <CardContent className="space-y-4">
               <h2 className="font-heading font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-950 text-indigo-400 text-xs font-bold border border-indigo-500/20">3</span>
@@ -553,7 +553,7 @@ export default function CheckoutPage() {
 
         {/* Right Side: Order Summary Panel (5 Cols) */}
         <div className="lg:col-span-5">
-          <Card className="border border-slate-200 dark:border-white/[0.08] bg-white/70 dark:bg-slate-950/40 backdrop-blur-md p-6 sticky top-28 shadow-lg dark:shadow-black/30 animate-fadeIn">
+          <Card className="border border-slate-200 dark:border-white/8 bg-white/70 dark:bg-slate-950/40 backdrop-blur-md p-6 sticky top-28 shadow-lg dark:shadow-black/30 animate-fadeIn">
             <h2 className="font-heading font-bold text-lg text-slate-900 dark:text-white mb-4">
               Resumen de Compra
             </h2>
@@ -562,7 +562,7 @@ export default function CheckoutPage() {
             <div className="space-y-4 max-h-60 overflow-y-auto mb-6 pr-2">
               {cart.map((item) => (
                 <div key={item.id} className="flex gap-3 text-xs">
-                  <div className="relative h-12 w-12 shrink-0 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/[0.08] rounded overflow-hidden">
+                  <div className="relative h-12 w-12 shrink-0 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/8 rounded overflow-hidden">
                     <img
                       src={item.customDesignBase64 || item.productImage}
                       alt={item.productName}
@@ -589,7 +589,7 @@ export default function CheckoutPage() {
               ))}
             </div>
 
-            <hr className="border-slate-200 dark:border-white/[0.08] mb-4" />
+            <hr className="border-slate-200 dark:border-white/8 mb-4" />
 
             {/* Prices details */}
             <div className="space-y-2.5 text-xs">
@@ -608,7 +608,7 @@ export default function CheckoutPage() {
                 <span className="font-semibold text-slate-800 dark:text-slate-200">S/. {deliveryCharge.toFixed(2)}</span>
               </div>
               
-              <hr className="border-slate-200 dark:border-white/[0.08] my-3" />
+              <hr className="border-slate-200 dark:border-white/8 my-3" />
               
               <div className="flex justify-between text-sm font-extrabold text-slate-900 dark:text-white">
                 <span>Total a Transferir</span>

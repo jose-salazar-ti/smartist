@@ -129,7 +129,7 @@ export function StackedPhotos({ imageUrls, mode = "stack" }: StackedPhotosProps)
       <div className="relative w-full h-76 flex flex-col items-center justify-center select-none overflow-hidden py-6 bg-amber-50/5 dark:bg-slate-950/20 rounded-3xl border border-dashed border-slate-200 dark:border-white/10">
         
         {/* Rope Line */}
-        <div className="absolute top-10 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-800/40 dark:via-white/30 to-transparent z-0" />
+        <div className="absolute top-10 left-0 right-0 h-0.5 bg-linear-to-r from-transparent via-amber-800/40 dark:via-white/30 to-transparent z-0" />
 
         {/* Photos hanging container */}
         <div className="flex gap-4 items-start justify-center w-full px-6 overflow-x-auto pb-4 scrollbar-none z-10">

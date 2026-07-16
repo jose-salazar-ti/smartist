@@ -298,7 +298,7 @@ export default function OrderTrackingPage({
 
       {/* WhatsApp Confirmation Banner */}
       {order.status === "PENDING" && (
-        <div className="mb-6 p-4 bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-2xl shadow-[0_8px_30px_rgba(5,150,105,0.2)] border border-emerald-500/20 flex flex-col md:flex-row items-center justify-between gap-4 animate-fadeIn">
+        <div className="mb-6 p-4 bg-linear-to-r from-emerald-600 to-teal-700 text-white rounded-2xl shadow-[0_8px_30px_rgba(5,150,105,0.2)] border border-emerald-500/20 flex flex-col md:flex-row items-center justify-between gap-4 animate-fadeIn">
           <div className="flex items-center gap-3 text-center md:text-left">
             <div className="p-2 bg-white/10 rounded-full shrink-0">
               <MessageSquare className="h-5 w-5 animate-pulse" />
@@ -456,7 +456,7 @@ export default function OrderTrackingPage({
                                   <span className="text-[10px] text-slate-400 font-bold ml-1">Calificado</span>
                                 </div>
                                 {existingReview.comentario && (
-                                  <p className="text-xs text-slate-650 dark:text-zinc-400 italic bg-slate-50 dark:bg-white/[0.02] p-2.5 rounded-lg border border-slate-100 dark:border-white/5">
+                                  <p className="text-xs text-slate-650 dark:text-zinc-400 italic bg-slate-50 dark:bg-white/2 p-2.5 rounded-lg border border-slate-100 dark:border-white/5">
                                     "{existingReview.comentario}"
                                   </p>
                                 )}

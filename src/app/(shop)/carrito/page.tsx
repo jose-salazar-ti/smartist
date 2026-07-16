@@ -80,7 +80,7 @@ export default function CartPage() {
           <div className="lg:col-span-8 space-y-4">
             
             {/* Desktop Table View */}
-            <Card className="hidden md:block border border-slate-200 dark:border-white/[0.08] bg-white/50 dark:bg-slate-950/20 backdrop-blur-sm p-0">
+            <Card className="hidden md:block border border-slate-200 dark:border-white/8 bg-white/50 dark:bg-slate-950/20 backdrop-blur-sm p-0">
               <CardContent className="p-0">
                 <Table>
                   <TableHeader>
@@ -175,7 +175,7 @@ export default function CartPage() {
             {/* Mobile Cards View */}
             <div className="block md:hidden space-y-4">
               {cart.map((item) => (
-                <Card key={item.id} className="border border-slate-200 dark:border-white/[0.08] bg-white/50 dark:bg-slate-950/20 backdrop-blur-sm p-4">
+                <Card key={item.id} className="border border-slate-200 dark:border-white/8 bg-white/50 dark:bg-slate-950/20 backdrop-blur-sm p-4">
                   <div className="flex gap-4">
                     <div 
                       className="relative h-16 w-16 shrink-0 bg-slate-900 rounded-lg overflow-hidden border border-border/40 select-none"
@@ -252,7 +252,7 @@ export default function CartPage() {
 
           {/* Cart Summary Panel (4 Cols) */}
           <div className="lg:col-span-4">
-            <Card className="border border-slate-200 dark:border-white/[0.08] bg-white/70 dark:bg-slate-950/40 backdrop-blur-md p-6 shadow-2xl">
+            <Card className="border border-slate-200 dark:border-white/8 bg-white/70 dark:bg-slate-950/40 backdrop-blur-md p-6 shadow-2xl">
               <h2 className="font-heading font-bold text-lg text-slate-900 dark:text-white mb-4">
                 Resumen del Pedido
               </h2>
@@ -291,7 +291,7 @@ export default function CartPage() {
 
         </div>
       ) : (
-        <Card className="border border-slate-200 dark:border-white/[0.08] bg-white/70 dark:bg-slate-950/40 backdrop-blur-md p-16 text-center max-w-lg mx-auto rounded-2xl shadow-2xl">
+        <Card className="border border-slate-200 dark:border-white/8 bg-white/70 dark:bg-slate-950/40 backdrop-blur-md p-16 text-center max-w-lg mx-auto rounded-2xl shadow-2xl">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-indigo-500/15 text-indigo-400 mx-auto mb-6">
             <Trash2 className="h-6 w-6" />
           </div>

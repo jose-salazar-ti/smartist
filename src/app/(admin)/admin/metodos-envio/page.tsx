@@ -202,7 +202,7 @@ export default function AdminShippingMethodsPage() {
       <Card className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl overflow-hidden rounded-2xl">
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50 dark:bg-white/[0.02]">
+            <TableHeader className="bg-slate-50 dark:bg-white/2">
               <TableRow className="border-slate-200 dark:border-white/10">
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">Código ID</TableHead>
                 <TableHead className="font-bold text-slate-500 dark:text-slate-400">Nombre</TableHead>
@@ -255,7 +255,7 @@ export default function AdminShippingMethodsPage() {
                           variant="ghost" 
                           size="icon" 
                           onClick={() => handleOpenEdit(m)}
-                          className="hover:text-indigo-600 hover:bg-slate-50 dark:bg-white/[0.02] dark:hover:bg-zinc-800 h-8 w-8"
+                          className="hover:text-indigo-600 hover:bg-slate-50 dark:bg-white/2 dark:hover:bg-zinc-800 h-8 w-8"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -263,7 +263,7 @@ export default function AdminShippingMethodsPage() {
                           variant="ghost" 
                           size="icon" 
                           onClick={() => handleDelete(m.id)}
-                          className="hover:text-red-500 hover:bg-slate-50 dark:bg-white/[0.02] dark:hover:bg-zinc-800 h-8 w-8 text-slate-400"
+                          className="hover:text-red-500 hover:bg-slate-50 dark:bg-white/2 dark:hover:bg-zinc-800 h-8 w-8 text-slate-400"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -354,7 +354,7 @@ export default function AdminShippingMethodsPage() {
             </div>
 
             {/* Active Toggle Switch */}
-            <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-3 bg-slate-50 dark:bg-white/[0.02] transition-colors hover:bg-slate-100/50 dark:hover:bg-white/[0.04]">
+            <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-3 bg-slate-50 dark:bg-white/2 transition-colors hover:bg-slate-100/50 dark:hover:bg-white/4">
               <div className="flex flex-col gap-0.5">
                 <span className="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
                   <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />

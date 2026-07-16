@@ -125,7 +125,7 @@ export default function ContactoPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Info Box (5 Cols) */}
         <div className="lg:col-span-5 space-y-6">
-          <Card className="border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-slate-950/40 backdrop-blur-md p-6 md:p-8 shadow-xl shadow-slate-100/70 dark:shadow-none rounded-2xl">
+          <Card className="border border-slate-200 dark:border-white/8 bg-white dark:bg-slate-950/40 backdrop-blur-md p-6 md:p-8 shadow-xl shadow-slate-100/70 dark:shadow-none rounded-2xl">
             <h2 className="font-heading font-bold text-xl text-slate-900 dark:text-white mb-6">Información del Taller</h2>
             
             <div className="space-y-6">
@@ -178,24 +178,24 @@ export default function ContactoPage() {
               </div>
             </div>
 
-            <hr className="my-8 border-slate-100 dark:border-white/[0.08]" />
+            <hr className="my-8 border-slate-100 dark:border-white/8" />
 
             <div>
               <h4 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-4">Síguenos en Redes</h4>
               <div className="flex gap-3">
-                <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" className="h-10 w-10 rounded-xl border border-slate-200 dark:border-white/[0.08] hover:border-pink-500 dark:hover:border-pink-500 hover:text-pink-500 transition-colors flex items-center justify-center text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-transparent" aria-label="Instagram">
+                <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" className="h-10 w-10 rounded-xl border border-slate-200 dark:border-white/8 hover:border-pink-500 dark:hover:border-pink-500 hover:text-pink-500 transition-colors flex items-center justify-center text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-transparent" aria-label="Instagram">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                   </svg>
                 </a>
-                <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" className="h-10 w-10 rounded-xl border border-slate-200 dark:border-white/[0.08] hover:border-blue-500 dark:hover:border-blue-500 hover:text-blue-500 transition-colors flex items-center justify-center text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-transparent" aria-label="Facebook">
+                <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" className="h-10 w-10 rounded-xl border border-slate-200 dark:border-white/8 hover:border-blue-500 dark:hover:border-blue-500 hover:text-blue-500 transition-colors flex items-center justify-center text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-transparent" aria-label="Facebook">
                   <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
                     <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1V12h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z" />
                   </svg>
                 </a>
-                <a href={settings.tiktokUrl} target="_blank" rel="noopener noreferrer" className="h-10 w-10 rounded-xl border border-slate-200 dark:border-white/[0.08] hover:border-indigo-500 dark:hover:border-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors flex items-center justify-center text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-transparent" aria-label="TikTok">
+                <a href={settings.tiktokUrl} target="_blank" rel="noopener noreferrer" className="h-10 w-10 rounded-xl border border-slate-200 dark:border-white/8 hover:border-indigo-500 dark:hover:border-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors flex items-center justify-center text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-transparent" aria-label="TikTok">
                   <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
                     <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.89-.74-3.94-1.78-.22-.22-.41-.47-.58-.73v7.02c0 3.74-3.07 6.77-6.81 6.77-3.81.04-7.05-2.98-7.08-6.79C3.99 10.96 7.15 7.78 11 7.82V12c-1.92-.08-3.55 1.43-3.64 3.35-.11 2.19 1.63 3.99 3.82 4.02 2.14.03 3.93-1.63 3.99-3.77V.02z" />
                   </svg>
@@ -238,7 +238,7 @@ export default function ContactoPage() {
               </CardContent>
             </Card>
           ) : (
-            <Card className="border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-slate-950/40 backdrop-blur-md p-6 md:p-8 shadow-xl shadow-slate-100/70 dark:shadow-none rounded-2xl">
+            <Card className="border border-slate-200 dark:border-white/8 bg-white dark:bg-slate-950/40 backdrop-blur-md p-6 md:p-8 shadow-xl shadow-slate-100/70 dark:shadow-none rounded-2xl">
               <CardContent className="pt-4">
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

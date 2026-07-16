@@ -354,7 +354,7 @@ export default function AdminMessagesPage() {
                 placeholder="Buscar remitente, asunto..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 h-10 rounded-xl text-xs bg-slate-50 dark:bg-white/[0.02]"
+                className="pl-9 h-10 rounded-xl text-xs bg-slate-50 dark:bg-white/2"
               />
             </div>
 
@@ -466,7 +466,7 @@ export default function AdminMessagesPage() {
                 <div className="grow overflow-y-auto p-6 space-y-6">
                   
                   {/* Metadata and Contact Methods Card */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border border-slate-100 dark:border-white/5 rounded-xl p-4 bg-slate-50/50 dark:bg-white/[0.01]">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border border-slate-100 dark:border-white/5 rounded-xl p-4 bg-slate-50/50 dark:bg-white/1">
                     
                     {/* Mail Link */}
                     <div className="flex flex-col gap-1">
@@ -559,7 +559,7 @@ export default function AdminMessagesPage() {
                           Consulta / Mensaje (Cliente)
                         </span>
                       </div>
-                      <div className="p-4 rounded-2xl rounded-tl-none bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/5 text-slate-800 dark:text-slate-200 text-xs md:text-sm leading-relaxed whitespace-pre-wrap font-sans shadow-sm">
+                      <div className="p-4 rounded-2xl rounded-tl-none bg-slate-100 dark:bg-white/3 border border-slate-200 dark:border-white/5 text-slate-800 dark:text-slate-200 text-xs md:text-sm leading-relaxed whitespace-pre-wrap font-sans shadow-sm">
                         "{selectedMessage.mensaje}"
                       </div>
                     </div>

@@ -214,7 +214,7 @@ export default async function AdminDashboardPage() {
         <ShadcnCard className="border border-slate-200 dark:border-white/5 shadow-xl bg-white dark:bg-slate-900/40 dark:backdrop-blur-xl overflow-hidden rounded-2xl">
           <ShadcnCardContent className="p-0">
             <Table>
-              <TableHeader className="bg-slate-50 dark:bg-white/[0.02]">
+              <TableHeader className="bg-slate-50 dark:bg-white/2">
                 <TableRow className="border-slate-200 dark:border-white/10">
                   <TableHead className="font-bold text-slate-500 dark:text-slate-400">ID de Pedido</TableHead>
                   <TableHead className="font-bold text-slate-500 dark:text-slate-400">Cliente</TableHead>
@@ -245,7 +245,7 @@ export default async function AdminDashboardPage() {
                     }
 
                     return (
-                      <TableRow key={order.id} className="border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-white/[0.02]">
+                      <TableRow key={order.id} className="border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-white/2">
                         <TableCell className="font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
                           #{order.id.slice(0, 8).toUpperCase()}
                         </TableCell>
@@ -271,7 +271,7 @@ export default async function AdminDashboardPage() {
                         </TableCell>
                         <TableCell>
                           <Link href="/admin/pedidos">
-                            <Button variant="ghost" size="icon" className="hover:text-indigo-600 hover:bg-slate-50 dark:bg-white/[0.02] h-8 w-8">
+                            <Button variant="ghost" size="icon" className="hover:text-indigo-600 hover:bg-slate-50 dark:bg-white/2 h-8 w-8">
                               <Eye className="h-4 w-4" />
                             </Button>
                           </Link>

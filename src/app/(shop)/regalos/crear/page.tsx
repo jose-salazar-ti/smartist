@@ -311,7 +311,7 @@ export default function CrearDedicatoriaPage() {
               Tu dedicatoria digital se guardó exitosamente. Comparte el enlace con tu persona favorita o imprímelo en el taller.
             </p>
 
-            <div className="bg-slate-50 dark:bg-white/[0.02] border border-slate-150 dark:border-white/5 rounded-2xl p-4 mb-6 select-all font-mono text-xs text-slate-700 dark:text-slate-300 break-all relative">
+            <div className="bg-slate-50 dark:bg-white/2 border border-slate-150 dark:border-white/5 rounded-2xl p-4 mb-6 select-all font-mono text-xs text-slate-700 dark:text-slate-300 break-all relative">
               {`${window.location.origin}/regalo/${createdId}`}
             </div>
 
@@ -394,7 +394,7 @@ export default function CrearDedicatoriaPage() {
                         key={tmpl.id}
                         type="button"
                         onClick={() => applyTemplate(tmpl)}
-                        className="p-3 border border-slate-200 dark:border-white/10 hover:border-indigo-500 dark:hover:border-indigo-500 rounded-2xl bg-slate-50 dark:bg-white/[0.01] hover:bg-indigo-50/10 dark:hover:bg-indigo-500/5 text-center transition-all group cursor-pointer"
+                        className="p-3 border border-slate-200 dark:border-white/10 hover:border-indigo-500 dark:hover:border-indigo-500 rounded-2xl bg-slate-50 dark:bg-white/1 hover:bg-indigo-50/10 dark:hover:bg-indigo-500/5 text-center transition-all group cursor-pointer"
                       >
                         <div className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 truncate">
                           {tmpl.name}
@@ -697,7 +697,7 @@ export default function CrearDedicatoriaPage() {
                   type="button"
                   onClick={handleSave}
                   disabled={saving}
-                  className="w-full flex items-center justify-center gap-2 h-12 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-sm font-extrabold rounded-2xl shadow-xl shadow-indigo-600/20 hover:shadow-indigo-500/30 transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none cursor-pointer mt-4"
+                  className="w-full flex items-center justify-center gap-2 h-12 bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-sm font-extrabold rounded-2xl shadow-xl shadow-indigo-600/20 hover:shadow-indigo-500/30 transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none cursor-pointer mt-4"
                 >
                   {saving ? (
                     <>
@@ -811,7 +811,7 @@ export default function CrearDedicatoriaPage() {
                     </div>
 
                     {/* Conversion Banner Hook */}
-                    <div className="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-2xl p-4 text-center text-white shadow-xl shadow-indigo-600/10 w-full">
+                    <div className="bg-linear-to-br from-indigo-600 to-violet-600 rounded-2xl p-4 text-center text-white shadow-xl shadow-indigo-600/10 w-full">
                       <p className="text-[10px] font-extrabold tracking-wider uppercase mb-1">¿Te encantó tu detalle?</p>
                       <p className="text-[10px] opacity-90 leading-tight mb-2">
                         Tú también puedes diseñar un regalo 3D personalizado con dedicatoria interactiva gratis en Smartist.

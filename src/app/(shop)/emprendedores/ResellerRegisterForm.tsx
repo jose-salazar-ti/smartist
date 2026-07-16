@@ -99,7 +99,7 @@ export default function ResellerRegisterForm() {
   }
 
   return (
-    <Card className="border border-slate-200 dark:border-white/[0.08] bg-white/75 dark:bg-slate-950/40 backdrop-blur-md p-8 md:p-10 max-w-2xl mx-auto shadow-2xl">
+    <Card className="border border-slate-200 dark:border-white/8 bg-white/75 dark:bg-slate-950/40 backdrop-blur-md p-8 md:p-10 max-w-2xl mx-auto shadow-2xl">
       <CardContent className="pt-4">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

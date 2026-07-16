@@ -274,7 +274,7 @@ export default function UsuariosPage() {
               <Button
                 type="submit"
                 disabled={creating}
-                className="w-full h-11 font-heading font-bold text-sm bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all hover:-translate-y-0.5"
+                className="w-full h-11 font-heading font-bold text-sm bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all hover:-translate-y-0.5"
               >
                 {creating ? (
                   <><RefreshCw className="h-4 w-4 animate-spin mr-2" /> Creando...</>
@@ -332,10 +332,10 @@ export default function UsuariosPage() {
             ) : (
               <ul className="divide-y divide-slate-100 dark:divide-white/5">
                 {users.map(user => (
-                  <li key={user.id} className="flex items-center gap-4 px-5 py-4 hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors group">
+                  <li key={user.id} className="flex items-center gap-4 px-5 py-4 hover:bg-slate-50 dark:hover:bg-white/2 transition-colors group">
 
                     {/* Avatar */}
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-sm font-extrabold font-heading shrink-0 shadow-md shadow-indigo-500/20">
+                    <div className="w-10 h-10 rounded-full bg-linear-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-sm font-extrabold font-heading shrink-0 shadow-md shadow-indigo-500/20">
                       {getInitials(user)}
                     </div>
 

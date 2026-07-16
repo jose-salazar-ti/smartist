@@ -34,12 +34,12 @@ export default function HomePage({
       <AudienceSection />
 
       {/* DEDICATION BANNER */}
-      <section className="py-20 bg-gradient-to-br from-[var(--bg-dark-3)] via-[var(--bg-dark-2)] to-pink-50 dark:to-pink-950/20 text-slate-800 dark:text-slate-200 border-y border-[var(--border)] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--primary)]/5 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[var(--accent-rose)]/5 rounded-full blur-3xl pointer-events-none"></div>
+      <section className="py-20 bg-linear-to-br from-(--bg-dark-3) via-(--bg-dark-2) to-pink-50 dark:to-pink-950/20 text-slate-800 dark:text-slate-200 border-y border-(--border) relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-(--primary)/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-(--accent-rose)/5 rounded-full blur-3xl pointer-events-none"></div>
         
         <div className="container mx-auto px-4 max-w-5xl text-center relative z-10 space-y-6">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[var(--primary)]/10 text-[var(--primary)] border border-[var(--primary)]/10 backdrop-blur-md">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-(--primary)/10 text-(--primary) border border-(--primary)/10 backdrop-blur-md">
             🎁 Regala con Inteligencia Emocional
           </span>
           
@@ -54,7 +54,7 @@ export default function HomePage({
           <div className="pt-4">
             <a 
               href="/regalos/crear" 
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[var(--primary-dark)] to-[var(--accent-rose)] hover:from-[var(--primary)] hover:to-[var(--accent-rose)] text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-[var(--primary)]/10 hover:shadow-[var(--primary)]/20 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-linear-to-r from-(--primary-dark) to-(--accent-rose) hover:from-(--primary) hover:to-(--accent-rose) text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-(--primary)/10 hover:shadow-(--primary)/20 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
             >
               Diseñar Dedicatoria Gratis →
             </a>

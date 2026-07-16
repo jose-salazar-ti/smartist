@@ -184,7 +184,7 @@ export function SpotifyPlayerPremium({ spotifyUri, autoPlay = false }: SpotifyPl
   const image = songDetails?.image || "https://i.scdn.co/image/ab67616d0000b2735165c719e7cf840003b0c818";
 
   return (
-    <div className="w-full bg-gradient-to-r from-purple-700 via-fuchsia-600 to-pink-500 p-4 rounded-3xl text-white shadow-xl shadow-fuchsia-900/20 select-none">
+    <div className="w-full bg-linear-to-r from-purple-700 via-fuchsia-600 to-pink-500 p-4 rounded-3xl text-white shadow-xl shadow-fuchsia-900/20 select-none">
       
       {/* Upper section: Track info */}
       <div className="flex items-center gap-3">

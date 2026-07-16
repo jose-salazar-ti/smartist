@@ -352,7 +352,7 @@ export default function CategoriasPage() {
                           className="w-full h-9 px-3 text-xs bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white placeholder:text-slate-450 dark:placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-indigo-550 transition-all"
                           placeholder="http://imagen..."
                         />
-                        <label className="flex h-9 w-9 items-center justify-center border rounded bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-200 dark:border-white/10 cursor-pointer text-slate-700 dark:text-slate-200 shrink-0 rounded-lg transition-colors">
+                        <label className="flex h-9 w-9 items-center justify-center border bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-200 dark:border-white/10 cursor-pointer text-slate-700 dark:text-slate-200 shrink-0 rounded-lg transition-colors">
                           {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                           <input
                             type="file"
@@ -365,7 +365,7 @@ export default function CategoriasPage() {
                           <button
                             type="button"
                             onClick={() => setImagen("")}
-                            className="flex h-9 w-9 items-center justify-center border rounded bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 dark:hover:bg-rose-500/20 border-rose-200 dark:border-rose-500/20 text-rose-600 dark:text-rose-450 shrink-0 rounded-lg transition-colors"
+                            className="flex h-9 w-9 items-center justify-center border bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 dark:hover:bg-rose-500/20 border-rose-200 dark:border-rose-500/20 text-rose-600 dark:text-rose-450 shrink-0 rounded-lg transition-colors"
                             title="Quitar imagen"
                           >
                             <X className="h-4 w-4" />
@@ -383,7 +383,7 @@ export default function CategoriasPage() {
                   <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                     Vista Previa del Icono
                   </label>
-                  <div className="flex gap-3 items-center border border-slate-200 dark:border-white/10 rounded-xl p-3 bg-slate-50 dark:bg-white/[0.02]">
+                  <div className="flex gap-3 items-center border border-slate-200 dark:border-white/10 rounded-xl p-3 bg-slate-50 dark:bg-white/2">
                     <div className="relative h-12 w-12 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/20 shadow-inner">
                       {getCategoryIconByKey(imagen, { size: 24 })}
                     </div>
@@ -410,7 +410,7 @@ export default function CategoriasPage() {
                 <Button
                   type="submit"
                   disabled={saving || uploading}
-                  className="flex-2 grow h-11 font-heading font-bold text-sm bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all hover:-translate-y-0.5"
+                  className="flex-2 grow h-11 font-heading font-bold text-sm bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all hover:-translate-y-0.5"
                 >
                   {saving ? (
                     <><RefreshCw className="h-4 w-4 animate-spin mr-2" /> Guardando...</>
@@ -488,7 +488,7 @@ export default function CategoriasPage() {
               </div>
             ) : (
               <Table>
-                <TableHeader className="bg-slate-50 dark:bg-white/[0.02]">
+                <TableHeader className="bg-slate-50 dark:bg-white/2">
                   <TableRow className="border-slate-100 dark:border-white/5">
                     <TableHead className="w-16 font-bold text-slate-500 dark:text-slate-400">Imagen</TableHead>
                     <TableHead className="font-bold text-slate-500 dark:text-slate-400">Detalles</TableHead>
@@ -498,7 +498,7 @@ export default function CategoriasPage() {
                 </TableHeader>
                 <TableBody>
                   {filteredCategories.map(cat => (
-                    <TableRow key={cat.id} className="border-slate-100 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors group">
+                    <TableRow key={cat.id} className="border-slate-100 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/2 transition-colors group">
                       
                       {/* Category Thumbnail */}
                       <TableCell className="py-3">
