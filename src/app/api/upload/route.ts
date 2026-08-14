@@ -131,7 +131,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Return the public-accessible web URL
+    // Return signed URL for private vouchers, or public URL for catalog images
+    if (type === "vouchers") {
+      const { data: signedData } = await supabase.storage
+        .from("vouchers")
+        .createSignedUrl(filename, 60 * 60 * 24 * 365); // 1-year tokenized secure link
+
+      if (signedData?.signedUrl) {
+        return NextResponse.json({ url: signedData.signedUrl });
+      }
+    }
+
     const { data: publicUrlData } = supabase.storage
       .from(bucketName)
       .getPublicUrl(filename);

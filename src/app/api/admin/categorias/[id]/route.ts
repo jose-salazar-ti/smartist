@@ -93,7 +93,11 @@ export async function DELETE(
 
     // Integrity check: block deletion if products exist
     const productsCount = await prisma.producto.count({
-      where: { catId: parsedId }
+      where: {
+        categorias: {
+          some: { id: parsedId }
+        }
+      }
     });
 
     if (productsCount > 0) {

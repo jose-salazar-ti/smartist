@@ -263,7 +263,7 @@ export default function OrderTrackingPage({
             Seguimiento de Pedido
           </span>
           <h1 className="font-heading font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white mt-1">
-            Pedido #{order.id.slice(0, 8).toUpperCase()}
+            Pedido N° {order.id.slice(0, 8).toUpperCase()}
           </h1>
           <span className="text-xs text-slate-400">
             Realizado el {new Date(order.createdAt).toLocaleDateString("es-PE", {
@@ -312,7 +312,7 @@ export default function OrderTrackingPage({
           </div>
           <a
             href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-              `Hola Smartist, acabo de realizar el pedido #${order.id.slice(0, 8).toUpperCase()} en la web. Quedo atento a la confirmación de la producción y los detalles del envío. ¡Muchas gracias!`
+              `Hola Smartist, acabo de realizar el pedido N° ${order.id.slice(0, 8).toUpperCase()} en la web. Quedo atento a la confirmación de la producción y los detalles del envío. ¡Muchas gracias!`
             )}`}
             target="_blank"
             rel="noopener noreferrer"

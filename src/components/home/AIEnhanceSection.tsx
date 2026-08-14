@@ -157,7 +157,7 @@ export default function AIEnhanceSection() {
             {/* Title */}
             <h2 className="font-heading font-extrabold text-3xl md:text-4xl xl:text-5xl text-slate-900 dark:text-white tracking-tight mb-5 leading-tight">
               Tu foto borrosa,{" "}
-              <span className="bg-linear-to-r from-rose-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">
+              <span className="gradient-text font-extrabold">
                 mejorada con IA
               </span>{" "}
               antes de imprimir
@@ -190,7 +190,7 @@ export default function AIEnhanceSection() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <a
                 href="/productos"
-                className="inline-flex items-center gap-2.5 px-8 py-3.5 bg-linear-to-r from-rose-500 via-purple-600 to-indigo-600 hover:from-rose-400 hover:via-purple-500 hover:to-indigo-500 text-white font-extrabold text-sm rounded-2xl shadow-xl shadow-purple-500/20 hover:shadow-purple-500/30 hover:scale-[1.03] active:scale-[0.97] transition-all duration-200"
+                className="btn btn-primary inline-flex items-center gap-2.5 text-sm rounded-2xl"
               >
                 Diseñar mi Regalo <ArrowRight className="h-4 w-4" />
               </a>

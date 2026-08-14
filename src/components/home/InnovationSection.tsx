@@ -113,7 +113,7 @@ export default function InnovationSection() {
           </div>
           <h2 className="font-heading font-extrabold text-3xl md:text-5xl text-slate-900 dark:text-white tracking-tight mb-4">
             Diseña tu taza{" "}
-            <span className="bg-linear-to-r from-indigo-500 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent">
+            <span className="text-indigo-600 dark:text-indigo-400 font-extrabold">
               en vivo, en 3D
             </span>
           </h2>
@@ -249,7 +249,7 @@ export default function InnovationSection() {
             </div>
             <a
               href={customImage ? `/regalos/crear?imageUrl=${encodeURIComponent(customImage)}` : "/productos"}
-              className="shrink-0 inline-flex items-center gap-2 px-7 py-3 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold text-sm rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.03] active:scale-[0.97] transition-all duration-200"
+              className="btn btn-primary shrink-0 inline-flex items-center gap-2 text-sm rounded-xl"
             >
               {customImage ? "¡Comprar con mi foto!" : "Diseñar mi Regalo"} <ArrowRight className="h-4 w-4" />
             </a>

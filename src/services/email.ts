@@ -59,7 +59,7 @@ export async function sendOrderConfirmationEmail(to: string, details: EmailOrder
               <tr>
                 <td style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); padding: 32px 24px; text-align: center;">
                   <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">¡Gracias por tu pedido!</h1>
-                  <p style="color: #c084fc; margin: 8px 0 0 0; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Orden #${shortId}</p>
+                  <p style="color: #c084fc; margin: 8px 0 0 0; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Orden N° ${shortId}</p>
                 </td>
               </tr>
               <!-- Body Content -->
@@ -135,7 +135,7 @@ export async function sendOrderConfirmationEmail(to: string, details: EmailOrder
       const { data, error } = await resend.emails.send({
         from: fromEmail,
         to: [recipient],
-        subject: `Confirmación de Pedido #${shortId} - Smartist`,
+        subject: `Confirmación de Pedido N° ${shortId} - Smartist`,
         html: emailHtml,
       });
 
@@ -150,7 +150,7 @@ export async function sendOrderConfirmationEmail(to: string, details: EmailOrder
   } else {
     console.log("----- MOCK EMAIL CONFIRMATION -----");
     console.log(`To: ${to}`);
-    console.log(`Subject: Confirmación de Pedido #${shortId}`);
+    console.log(`Subject: Confirmación de Pedido N° ${shortId}`);
     console.log(`Tracking Link: ${trackingUrl}`);
     console.log("-----------------------------------");
   }
@@ -552,7 +552,7 @@ export async function sendOrderStatusUpdateEmail(
               <tr>
                 <td style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); padding: 32px 24px; text-align: center;">
                   <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Estado de tu Pedido</h1>
-                  <p style="color: #c084fc; margin: 8px 0 0 0; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Orden #${shortId}</p>
+                  <p style="color: #c084fc; margin: 8px 0 0 0; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Orden N° ${shortId}</p>
                 </td>
               </tr>
               <!-- Body Content -->
@@ -627,7 +627,7 @@ export async function sendOrderStatusUpdateEmail(
       const { data, error } = await resend.emails.send({
         from: fromEmail,
         to: [recipient],
-        subject: `Actualización de Pedido #${shortId} - Smartist`,
+        subject: `Actualización de Pedido N° ${shortId} - Smartist`,
         html: emailHtml,
       });
 
@@ -642,7 +642,7 @@ export async function sendOrderStatusUpdateEmail(
   } else {
     console.log("----- MOCK EMAIL STATUS UPDATE -----");
     console.log(`To: ${to}`);
-    console.log(`Subject: Actualización de Pedido #${shortId}`);
+    console.log(`Subject: Actualización de Pedido N° ${shortId}`);
     console.log(`Status: ${statusName} (${statusTitle})`);
     console.log(`Tracking Link: ${trackingUrl}`);
     console.log("-------------------------------------");

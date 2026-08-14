@@ -17,9 +17,9 @@ import {
   Inbox,
   ChevronDown,
   ChevronRight,
-  Gift
+  Gift,
+  Sparkles
 } from "lucide-react";
-import ThemeToggle from "@/components/ThemeToggle";
 import SignOutButton from "@/components/SignOutButton";
 import { SmartistLogo } from "@/components/ui/icons";
 
@@ -51,8 +51,8 @@ export default function AdminSidebar({ currentUser, isAdmin, isSeller }: AdminSi
 
   const isLinkActive = (href: string) => pathname === href;
 
-  const activeLinkClass = "flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-bold bg-indigo-50 text-indigo-600 dark:bg-indigo-950/30 dark:text-indigo-400 border-l-4 border-indigo-500 shadow-sm";
-  const inactiveLinkClass = "flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-white/5 dark:hover:text-white transition-all";
+  const activeLinkClass = "flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-sm font-bold bg-linear-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-500/25 scale-[1.01] transition-all";
+  const inactiveLinkClass = "flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-violet-50/80 hover:text-violet-700 dark:hover:bg-white/10 dark:hover:text-white transition-all";
 
   return (
     <aside className="w-64 h-screen sticky top-0 bg-white/90 dark:bg-slate-950/50 backdrop-blur-2xl text-slate-700 dark:text-slate-300 shrink-0 hidden md:flex flex-col border-r border-slate-200 dark:border-white/10 shadow-2xl z-20">
@@ -131,6 +131,10 @@ export default function AdminSidebar({ currentUser, isAdmin, isSeller }: AdminSi
                   <Tags className="h-4.5 w-4.5 text-slate-400" />
                   <span>Categorías</span>
                 </Link>
+                <Link href="/admin/herramientas/webp" className={isLinkActive("/admin/herramientas/webp") ? activeLinkClass : inactiveLinkClass}>
+                  <Sparkles className="h-4.5 w-4.5 text-purple-500" />
+                  <span>Convertidor WebP</span>
+                </Link>
               </div>
             )}
           </div>
@@ -182,11 +186,6 @@ export default function AdminSidebar({ currentUser, isAdmin, isSeller }: AdminSi
           <ShoppingBag className="h-4.5 w-4.5 text-slate-400" />
           <span>Ver Tienda Pública</span>
         </Link>
-
-        <div className="px-3 flex items-center justify-between">
-          <span className="text-[11px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Tema</span>
-          <ThemeToggle />
-        </div>
 
         <div className="px-0">
           <SignOutButton />

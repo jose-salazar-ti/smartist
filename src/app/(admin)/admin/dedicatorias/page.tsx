@@ -170,7 +170,7 @@ export default function AdminDedicatoriasPage() {
                   <TableRow key={ded.id} className="border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-white/2">
                     <TableCell className="text-xs text-slate-500 dark:text-slate-400">
                       <div className="font-mono font-semibold text-slate-700 dark:text-slate-350">
-                        #{ded.id.slice(0, 8).toUpperCase()}
+                        N° {ded.id.slice(0, 8).toUpperCase()}
                       </div>
                       <div className="text-[10px] opacity-75 mt-0.5">
                         {new Date(ded.createdAt).toLocaleDateString("es-PE")}
@@ -185,7 +185,7 @@ export default function AdminDedicatoriasPage() {
                       {ded.pedido ? (
                         <div className="space-y-0.5">
                           <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold">
-                            #{ded.pedido.id.slice(0, 8).toUpperCase()}
+                            N° {ded.pedido.id.slice(0, 8).toUpperCase()}
                           </span>
                           <span className="block text-[10px] text-slate-450 dark:text-slate-500">
                             Total: S/. {Number(ded.pedido.total).toFixed(2)}

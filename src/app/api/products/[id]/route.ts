@@ -42,12 +42,19 @@ export async function PATCH(
 
     const body = await req.json();
     const { 
-      name, description, category, isCustomizable, isActive, destacado, variants,
+      name, description, category, isCustomizable, isActive, destacado, masVendido, variants,
       galleryImages, blankMockupUrl, maskImageUrl, glbModelUrl, 
       printDimensions, features, benefits 
     } = body;
 
-    if (!name || !description || !category) {
+    const rawCategories = body.categories || category;
+    const categoriesArray = Array.isArray(rawCategories)
+      ? rawCategories
+      : typeof rawCategories === "string"
+      ? [rawCategories]
+      : [];
+
+    if (!name || !description || categoriesArray.length === 0) {
       return NextResponse.json(
         { error: "Faltan campos obligatorios (nombre, descripción, categoría)." },
         { status: 400 }
@@ -56,40 +63,54 @@ export async function PATCH(
 
     // Run updates in a safe transaction
     const updatedProduct = await prisma.$transaction(async (tx: any) => {
-      // Find or create Categoria
-      let cat = await tx.categoria.findFirst({
-        where: { nombre: category }
-      });
-      if (!cat) {
-        cat = await tx.categoria.create({
-          data: {
-            nombre: category,
-            slug: slugify(category)
-          }
+      // Find or create Categoria for each category name
+      const cats = [];
+      for (const catName of categoriesArray) {
+        if (!catName) continue;
+        let cat = await tx.categoria.findFirst({
+          where: { nombre: catName }
         });
+        if (!cat) {
+          cat = await tx.categoria.create({
+            data: {
+              nombre: catName,
+              slug: slugify(catName)
+            }
+          });
+        }
+        cats.push(cat);
       }
 
       const basePrice = Number(body.precio) || (variants && variants.length > 0 ? Number(variants[0].price) : 10.00);
 
       // Admin can update the product owner
-      let ownerUpdate = undefined;
+      let usuarioUpdate: any = undefined;
       if (auth.isAdmin && body.hasOwnProperty("usuarioId")) {
-        ownerUpdate = body.usuarioId === "admin" || !body.usuarioId ? null : body.usuarioId;
+        const ownerId = body.usuarioId === "admin" || !body.usuarioId ? null : body.usuarioId;
+        usuarioUpdate = ownerId ? { connect: { id: ownerId } } : { disconnect: true };
       }
+
+      const primaryImage = (galleryImages && Array.isArray(galleryImages) && galleryImages.length > 0)
+        ? galleryImages[0]
+        : (blankMockupUrl || undefined);
 
       // 1. Update basic product details
       const p = await tx.producto.update({
         where: { id },
         data: {
-          catId: cat.id,
+          categorias: {
+            set: cats.map((c: any) => ({ id: c.id }))
+          },
           nombre: name,
           descrip: description,
           costo: body.costo !== undefined ? Number(body.costo) : undefined,
-          usuarioId: ownerUpdate,
+          usuario: usuarioUpdate,
           precio: basePrice,
           esCustom: isCustomizable !== undefined ? !!isCustomizable : undefined,
           activo: isActive !== undefined ? !!isActive : undefined,
           destacado: destacado !== undefined ? !!destacado : undefined,
+          masVendido: masVendido !== undefined ? !!masVendido : undefined,
+          imagen: primaryImage,
           galleryImages: galleryImages !== undefined ? galleryImages : undefined,
           blankMockupUrl: blankMockupUrl !== undefined ? blankMockupUrl : undefined,
           maskImageUrl: maskImageUrl !== undefined ? maskImageUrl : undefined,
@@ -189,7 +210,7 @@ export async function PATCH(
   }
 }
 
-// DELETE: Deactivate product (setting activo: false) as requested by user
+// DELETE: Delete product permanently or deactivate if linked to active orders
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -213,21 +234,67 @@ export async function DELETE(
       }
     }
 
+    const url = new URL(req.url);
+    const permanent = url.searchParams.get("permanent") === "true";
+
+    if (permanent) {
+      // Check if product is linked to any PedidoItem to preserve order history
+      const orderCount = await prisma.pedidoItem.count({
+        where: { prodId: id }
+      });
+
+      if (orderCount > 0) {
+        // Soft-deactivate if order history exists to preserve order integrity
+        await prisma.producto.update({
+          where: { id },
+          data: { activo: false }
+        });
+        revalidatePath("/productos");
+        revalidatePath(`/productos/${id}`);
+        revalidatePath("/");
+
+        return NextResponse.json({
+          success: true,
+          deactivated: true,
+          message: `El producto tiene ${orderCount} pedido(s) registrado(s), por lo que se desactivó del catálogo para proteger el historial de ventas.`
+        });
+      }
+
+      // Hard-delete in a transaction (cleans up variants, wishlist, reviews, etc.)
+      await prisma.$transaction(async (tx: any) => {
+        await tx.varianteProducto.deleteMany({ where: { prodId: id } });
+        await tx.resena.deleteMany({ where: { prodId: id } });
+        await tx.listaDeseos.deleteMany({ where: { prodId: id } });
+        await tx.precioVolumen.deleteMany({ where: { prodId: id } });
+        await tx.producto.delete({ where: { id } });
+      });
+
+      revalidatePath("/productos");
+      revalidatePath(`/productos/${id}`);
+      revalidatePath("/");
+
+      return NextResponse.json({
+        success: true,
+        deleted: true,
+        message: "Producto eliminado permanentemente de la base de datos."
+      });
+    }
+
+    // Default toggle or soft-delete (deactivate)
     const deactivatedProduct = await prisma.producto.update({
       where: { id },
       data: { activo: false }
     });
 
-    // Revalidate Next.js cache so deactivation is immediately visible to clients
     revalidatePath("/productos");
     revalidatePath(`/productos/${id}`);
     revalidatePath("/");
 
     return NextResponse.json({ success: true, product: deactivatedProduct });
   } catch (error: any) {
-    console.error(`Product deactivation error for ${id}:`, error);
+    console.error(`Product deletion error for ${id}:`, error);
     return NextResponse.json(
-      { error: "Error al desactivar el producto de la base de datos." },
+      { error: error.message || "Error al eliminar el producto de la base de datos." },
       { status: 500 }
     );
   }

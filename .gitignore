@@ -45,6 +45,7 @@ next-env.d.ts
 # local development tools
 /.bin/
 /.cursor/
+/.agents/
 
 # uploads
 /public/uploads/

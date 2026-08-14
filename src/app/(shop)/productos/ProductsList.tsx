@@ -12,6 +12,8 @@ interface Product {
   imageUrl: string;
   category: string;
   isCustomizable: boolean;
+  destacado?: boolean;
+  masVendido?: boolean;
 }
 
 interface ProductsListProps {
@@ -41,14 +43,20 @@ export default function ProductsList({ products }: ProductsListProps) {
         >
           <div className="product-image">
             <img 
-              src={product.imageUrl || "/img/placeholder.png"} 
+              src={product.imageUrl || "/img/fotos_productos/Tazas de 11 Oz.png"} 
               alt={product.name} 
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                if (!target.src.includes("Tazas%20de%2011%20Oz.png")) {
+                  target.src = "/img/fotos_productos/Tazas de 11 Oz.png";
+                }
+              }}
             />
-            {product.isCustomizable ? (
-              <span className="product-badge customizable">🎨 <span className="hidden sm:inline">Personalizable</span></span>
-            ) : (
-              <span className="product-badge popular">🔥 <span className="hidden sm:inline">Más Vendido</span></span>
-            )}
+            {product.masVendido ? (
+              <span className="product-badge popular">Más Vendido</span>
+            ) : product.isCustomizable ? (
+              <span className="product-badge customizable">Personalizable</span>
+            ) : null}
             
             <span 
               className={`product-wishlist ${isFav(product.id) ? "active" : ""}`} 

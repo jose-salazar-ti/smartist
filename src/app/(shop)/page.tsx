@@ -54,7 +54,7 @@ export default function HomePage({
           <div className="pt-4">
             <a 
               href="/regalos/crear" 
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-linear-to-r from-(--primary-dark) to-(--accent-rose) hover:from-(--primary) hover:to-(--accent-rose) text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-(--primary)/10 hover:shadow-(--primary)/20 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+              className="btn btn-primary cursor-pointer text-sm"
             >
               Diseñar Dedicatoria Gratis →
             </a>

@@ -70,8 +70,8 @@ model Categoria {
 
 model Producto {
   id              String             @id @default(uuid())
-  catId           Int                @map("cat_id")
-  categoria       Categoria          @relation(fields: [catId], references: [id])
+  categorias      Categoria[]
+
   provId          Int?               @map("prov_id")
   proveedor       Proveedor?         @relation(fields: [provId], references: [id], onDelete: SetNull)
   nombre          String
@@ -83,6 +83,7 @@ model Producto {
   esCustom        Boolean            @default(true) @map("es_custom")
   activo          Boolean            @default(true)
   destacado       Boolean            @default(false)
+  masVendido      Boolean            @default(false) @map("mas_vendido")
   galleryImages   String[]           @default([]) @map("gallery_images")
   blankMockupUrl  String?            @map("blank_mockup_url")
   maskImageUrl    String?            @map("mask_image_url")

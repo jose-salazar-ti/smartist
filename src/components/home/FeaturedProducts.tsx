@@ -12,6 +12,8 @@ interface Product {
   imageUrl: string;
   category: string;
   isCustomizable: boolean;
+  destacado?: boolean;
+  masVendido?: boolean;
 }
 
 interface FeaturedProductsProps {
@@ -58,11 +60,11 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
             >
               <div className="product-image">
                 <img src={product.imageUrl || "/img/placeholder.png"} alt={product.name} />
-                {product.isCustomizable ? (
-                  <span className="product-badge customizable">🎨 <span className="hidden sm:inline">Personalizable</span></span>
-                ) : (
-                  <span className="product-badge popular">🔥 <span className="hidden sm:inline">Más Vendido</span></span>
-                )}
+                {product.masVendido ? (
+                  <span className="product-badge popular">Más Vendido</span>
+                ) : product.isCustomizable ? (
+                  <span className="product-badge customizable">Personalizable</span>
+                ) : null}
                 <span 
                   className={`product-wishlist ${isFav(product.id) ? "active" : ""}`} 
                   aria-label="Favorito" 

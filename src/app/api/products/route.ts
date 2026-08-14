@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
   try {
     const products = await prisma.producto.findMany({
       include: {
-        categoria: true,
+        categorias: true,
         variantes: {
           orderBy: { precioExt: "asc" }
         }
@@ -50,10 +50,12 @@ export async function GET(req: NextRequest) {
         id: p.id,
         name: p.nombre,
         description: p.descrip,
-        category: p.categoria.nombre,
+        category: p.categorias[0]?.nombre || "",
+        categories: p.categorias.map((c: any) => c.nombre),
         isCustomizable: p.esCustom,
         isActive: p.activo,
         destacado: p.destacado,
+        masVendido: p.masVendido,
         basePrice,
         imageUrl: firstImage,
         galleryImages: p.galleryImages || [],
@@ -86,7 +88,7 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
     const { 
-      name, description, category, isCustomizable, isActive, destacado, variants,
+      name, description, category, isCustomizable, isActive, destacado, masVendido, variants,
       galleryImages, blankMockupUrl, maskImageUrl, glbModelUrl, 
       printDimensions, features, benefits 
     } = body;
@@ -109,17 +111,29 @@ export async function POST(req: NextRequest) {
       counter++;
     }
 
-    // Find or create Categoria by name
-    let cat = await prisma.categoria.findFirst({
-      where: { nombre: category }
-    });
-    if (!cat) {
-      cat = await prisma.categoria.create({
-        data: {
-          nombre: category,
-          slug: slugify(category)
-        }
+    // Handle single category or array of categories
+    const categoriesArray = Array.isArray(category)
+      ? category
+      : typeof category === "string"
+      ? [category]
+      : [];
+
+    // Find or create Categoria by name for each category
+    const cats = [];
+    for (const catName of categoriesArray) {
+      if (!catName) continue;
+      let cat = await prisma.categoria.findFirst({
+        where: { nombre: catName }
       });
+      if (!cat) {
+        cat = await prisma.categoria.create({
+          data: {
+            nombre: catName,
+            slug: slugify(catName)
+          }
+        });
+      }
+      cats.push(cat);
     }
 
     // 2. Validate and define variants
@@ -182,7 +196,9 @@ export async function POST(req: NextRequest) {
     const createdProduct = await prisma.producto.create({
       data: {
         id,
-        catId: cat.id,
+        categorias: {
+          connect: cats.map((c: any) => ({ id: c.id }))
+        },
         usuarioId: productOwnerId,
         nombre: name,
         descrip: description,
@@ -191,6 +207,7 @@ export async function POST(req: NextRequest) {
         esCustom: !!isCustomizable,
         activo: isActive !== undefined ? !!isActive : true,
         destacado: !!destacado,
+        masVendido: !!masVendido,
         galleryImages: galleryImages || [],
         blankMockupUrl: blankMockupUrl || null,
         maskImageUrl: maskImageUrl || null,
@@ -215,7 +232,7 @@ export async function POST(req: NextRequest) {
         }
       },
       include: {
-        categoria: true,
+        categorias: true,
         variantes: true
       }
     });
@@ -225,10 +242,12 @@ export async function POST(req: NextRequest) {
       id: createdProduct.id,
       name: createdProduct.nombre,
       description: createdProduct.descrip,
-      category: createdProduct.categoria.nombre,
+      category: createdProduct.categorias[0]?.nombre || "",
+      categories: createdProduct.categorias.map((c: any) => c.nombre),
       isCustomizable: createdProduct.esCustom,
       isActive: createdProduct.activo,
       destacado: createdProduct.destacado,
+      masVendido: createdProduct.masVendido,
       basePrice,
       imageUrl: createdProduct.imagen || (createdProduct.galleryImages?.[0] || (finalVariants[0].imageUrl ?? "")),
       galleryImages: createdProduct.galleryImages,

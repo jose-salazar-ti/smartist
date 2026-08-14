@@ -36,7 +36,9 @@ import {
   Palette,
   Eye,
   Star,
-  Image as ImageIcon
+  Flame,
+  Image as ImageIcon,
+  Check
 } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
@@ -60,9 +62,11 @@ interface DbProduct {
   name: string;
   description: string;
   category: string;
+  categories?: string[];
   isCustomizable: boolean;
   isActive: boolean;
   destacado?: boolean;
+  masVendido?: boolean;
   variants: DbVariant[];
   usuarioId?: string | null;
 }
@@ -83,10 +87,11 @@ export default function AdminProductsPage() {
   // Form State
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("Tazas");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(["Tazas"]);
   const [isCustomizable, setIsCustomizable] = useState(true);
   const [isActive, setIsActive] = useState(true);
   const [destacado, setDestacado] = useState(false);
+  const [masVendido, setMasVendido] = useState(false);
   const [variants, setVariants] = useState<DbVariant[]>([]);
   const [editingVariantIndex, setEditingVariantIndex] = useState<number | null>(null);
 
@@ -94,6 +99,37 @@ export default function AdminProductsPage() {
   const [usuarioId, setUsuarioId] = useState<string>("admin");
   const [sellers, setSellers] = useState<{ id: string; email: string; rolId: string; user_metadata?: { name?: string } }[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
+
+  // Deletion states
+  const [productToDelete, setProductToDelete] = useState<DbProduct | null>(null);
+  const [isDeletingProduct, setIsDeletingProduct] = useState(false);
+
+  const handleConfirmDelete = async () => {
+    if (!productToDelete) return;
+    setIsDeletingProduct(true);
+    try {
+      const res = await fetch(`/api/products/${productToDelete.id}?permanent=true`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Error al eliminar el producto.");
+      }
+
+      fetchProducts();
+      setProductToDelete(null);
+      if (data.deactivated) {
+        toast.info(data.message || "El producto ha sido desactivado.");
+      } else {
+        toast.success(data.message || "Producto eliminado con éxito.");
+      }
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message || "Error al intentar eliminar el producto.");
+    } finally {
+      setIsDeletingProduct(false);
+    }
+  };
 
   // Load user data & sellers list
   useEffect(() => {
@@ -129,31 +165,17 @@ export default function AdminProductsPage() {
   const [features, setFeatures] = useState<{label: string, value: string}[]>([]);
   const [benefits, setBenefits] = useState<string[]>([]);
   const [uploadingFiles, setUploadingFiles] = useState<{ [key: string]: boolean }>({});
+  const pendingFilesRef = useRef<{ [previewUrl: string]: { file: File; type: "models" | "images" | "designs" } }>({});
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, setter: (url: string) => void, type: "models" | "images" | "designs", fieldId: string) => {
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, setter: (url: string) => void, type: "models" | "images" | "designs", fieldId: string) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setUploadingFiles(prev => ({ ...prev, [fieldId]: true }));
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("type", type);
-
-    try {
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      if (data.url) {
-        setter(data.url);
-        toast.success("Archivo subido con éxito.");
-      } else {
-        toast.error("Error al subir archivo.");
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("Error de conexión al subir.");
-    } finally {
-      setUploadingFiles(prev => ({ ...prev, [fieldId]: false }));
-    }
+    // Generar vista previa instantánea en memoria (0 latencia, 0 consumo de disco)
+    const previewUrl = URL.createObjectURL(file);
+    pendingFilesRef.current[previewUrl] = { file, type };
+    setter(previewUrl);
+    toast.info("Vista previa generada. Se subirá al servidor al hacer clic en 'Guardar Producto'.");
   };
 
   // Fetch products
@@ -197,10 +219,11 @@ export default function AdminProductsPage() {
     setEditingProduct(null);
     setName("");
     setDescription("");
-    setCategory(categories.length > 0 ? categories[0].nombre : "Tazas");
+    setSelectedCategories(categories.length > 0 ? [categories[0].nombre] : ["Tazas"]);
     setIsCustomizable(true);
     setIsActive(true);
     setDestacado(false);
+    setMasVendido(false);
     setGlbModelUrl("");
     setBlankMockupUrl("");
     setMaskImageUrl("");
@@ -209,8 +232,9 @@ export default function AdminProductsPage() {
     setPrintHeight("");
     setFeatures([]);
     setBenefits([]);
+    const randSku = Math.floor(1000 + Math.random() * 9000);
     setVariants([
-      { title: "Estándar 11oz", sku: "SKU-PROD-STD", price: 15.0, stock: 100, imageUrl: null, glbModelUrl: null, blankMockupUrl: null, maskImageUrl: null, printDimensions: null, mockupConfig: null }
+      { title: "Estándar", sku: `SKU-PROD-${randSku}`, price: 15.0, stock: 50, imageUrl: null, glbModelUrl: null, blankMockupUrl: null, maskImageUrl: null, printDimensions: null, mockupConfig: null }
     ]);
     setUsuarioId("admin");
     setActiveTab("info");
@@ -222,10 +246,14 @@ export default function AdminProductsPage() {
     setEditingProduct(product);
     setName(product.name);
     setDescription(product.description);
-    setCategory(product.category);
+    const prodCats = product.categories && product.categories.length > 0 
+      ? product.categories 
+      : (product.category ? [product.category] : ["Tazas"]);
+    setSelectedCategories(prodCats);
     setIsCustomizable(product.isCustomizable);
     setIsActive(product.isActive);
     setDestacado(product.destacado || false);
+    setMasVendido(product.masVendido || false);
     setUsuarioId(product.usuarioId || "admin");
     setGlbModelUrl((product as any).glbModelUrl || "");
     setBlankMockupUrl((product as any).blankMockupUrl || "");
@@ -281,10 +309,39 @@ export default function AdminProductsPage() {
     }
   };
 
+  // Helper to upload pending blob URLs to server when clicking Guardar
+  const uploadPendingBlobUrls = async (urlsToUpload: (string | null | undefined)[]): Promise<{ [blobUrl: string]: string }> => {
+    const blobUrls = Array.from(new Set(urlsToUpload.filter((u): u is string => !!u && u.startsWith("blob:"))));
+    const urlMap: { [blobUrl: string]: string } = {};
+
+    if (blobUrls.length === 0) return urlMap;
+
+    for (const blobUrl of blobUrls) {
+      const item = pendingFilesRef.current[blobUrl];
+      if (item) {
+        const formData = new FormData();
+        formData.append("file", item.file);
+        formData.append("type", item.type);
+
+        try {
+          const res = await fetch("/api/upload", { method: "POST", body: formData });
+          const data = await res.json();
+          if (data.url) {
+            urlMap[blobUrl] = data.url;
+          }
+        } catch (err) {
+          console.error("Error al subir archivo pendiente:", err);
+        }
+      }
+    }
+
+    return urlMap;
+  };
+
   // Save product (Create or Edit)
   const handleSave = async () => {
-    if (!name.trim() || !description.trim() || !category) {
-      toast.error("Por favor completa todos los datos básicos obligatorios.");
+    if (!name.trim() || !description.trim() || selectedCategories.length === 0) {
+      toast.error("Por favor completa los datos obligatorios y selecciona al menos una categoría.");
       return;
     }
 
@@ -304,25 +361,50 @@ export default function AdminProductsPage() {
     setSaving(true);
     const toastId = toast.loading("Guardando producto...");
 
-    const payload = {
-      name,
-      description,
-      category,
-      isCustomizable,
-      isActive,
-      destacado,
-      glbModelUrl: glbModelUrl || null,
-      blankMockupUrl: blankMockupUrl || null,
-      maskImageUrl: maskImageUrl || null,
-      galleryImages,
-      printDimensions: printWidth && printHeight ? { width: parseFloat(printWidth), height: parseFloat(printHeight) } : null,
-      features,
-      benefits,
-      variants,
-      usuarioId: isAdmin ? usuarioId : undefined
-    };
-
     try {
+      const allUrls = [
+        glbModelUrl,
+        blankMockupUrl,
+        maskImageUrl,
+        ...galleryImages,
+        ...variants.map(v => v.imageUrl),
+        ...variants.map(v => v.blankMockupUrl),
+        ...variants.map(v => v.maskImageUrl),
+        ...variants.map(v => v.glbModelUrl),
+      ];
+
+      const blobMap = await uploadPendingBlobUrls(allUrls);
+      const resolveUrl = (u: string | null | undefined) => (u && blobMap[u]) ? blobMap[u] : u;
+
+      const finalGalleryImages = galleryImages.map(img => resolveUrl(img)).filter((img): img is string => !!img);
+      const finalVariants = variants.map(v => ({
+        ...v,
+        imageUrl: resolveUrl(v.imageUrl) || null,
+        blankMockupUrl: resolveUrl(v.blankMockupUrl) || null,
+        maskImageUrl: resolveUrl(v.maskImageUrl) || null,
+        glbModelUrl: resolveUrl(v.glbModelUrl) || null,
+      }));
+
+      const payload = {
+        name,
+        description,
+        category: selectedCategories[0] || "",
+        categories: selectedCategories,
+        isCustomizable,
+        isActive,
+        destacado,
+        masVendido,
+        glbModelUrl: resolveUrl(glbModelUrl) || null,
+        blankMockupUrl: resolveUrl(blankMockupUrl) || null,
+        maskImageUrl: resolveUrl(maskImageUrl) || null,
+        galleryImages: finalGalleryImages,
+        printDimensions: printWidth && printHeight ? { width: parseFloat(printWidth), height: parseFloat(printHeight) } : null,
+        features,
+        benefits,
+        variants: finalVariants,
+        usuarioId: isAdmin ? usuarioId : undefined
+      };
+
       const url = editingProduct ? `/api/products/${editingProduct.id}` : "/api/products";
       const method = editingProduct ? "PATCH" : "POST";
 
@@ -335,7 +417,11 @@ export default function AdminProductsPage() {
       const data = await res.json();
 
       if (res.ok) {
-        toast.success(editingProduct ? "Producto actualizado con éxito." : "Producto creado con éxito.", { id: toastId });
+        if (data.merged) {
+          toast.warning(data.message || "El SKU de la variante ya pertenecía a otro producto. Se sumó el stock al producto existente.", { id: toastId, duration: 6000 });
+        } else {
+          toast.success(editingProduct ? "Producto actualizado con éxito." : "Producto creado con éxito.", { id: toastId });
+        }
         setIsOpen(false);
         fetchProducts();
       } else {
@@ -388,31 +474,14 @@ export default function AdminProductsPage() {
   };
 
   // Handle Variant Image Upload
-  const handleVariantImageUpload = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVariantImageUpload = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const toastId = toast.loading("Subiendo imagen de variante...");
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("type", "designs");
-
-    try {
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData
-      });
-      const data = await res.json();
-      if (res.ok && data.url) {
-        handleUpdateVariant(index, "imageUrl", data.url);
-        toast.success("Imagen de variante subida con éxito.", { id: toastId });
-      } else {
-        toast.error("Error al subir archivo.", { id: toastId });
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("Error de red.", { id: toastId });
-    }
+    const previewUrl = URL.createObjectURL(file);
+    pendingFilesRef.current[previewUrl] = { file, type: "images" };
+    handleUpdateVariant(index, "imageUrl", previewUrl);
+    toast.info("Vista previa de foto de variante lista.");
   };
 
   // Filters
@@ -422,7 +491,10 @@ export default function AdminProductsPage() {
       product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.variants.some(v => v.sku.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    const matchesCategory = categoryFilter === "Todos" || product.category === categoryFilter;
+    const matchesCategory = categoryFilter === "Todos" || 
+      (product.categories && product.categories.length > 0
+        ? product.categories.includes(categoryFilter)
+        : product.category === categoryFilter);
 
     return matchesSearch && matchesCategory;
   });
@@ -545,7 +617,13 @@ export default function AdminProductsPage() {
                         <div className="text-xs text-slate-400 font-normal truncate max-w-xs">{p.description}</div>
                       </TableCell>
                       <TableCell className="text-xs font-semibold text-slate-600 dark:text-slate-400">
-                        {p.category}
+                        <div className="flex flex-wrap gap-1 max-w-[220px]">
+                          {(p.categories && p.categories.length > 0 ? p.categories : [p.category]).map((catName, idx) => (
+                            <span key={idx} className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/5">
+                              {catName}
+                            </span>
+                          ))}
+                        </div>
                       </TableCell>
                       <TableCell className="text-xs">
                         {p.isCustomizable ? (
@@ -597,10 +675,19 @@ export default function AdminProductsPage() {
                             variant="ghost" 
                             size="icon" 
                             onClick={() => handleToggleActive(p)}
-                            className={`h-8 w-8 hover:bg-slate-50 dark:bg-white/[0.02] dark:hover:bg-zinc-800 ${p.isActive ? "text-red-500 hover:text-red-650" : "text-emerald-500 hover:text-emerald-650"}`}
-                            title={p.isActive ? "Desactivar" : "Activar"}
+                            className={`h-8 w-8 hover:bg-slate-50 dark:bg-white/[0.02] dark:hover:bg-zinc-800 ${p.isActive ? "text-amber-500 hover:text-amber-600" : "text-emerald-500 hover:text-emerald-600"}`}
+                            title={p.isActive ? "Desactivar del catálogo" : "Activar en catálogo"}
                           >
                             {p.isActive ? <ToggleRight className="h-5 w-5" /> : <ToggleLeft className="h-5 w-5" />}
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            onClick={() => setProductToDelete(p)}
+                            className="h-8 w-8 text-rose-500 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors"
+                            title="Eliminar producto"
+                          >
+                            <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
                       </TableCell>
@@ -620,7 +707,7 @@ export default function AdminProductsPage() {
       </Card>
       {/* Save/Edit Product Modal */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-2xl md:max-w-3xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 shadow-2xl max-h-[90vh] p-0 rounded-2xl overflow-hidden flex flex-col">
+        <DialogContent className="sm:max-w-3xl md:max-w-4xl lg:max-w-5xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 shadow-2xl max-h-[92vh] p-0 rounded-3xl overflow-hidden flex flex-col">
           {/* Fixed Header */}
           <div className="p-6 pb-2 shrink-0 border-b border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-slate-950/30">
             <DialogHeader>
@@ -694,9 +781,37 @@ export default function AdminProductsPage() {
                   <Label htmlFor="prod-name" className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Nombre del Producto *</Label>
                   <Input 
                     id="prod-name"
-                    placeholder="Ej. Taza Cónica de Cerámica"
+                    placeholder="Ej. Termo Cilindro 600ml"
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => {
+                      const newName = e.target.value;
+                      setName(newName);
+                      // If creating a new product and first variant SKU is still using default auto-generated prefix
+                      if (!editingProduct && variants.length > 0) {
+                        const cleanSlug = newName
+                          .toLowerCase()
+                          .normalize("NFD")
+                          .replace(/[\u0300-\u036f]/g, "")
+                          .replace(/\s+/g, "-")
+                          .replace(/[^\w\-]+/g, "")
+                          .slice(0, 10)
+                          .toUpperCase();
+                        if (cleanSlug) {
+                          setVariants(prev => {
+                            if (prev.length === 0) return prev;
+                            const first = prev[0];
+                            if (!first.sku || first.sku.startsWith("SKU-")) {
+                              const randParts = first.sku.split("-");
+                              const rand = randParts.length > 2 ? randParts[randParts.length - 1] : Math.floor(1000 + Math.random() * 9000);
+                              const next = [...prev];
+                              next[0] = { ...first, sku: `SKU-${cleanSlug}-${rand}` };
+                              return next;
+                            }
+                            return prev;
+                          });
+                        }
+                      }
+                    }}
                     className="rounded-xl"
                   />
                 </div>
@@ -713,29 +828,47 @@ export default function AdminProductsPage() {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="prod-cat" className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Categoría *</Label>
-                    <select
-                      id="prod-cat"
-                      value={category}
-                      onChange={(e) => setCategory(e.target.value)}
-                      className="flex h-10 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 px-3 py-2 text-sm text-slate-900 dark:text-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer animate-none"
-                    >
-                      {categories.map((c) => (
-                        <option key={c.id} value={c.nombre} className="bg-white dark:bg-slate-900">
-                          {c.nombre}
-                        </option>
-                      ))}
-                      {categories.length === 0 && (
-                        <>
-                          <option value="Tazas" className="bg-white dark:bg-slate-900">Tazas</option>
-                          <option value="Ropa" className="bg-white dark:bg-slate-900">Ropa</option>
-                          <option value="Oficina" className="bg-white dark:bg-slate-900">Oficina</option>
-                          <option value="Otros" className="bg-white dark:bg-slate-900">Otros</option>
-                        </>
-                      )}
-                    </select>
+                <div className="space-y-4">
+                  {/* Multi-Category Selector */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Categorías * <span className="text-indigo-600 dark:text-indigo-400 font-bold ml-1">({selectedCategories.length} seleccionada{selectedCategories.length === 1 ? '' : 's'})</span>
+                      </Label>
+                    </div>
+                    <div className="flex flex-wrap gap-2 p-3 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/5 min-h-[52px]">
+                      {(categories.length > 0 ? categories.map(c => c.nombre) : ["Tazas", "Tomatodo", "Ropa", "Oficina", "Otros"]).map((catName) => {
+                        const isSelected = selectedCategories.includes(catName);
+                        return (
+                          <button
+                            key={catName}
+                            type="button"
+                            onClick={() => {
+                              if (isSelected) {
+                                if (selectedCategories.length > 1) {
+                                  setSelectedCategories(selectedCategories.filter(c => c !== catName));
+                                } else {
+                                  toast.error("El producto debe pertenecer a al menos 1 categoría.");
+                                }
+                              } else {
+                                setSelectedCategories([...selectedCategories, catName]);
+                              }
+                            }}
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer select-none ${
+                              isSelected
+                                ? "bg-indigo-600 text-white shadow-sm shadow-indigo-500/30 scale-[1.02]"
+                                : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:border-indigo-400 dark:hover:border-indigo-500"
+                            }`}
+                          >
+                            {isSelected && <Check className="h-3.5 w-3.5 stroke-[3]" />}
+                            {catName}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <p className="text-[11px] text-slate-400 dark:text-slate-500">
+                      Haz clic sobre una o más categorías para asignarlas a este producto.
+                    </p>
                   </div>
 
                   {/* Custom Toggle Switch for Personalizable */}
@@ -803,11 +936,11 @@ export default function AdminProductsPage() {
                   </div>
                 </div>
 
-                {/* Custom Toggle Switch for Featured Product */}
+                {/* Custom Toggle Switch for Featured Product (Home Page) */}
                 <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-slate-50 dark:bg-white/2 transition-colors hover:bg-slate-100/50 dark:hover:bg-white/4">
                   <div className="flex flex-col gap-0.5">
                     <span className="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
-                      <Star className="h-3.5 w-3.5 text-amber-500" />
+                      <Star className="h-3.5 w-3.5 text-amber-500 fill-amber-500" />
                       Producto Destacado
                     </span>
                     <span className="text-[10px] text-slate-450 dark:text-slate-400">Mostrar en la sección destacada de la página de inicio</span>
@@ -823,6 +956,27 @@ export default function AdminProductsPage() {
                     <label htmlFor="is-destacado-toggle" className="w-9 h-5 bg-slate-250 dark:bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-305 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500 cursor-pointer"></label>
                   </div>
                 </div>
+
+                {/* Custom Toggle Switch for Best Seller Badge */}
+                <div className="flex items-center justify-between border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-slate-50 dark:bg-white/2 transition-colors hover:bg-slate-100/50 dark:hover:bg-white/4">
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                      <Flame className="h-3.5 w-3.5 text-rose-500 fill-rose-500" />
+                      Producto Más Vendido
+                    </span>
+                    <span className="text-[10px] text-slate-450 dark:text-slate-400">Mostrar la insignia Más Vendido en las tarjetas del catálogo</span>
+                  </div>
+                  <div className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox"
+                      checked={masVendido}
+                      onChange={(e) => setMasVendido(e.target.checked)}
+                      className="sr-only peer"
+                      id="is-mas-vendido-toggle"
+                    />
+                    <label htmlFor="is-mas-vendido-toggle" className="w-9 h-5 bg-slate-250 dark:bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-305 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-rose-500 cursor-pointer"></label>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -836,10 +990,10 @@ export default function AdminProductsPage() {
                       placeholder="URL o sube un archivo .glb"
                       value={glbModelUrl || ""}
                       onChange={(e) => setGlbModelUrl(e.target.value)}
-                      className="rounded-xl flex-1 text-xs"
+                      className="rounded-xl flex-1 text-xs border-slate-200/80 bg-slate-50/60 focus:bg-white"
                     />
-                    <label className="flex h-10 items-center justify-center border bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-300 dark:border-white/10 cursor-pointer px-4 text-xs font-semibold text-slate-700 dark:text-slate-200 gap-2 select-none shrink-0 rounded-xl">
-                      {uploadingFiles["glb"] ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                    <label className="flex h-10 items-center justify-center border border-slate-200/80 bg-slate-50 hover:bg-purple-50 hover:border-purple-300 cursor-pointer px-4 text-xs font-bold text-slate-700 gap-2 select-none shrink-0 rounded-xl transition-all">
+                      {uploadingFiles["glb"] ? <Loader2 className="h-4 w-4 animate-spin text-purple-600" /> : <Upload className="h-4 w-4" />}
                       Subir
                       <input 
                         type="file" 
@@ -855,19 +1009,19 @@ export default function AdminProductsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Mockup 2D */}
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Mockup 2D (Blanco)</Label>
+                    <Label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Mockup 2D (Blanco)</Label>
                     <div className="flex gap-2">
-                      <div className="relative h-10 w-10 border rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 dark:border-white/10 shrink-0 flex items-center justify-center shadow-inner animate-none">
+                      <div className="relative h-10 w-10 border border-slate-200/80 rounded-xl overflow-hidden bg-slate-50 shrink-0 flex items-center justify-center shadow-xs">
                         {blankMockupUrl ? <img src={blankMockupUrl} className="object-cover w-10 h-10" /> : <ImageIcon className="h-4 w-4 text-slate-400" />}
                       </div>
                       <Input 
                         placeholder="URL de la imagen"
                         value={blankMockupUrl || ""}
                         onChange={(e) => setBlankMockupUrl(e.target.value)}
-                        className="h-10 text-xs flex-1 rounded-xl"
+                        className="h-10 text-xs flex-1 rounded-xl border-slate-200/80 bg-slate-50/60 focus:bg-white"
                       />
-                      <label className="flex h-10 w-12 items-center justify-center border bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-355 dark:border-white/10 cursor-pointer text-slate-700 dark:text-slate-200 shrink-0 rounded-xl">
-                        {uploadingFiles["blank"] ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                      <label className="flex h-10 w-12 items-center justify-center border border-slate-200/80 bg-slate-50 hover:bg-purple-50 hover:border-purple-300 cursor-pointer text-slate-600 shrink-0 rounded-xl transition-all">
+                        {uploadingFiles["blank"] ? <Loader2 className="h-4 w-4 animate-spin text-purple-600" /> : <Upload className="h-4 w-4" />}
                         <input 
                           type="file" 
                           accept="image/png, image/jpeg" 
@@ -880,19 +1034,19 @@ export default function AdminProductsPage() {
 
                   {/* Máscara 2D */}
                   <div className="space-y-2">
-                    <Label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Máscara 2D (Recorte PNG)</Label>
+                    <Label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Máscara 2D (Recorte PNG)</Label>
                     <div className="flex gap-2">
-                      <div className="relative h-10 w-10 border rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-900 dark:border-white/10 shrink-0 flex items-center justify-center shadow-inner animate-none">
+                      <div className="relative h-10 w-10 border border-slate-200/80 rounded-xl overflow-hidden bg-slate-50 shrink-0 flex items-center justify-center shadow-xs">
                         {maskImageUrl ? <img src={maskImageUrl} className="object-cover w-10 h-10" /> : <ImageIcon className="h-4 w-4 text-slate-400" />}
                       </div>
                       <Input 
                         placeholder="URL de la máscara PNG"
                         value={maskImageUrl || ""}
                         onChange={(e) => setMaskImageUrl(e.target.value)}
-                        className="h-10 text-xs flex-1 rounded-xl"
+                        className="h-10 text-xs flex-1 rounded-xl border-slate-200/80 bg-slate-50/60 focus:bg-white"
                       />
-                      <label className="flex h-10 w-12 items-center justify-center border bg-slate-50 dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border-slate-350 dark:border-white/10 cursor-pointer text-slate-700 dark:text-slate-200 shrink-0 rounded-xl">
-                        {uploadingFiles["mask"] ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                      <label className="flex h-10 w-12 items-center justify-center border border-slate-200/80 bg-slate-50 hover:bg-purple-50 hover:border-purple-300 cursor-pointer text-slate-600 shrink-0 rounded-xl transition-all">
+                        {uploadingFiles["mask"] ? <Loader2 className="h-4 w-4 animate-spin text-purple-600" /> : <Upload className="h-4 w-4" />}
                         <input 
                           type="file" 
                           accept="image/png" 
@@ -905,61 +1059,51 @@ export default function AdminProductsPage() {
                 </div>
 
                 {/* Galería de imágenes interactiva */}
-                <div className="space-y-3 pt-3 border-t border-slate-100 dark:border-white/5">
+                <div className="space-y-3 pt-3 border-t border-slate-100">
                   <div className="flex justify-between items-center">
                     <div className="flex flex-col">
-                      <Label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Galería de Imágenes</Label>
+                      <Label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Galería de Imágenes</Label>
                       <span className="text-[10px] text-slate-400">Fotos adicionales del catálogo público</span>
                     </div>
                     <div className="relative">
-                      <input type="file" accept="image/png, image/jpeg" multiple onChange={async (e) => {
+                      <input type="file" accept="image/png, image/jpeg" multiple onChange={(e) => {
                         const files = Array.from(e.target.files || []);
                         if (files.length === 0) return;
-                        setUploadingFiles(prev => ({ ...prev, gallery: true }));
-                        try {
-                          const urls = [];
-                          for (const file of files) {
-                            const formData = new FormData();
-                            formData.append("file", file);
-                            formData.append("type", "products");
-                            const res = await fetch("/api/upload", { method: "POST", body: formData });
-                            const data = await res.json();
-                            if (data.url) urls.push(data.url);
-                          }
-                          if (urls.length > 0) {
-                            setGalleryImages([...galleryImages, ...urls]);
-                            toast.success(`${urls.length} imágenes añadidas.`);
-                          }
-                        } catch (err) {
-                          toast.error("Error al subir galería.");
-                        } finally {
-                          setUploadingFiles(prev => ({ ...prev, gallery: false }));
-                        }
+                        const newUrls = files.map(file => {
+                          const previewUrl = URL.createObjectURL(file);
+                          pendingFilesRef.current[previewUrl] = { file, type: "images" };
+                          return previewUrl;
+                        });
+                        setGalleryImages(prev => [...prev, ...newUrls]);
+                        toast.info(`${files.length} foto(s) añadidas a la vista previa.`);
                       }} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-                      <Button type="button" variant="outline" size="sm" className="h-7 text-[10px] py-0 font-semibold text-indigo-650 border-indigo-200 hover:bg-indigo-50 dark:text-indigo-400 dark:border-indigo-850 dark:hover:bg-indigo-900/40">
-                        {uploadingFiles["gallery"] ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <Plus className="h-3 w-3 mr-1" />}
+                      <Button type="button" variant="outline" size="sm" className="h-8 text-xs py-0 font-bold text-purple-700 border-purple-200 bg-purple-50/50 hover:bg-purple-100/60 rounded-xl">
+                        {uploadingFiles["gallery"] ? <Loader2 className="h-3.5 w-3.5 animate-spin mr-1" /> : <Plus className="h-3.5 w-3.5 mr-1" />}
                         Agregar Fotos
                       </Button>
                     </div>
                   </div>
 
                   {/* Grid Visual de Miniaturas */}
-                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 bg-slate-50 dark:bg-white/1 p-3 rounded-2xl border border-slate-150 dark:border-white/5">
-                    {galleryImages.map((imgUrl, i) => (
-                      <div key={i} className="relative aspect-square group border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm">
-                        <img src={imgUrl} alt={`Galería ${i}`} className="object-cover w-full h-full" />
-                        <button 
-                          type="button" 
-                          onClick={() => setGalleryImages(galleryImages.filter((_, idx) => idx !== i))}
-                          className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white hover:text-red-400 transition-opacity rounded-xl cursor-pointer"
-                          title="Eliminar de galería"
-                        >
-                          <Trash2 className="h-4.5 w-4.5" />
-                        </button>
+                  <div className="bg-slate-50/50 p-3 rounded-2xl border border-slate-200/60">
+                    {galleryImages.length > 0 ? (
+                      <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                        {galleryImages.map((imgUrl, i) => (
+                          <div key={i} className="relative aspect-square group border border-slate-200/80 rounded-xl overflow-hidden bg-white shadow-xs">
+                            <img src={imgUrl} alt={`Galería ${i}`} className="object-cover w-full h-full" />
+                            <button 
+                              type="button" 
+                              onClick={() => setGalleryImages(galleryImages.filter((_, idx) => idx !== i))}
+                              className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white hover:text-red-400 transition-opacity rounded-xl cursor-pointer"
+                              title="Eliminar de galería"
+                            >
+                              <Trash2 className="h-4.5 w-4.5" />
+                            </button>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                    {galleryImages.length === 0 && (
-                      <div className="col-span-full border border-dashed border-slate-200 dark:border-white/10 rounded-xl p-6 text-center text-xs text-slate-400">
+                    ) : (
+                      <div className="border-2 border-dashed border-purple-200/80 bg-white/80 rounded-2xl p-6 text-center text-xs text-slate-500 font-medium">
                         No hay imágenes en la galería. Agrega fotos usando el botón de arriba.
                       </div>
                     )}
@@ -1058,86 +1202,89 @@ export default function AdminProductsPage() {
                   </Button>
                 </div>
 
-                <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
+                <div className="space-y-3.5 max-h-[420px] overflow-y-auto pr-1">
                   {variants.map((v, index) => (
-                    <div key={index} className="border border-slate-200 dark:border-white/5 rounded-2xl p-4 bg-slate-50 dark:bg-white/2/40 dark:bg-white/2 grid grid-cols-1 md:grid-cols-12 gap-3 items-center relative hover:border-slate-350 dark:hover:border-white/10 transition-colors">
+                    <div key={index} className="border border-slate-200/80 rounded-2xl p-4 bg-slate-50/60 dark:bg-white/2 flex flex-col gap-3 relative hover:border-purple-300 transition-all shadow-xs">
                       
-                      {/* Delete Variant Button */}
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveVariant(index)}
-                        className="absolute top-2 right-2 text-slate-350 hover:text-red-500 md:relative md:top-auto md:right-auto md:col-span-1 md:flex md:justify-center md:items-center cursor-pointer transition-colors"
-                        title="Eliminar variante"
-                      >
-                        <Trash2 className="h-4.5 w-4.5" />
-                      </button>
-
-                      {/* Variant Title */}
-                      <div className="md:col-span-2 space-y-1">
-                        <Label className="text-[10px] uppercase font-bold text-slate-450 dark:text-slate-400 block">Título *</Label>
-                        <Input 
-                          placeholder="Ej. Blanca 11oz"
-                          value={v.title}
-                          onChange={(e) => handleUpdateVariant(index, "title", e.target.value)}
-                          className="h-9 text-xs rounded-xl"
-                        />
+                      {/* Top Header Row */}
+                      <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/5 pb-2">
+                        <span className="text-xs font-extrabold text-purple-700 dark:text-purple-400 uppercase tracking-wider flex items-center gap-1.5">
+                          <Layers className="h-3.5 w-3.5" /> Variante #{index + 1}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveVariant(index)}
+                          className="text-slate-400 hover:text-red-500 text-xs font-bold flex items-center gap-1 px-2.5 py-1 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors cursor-pointer"
+                          title="Eliminar variante"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" /> Eliminar
+                        </button>
                       </div>
 
-                      {/* SKU */}
-                      <div className="md:col-span-2 space-y-1">
-                        <Label className="text-[10px] uppercase font-bold text-slate-455 dark:text-slate-400 block">SKU *</Label>
-                        <Input 
-                          placeholder="MUG-WH-11"
-                          value={v.sku}
-                          onChange={(e) => handleUpdateVariant(index, "sku", e.target.value)}
-                          className="h-9 text-xs font-mono rounded-xl"
-                        />
+                      {/* Inputs Grid with Full Widths */}
+                      <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+                        {/* Title */}
+                        <div className="sm:col-span-4 space-y-1">
+                          <Label className="text-[11px] uppercase font-extrabold text-slate-700 dark:text-slate-300 block">Título *</Label>
+                          <Input 
+                            placeholder="Ej. Blanca 11oz"
+                            value={v.title}
+                            onChange={(e) => handleUpdateVariant(index, "title", e.target.value)}
+                            className="h-10 text-xs font-bold text-slate-900 bg-white border-slate-300 rounded-xl"
+                          />
+                        </div>
+
+                        {/* SKU */}
+                        <div className="sm:col-span-4 space-y-1">
+                          <Label className="text-[11px] uppercase font-extrabold text-slate-700 dark:text-slate-300 block">SKU *</Label>
+                          <Input 
+                            placeholder="MUG-WH-11"
+                            value={v.sku}
+                            onChange={(e) => handleUpdateVariant(index, "sku", e.target.value)}
+                            className="h-10 text-xs font-mono font-bold text-slate-900 bg-white border-slate-300 rounded-xl"
+                          />
+                        </div>
+
+                        {/* Price */}
+                        <div className="sm:col-span-2 space-y-1">
+                          <Label className="text-[11px] uppercase font-extrabold text-slate-700 dark:text-slate-300 block">Precio (S/.) *</Label>
+                          <Input 
+                            type="number"
+                            step="0.01"
+                            placeholder="15.00"
+                            value={v.price || ""}
+                            onChange={(e) => handleUpdateVariant(index, "price", parseFloat(e.target.value) || 0)}
+                            className="h-10 text-xs font-extrabold text-slate-900 bg-white border-slate-300 rounded-xl px-2.5"
+                          />
+                        </div>
+
+                        {/* Stock */}
+                        <div className="sm:col-span-2 space-y-1">
+                          <Label className="text-[11px] uppercase font-extrabold text-slate-700 dark:text-slate-300 block">Stock *</Label>
+                          <Input 
+                            type="number"
+                            placeholder="100"
+                            value={v.stock !== undefined ? v.stock : ""}
+                            onChange={(e) => handleUpdateVariant(index, "stock", parseInt(e.target.value) || 0)}
+                            className="h-10 text-xs font-bold text-slate-900 bg-white border-slate-300 rounded-xl px-2.5"
+                          />
+                        </div>
                       </div>
 
-                      {/* Price */}
-                      <div className="md:col-span-2 space-y-1">
-                        <Label className="text-[10px] uppercase font-bold text-slate-450 dark:text-slate-400 block">Precio (S/.) *</Label>
-                        <Input 
-                          type="number"
-                          step="0.01"
-                          placeholder="15.00"
-                          value={v.price || ""}
-                          onChange={(e) => handleUpdateVariant(index, "price", parseFloat(e.target.value) || 0)}
-                          className="h-9 text-xs font-semibold rounded-xl"
-                        />
-                      </div>
-
-                      {/* Stock */}
-                      <div className="md:col-span-1 space-y-1">
-                        <Label className="text-[10px] uppercase font-bold text-slate-450 dark:text-slate-400 block">Stock *</Label>
-                        <Input 
-                          type="number"
-                          placeholder="100"
-                          value={v.stock !== undefined ? v.stock : ""}
-                          onChange={(e) => handleUpdateVariant(index, "stock", parseInt(e.target.value) || 0)}
-                          className="h-9 text-xs rounded-xl"
-                        />
-                      </div>
-
-                      {/* Image URL & Upload button */}
-                      <div className="md:col-span-2 space-y-1">
-                        <Label className="text-[10px] uppercase font-bold text-slate-455 dark:text-slate-400 block">Imagen</Label>
-                        <div className="flex items-center gap-1.5">
-                          <div className="relative h-9 w-9 border rounded-xl overflow-hidden bg-white dark:bg-zinc-900 shrink-0 dark:border-white/10 flex items-center justify-center">
+                      {/* Bottom Row: Image Upload & 3D/2D Config */}
+                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-slate-200/60 dark:border-white/5">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11px] font-bold text-slate-500 uppercase">Imagen de Variante:</span>
+                          <div className="relative h-9 w-9 border border-slate-200 rounded-xl overflow-hidden bg-white shrink-0 flex items-center justify-center">
                             {v.imageUrl ? (
-                              <img 
-                                src={v.imageUrl} 
-                                alt={v.title || "Variante"} 
-                                className="object-cover h-9 w-9"
-                              />
+                              <img src={v.imageUrl} alt={v.title || "Variante"} className="object-cover h-9 w-9" />
                             ) : (
                               <Package className="h-4 w-4 text-slate-400" />
                             )}
                           </div>
-                        
-                          {/* Hidden File Input */}
-                          <label className="flex h-9 w-full items-center justify-center border rounded-xl bg-white dark:bg-white/5 hover:bg-slate-50 dark:bg-white/2 dark:hover:bg-white/10 dark:border-white/10 cursor-pointer text-[10px] font-semibold text-slate-500 dark:text-slate-400 gap-1 select-none">
-                            <Upload className="h-3.5 w-3.5" />
+                          <label className="flex h-8 px-3 items-center justify-center border border-slate-300 rounded-xl bg-white hover:bg-purple-50 hover:border-purple-300 cursor-pointer text-xs font-bold text-slate-700 gap-1.5 select-none transition-all">
+                            <Upload className="h-3.5 w-3.5 text-purple-600" />
+                            Subir Foto
                             <input 
                               type="file" 
                               accept="image/*"
@@ -1146,23 +1293,19 @@ export default function AdminProductsPage() {
                             />
                           </label>
                         </div>
-                      </div>
 
-                      {/* Personalización settings button */}
-                      <div className="md:col-span-2 space-y-1">
-                        <Label className="text-[10px] uppercase font-bold text-slate-450 dark:text-slate-400 block text-center">Config. 3D/2D</Label>
                         <Button
                           type="button"
                           variant="outline"
                           onClick={() => setEditingVariantIndex(index)}
-                          className={`h-9 w-full flex items-center justify-center gap-1.5 text-xs font-semibold rounded-xl border cursor-pointer ${
+                          className={`h-8 px-4 flex items-center justify-center gap-1.5 text-xs font-bold rounded-xl border cursor-pointer ${
                             (v.glbModelUrl || v.blankMockupUrl || v.maskImageUrl || v.printDimensions)
-                              ? "text-indigo-650 bg-indigo-50 border-indigo-200 hover:bg-indigo-100 dark:text-indigo-400 dark:bg-indigo-950/40 dark:border-indigo-850 dark:hover:bg-indigo-900/40"
-                              : "text-slate-500 bg-white hover:bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 dark:text-slate-355 dark:hover:bg-white/10"
+                              ? "text-purple-700 bg-purple-50 border-purple-200 hover:bg-purple-100"
+                              : "text-slate-600 bg-white hover:bg-slate-50 border-slate-300"
                           }`}
                         >
                           <Settings2 className="h-3.5 w-3.5" />
-                          {(v.glbModelUrl || v.blankMockupUrl || v.maskImageUrl || v.printDimensions) ? "Personalizado" : "Heredado"}
+                          {(v.glbModelUrl || v.blankMockupUrl || v.maskImageUrl || v.printDimensions) ? "Configuración Personalizada" : "Configuración Heredada"}
                         </Button>
                       </div>
 
@@ -1174,12 +1317,12 @@ export default function AdminProductsPage() {
           </div>
 
           {/* Fixed Footer Actions */}
-          <div className="border-t border-slate-100 dark:border-white/5 p-4 bg-slate-50/50 dark:bg-slate-900/40 flex justify-end gap-2 shrink-0 rounded-b-2xl">
+          <div className="border-t border-slate-100 p-4 bg-slate-50/60 flex justify-end gap-3 shrink-0 rounded-b-2xl">
             <Button 
               type="button" 
-              variant="outline" 
+              variant="ghost" 
               onClick={() => setIsOpen(false)}
-              className="text-xs h-9 font-semibold rounded-xl bg-white hover:bg-slate-50 dark:bg-white/5 dark:border-white/10 dark:text-slate-300 dark:hover:bg-white/10 border border-slate-200"
+              className="text-xs h-9 px-4 font-bold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border-none cursor-pointer"
             >
               Cancelar
             </Button>
@@ -1187,7 +1330,7 @@ export default function AdminProductsPage() {
               type="button"
               disabled={saving}
               onClick={handleSave}
-              className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold gap-1.5 h-9 rounded-xl shadow-sm cursor-pointer"
+              className="bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-bold gap-1.5 h-9 px-5 rounded-xl shadow-md shadow-purple-600/20 border-none transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
             >
               {saving ? (
                 <>
@@ -1330,6 +1473,53 @@ export default function AdminProductsPage() {
               className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold h-9 px-4 rounded-xl shadow-sm"
             >
               Aceptar
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal de Confirmación para Eliminar Producto */}
+      <Dialog open={!!productToDelete} onOpenChange={(open) => !open && setProductToDelete(null)}>
+        <DialogContent className="max-w-md bg-white dark:bg-zinc-900 border-slate-200 dark:border-white/10 rounded-2xl p-6">
+          <DialogHeader>
+            <div className="mx-auto w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-950/50 flex items-center justify-center text-rose-600 dark:text-rose-400 mb-2">
+              <AlertTriangle className="h-6 w-6" />
+            </div>
+            <DialogTitle className="text-center text-lg font-heading font-extrabold text-slate-900 dark:text-white">
+              ¿Eliminar producto permanentemente?
+            </DialogTitle>
+            <DialogDescription className="text-center text-xs text-slate-500 dark:text-slate-400 leading-relaxed pt-1">
+              Estás a punto de eliminar <span className="font-bold text-slate-700 dark:text-slate-200">"{productToDelete?.name}"</span> de la base de datos. Se eliminarán sus variantes y configuraciones.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-slate-100 dark:border-white/5">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setProductToDelete(null)}
+              disabled={isDeletingProduct}
+              className="rounded-xl h-10 text-xs font-bold"
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="button"
+              onClick={handleConfirmDelete}
+              disabled={isDeletingProduct}
+              className="bg-rose-600 hover:bg-rose-700 text-white rounded-xl h-10 text-xs font-bold gap-2 px-4 shadow-md shadow-rose-600/20"
+            >
+              {isDeletingProduct ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Eliminando...
+                </>
+              ) : (
+                <>
+                  <Trash2 className="h-4 w-4" />
+                  Sí, eliminar producto
+                </>
+              )}
             </Button>
           </div>
         </DialogContent>

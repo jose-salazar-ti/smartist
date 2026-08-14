@@ -80,8 +80,7 @@ interface DbVariantRow {
 
 interface DbProductRow {
   id: string;
-  catId: number;
-  categoria: DbCategoryRow;
+  categorias: DbCategoryRow[];
   provId: number | null;
   nombre: string;
   descrip: string;
@@ -92,6 +91,7 @@ interface DbProductRow {
   esCustom: boolean;
   activo: boolean;
   destacado: boolean;
+  masVendido?: boolean;
   galleryImages: string[];
   blankMockupUrl: string | null;
   maskImageUrl: string | null;
@@ -127,18 +127,36 @@ function mapVariant(productBasePrice: number, productId: string, v: DbVariantRow
 function mapProduct(p: DbProductRow): Product {
   const basePrice = Number(p.precio);
   const variants = p.variantes.map((v: DbVariantRow) => mapVariant(basePrice, p.id, v));
-  const firstImage = p.imagen ?? (p.galleryImages?.[0] ?? (variants.find((v: ProductVariant) => v.imageUrl)?.imageUrl ?? ""));
+  
+  // Extraer las imágenes subidas desde el panel de administración
+  const uploadedGallery = Array.isArray(p.galleryImages) 
+    ? p.galleryImages.filter(img => img && typeof img === "string" && !img.includes("mug-conical") && !img.includes("mug-magic")) 
+    : [];
+
+  // En el inicio (catálogo) siempre se muestra la 1ra imagen de las subidas en el panel
+  let firstImage = uploadedGallery.length > 0
+    ? uploadedGallery[0]
+    : (p.imagen || p.blankMockupUrl || variants.find((v: ProductVariant) => v.imageUrl)?.imageUrl || "/img/fotos_productos/Tazas de 11 Oz.png");
+
+  if (firstImage.includes("mug-conical") || firstImage.includes("mug-magic")) {
+    firstImage = "/img/fotos_productos/Tazas de 11 Oz.png";
+  }
+
+  // La galería contiene todas las imágenes subidas en el orden del panel
+  const galleryImages = uploadedGallery.length > 0 ? uploadedGallery : [firstImage];
 
   return {
     id: p.id,
     name: p.nombre,
     description: p.descrip,
-    category: p.categoria.nombre,
+    category: p.categorias[0]?.nombre || "",
+    categories: p.categorias.map(c => c.nombre),
     isCustomizable: p.esCustom,
     basePrice,
     imageUrl: firstImage,
-    galleryImages: p.galleryImages || [],
+    galleryImages,
     destacado: p.destacado || false,
+    masVendido: p.masVendido || false,
     blankMockupUrl: p.blankMockupUrl || null,
     maskImageUrl: p.maskImageUrl || null,
     glbModelUrl: p.glbModelUrl || null,
@@ -161,7 +179,11 @@ export async function getProducts(
       where.destacado = true;
     }
     if (category && category !== "Todos") {
-      where.categoria = { slug: category.toLowerCase() };
+      where.categorias = {
+        some: {
+          slug: category.toLowerCase()
+        }
+      };
     }
     if (search) {
       where.OR = [
@@ -173,7 +195,7 @@ export async function getProducts(
     const dbProducts = (await prisma.producto.findMany({
       where,
       include: {
-        categoria: true,
+        categorias: true,
         variantes: {
           orderBy: { precioExt: "asc" },
         },
@@ -197,7 +219,7 @@ export async function getProductById(
     const p = (await prisma.producto.findUnique({
       where: { id },
       include: {
-        categoria: true,
+        categorias: true,
         variantes: {
           orderBy: { precioExt: "asc" },
         },

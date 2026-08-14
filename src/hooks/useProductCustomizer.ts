@@ -60,15 +60,15 @@ function applyCmykSoftProof(ctx: CanvasRenderingContext2D, width: number, height
 export function useProductCustomizer(product: Product) {
   const router = useRouter();
   
-  // Extraer Specs desde base de datos, usando fallback si no existe
+  // Extraer Specs únicamente desde la base de datos (sin datos hardcodeados)
   const productSpecs: ProductSpecs = {
-    features: product.features && Array.isArray(product.features) ? product.features : [],
-    benefits: product.benefits && Array.isArray(product.benefits) ? product.benefits : ["Este producto es de alta calidad y completamente personalizable."],
+    features: Array.isArray(product.features) ? product.features.filter(f => f && f.label && f.value) : [],
+    benefits: Array.isArray(product.benefits) ? product.benefits.filter(b => b && b.trim() !== "") : [],
   };
 
   // View mode
   const [viewMode, setViewMode] = useState<"catalog" | "customize">("catalog");
-  const [selectedCatalogImage, setSelectedCatalogImage] = useState<string>(product.galleryImages?.[0] || product.imageUrl);
+  const [selectedCatalogImage, setSelectedCatalogImage] = useState<string>(product.imageUrl || product.galleryImages?.[0] || "");
 
   // Select initial variant
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product.variants[0]);

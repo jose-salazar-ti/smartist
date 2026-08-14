@@ -38,7 +38,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://wpmnsyqabcdxkpfydamn.supabase.co" crossOrigin="anonymous" />
       </head>
       <body suppressHydrationWarning className="min-h-full flex flex-col font-sans overflow-x-hidden">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} forcedTheme="light">
           {children}
           <Toaster position="top-right" theme="light" richColors closeButton />
         </ThemeProvider>

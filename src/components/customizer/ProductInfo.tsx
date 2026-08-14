@@ -71,38 +71,45 @@ export default function ProductInfo({
 
       <hr className="order-4 lg:order-2" style={{ border: 'none', borderTop: '1px solid var(--border-hover)' }} />
 
-      {viewMode === "catalog" && (
+      {viewMode === "catalog" && (productSpecs.features.length > 0 || productSpecs.benefits.length > 0) && (
         <>
           <hr style={{ border: 'none', borderTop: '1px solid var(--border-hover)' }} />
           
           {/* Ficha Técnica: Características y Beneficios */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', background: 'var(--bg-card)', padding: '24px', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border)' }}>
-            <div>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '14px', color: 'var(--text-primary)', marginBottom: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                Especificaciones Técnicas
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {productSpecs.features.map((feat, idx) => (
-                  <div key={idx} style={{ display: 'flex', flexDirection: 'column', padding: '10px 14px', background: 'var(--bg-dark-3)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-                    <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>{feat.label}</span>
-                    <span style={{ fontSize: '13px', color: 'var(--text-primary)', fontWeight: 700, marginTop: '2px' }}>{feat.value}</span>
-                  </div>
-                ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', background: 'var(--bg-card)', padding: '24px', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border)' }}>
+            {productSpecs.features.length > 0 && (
+              <div>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '13px', color: 'var(--text-primary)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  Especificaciones Técnicas
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {productSpecs.features.map((feat, idx) => (
+                    <div key={idx} style={{ display: 'flex', flexDirection: 'column', padding: '10px 14px', background: 'var(--bg-dark-3)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
+                      <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>{feat.label}</span>
+                      <span style={{ fontSize: '13px', color: 'var(--text-primary)', fontWeight: 700, marginTop: '2px' }}>{feat.value}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
-            <div style={{ borderTop: '1px solid var(--border-hover)', paddingTop: '20px' }}>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '14px', color: 'var(--text-primary)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                Beneficios Clave
-              </h3>
-              <ul style={{ display: 'flex', flexDirection: 'column', gap: '10px', paddingLeft: '20px', listStyleType: 'disc', color: 'var(--text-secondary)', fontSize: '13px' }}>
-                {productSpecs.benefits.map((benefit, idx) => (
-                  <li key={idx} style={{ lineHeight: '1.4' }}>
-                    {benefit}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {productSpecs.benefits.length > 0 && (
+              <div style={{ 
+                borderTop: productSpecs.features.length > 0 ? '1px solid var(--border-hover)' : 'none', 
+                paddingTop: productSpecs.features.length > 0 ? '18px' : '0' 
+              }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '13px', color: 'var(--text-primary)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  Beneficios Clave
+                </h3>
+                <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '18px', listStyleType: 'disc', color: 'var(--text-secondary)', fontSize: '13px' }}>
+                  {productSpecs.benefits.map((benefit, idx) => (
+                    <li key={idx} style={{ lineHeight: '1.4' }}>
+                      {benefit}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </>
       )}

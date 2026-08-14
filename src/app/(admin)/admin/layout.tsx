@@ -1,5 +1,4 @@
 import Link from "next/link";
-import ThemeToggle from "@/components/ThemeToggle";
 import { verifyAdmin } from "@/lib/auth-utils";
 import { redirect } from "next/navigation";
 import AdminSidebar from "@/components/admin/AdminSidebar";
@@ -76,7 +75,6 @@ export default async function AdminLayout({
             <Link href="/admin/productos" className="text-slate-600 dark:text-slate-300">Productos</Link>
             <Link href="/admin/categorias" className="text-slate-600 dark:text-slate-300">Categorías</Link>
             <Link href="/admin/ajustes" className="text-slate-600 dark:text-slate-300">Ajustes</Link>
-            <ThemeToggle />
           </div>
         </header>
 

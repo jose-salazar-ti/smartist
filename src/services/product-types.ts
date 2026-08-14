@@ -20,6 +20,7 @@ export interface Product {
   name: string;
   description: string;
   category: string;
+  categories?: string[];
   isCustomizable: boolean;
   basePrice: number;
   imageUrl: string;
@@ -33,4 +34,5 @@ export interface Product {
   benefits?: any;
   variants: ProductVariant[];
   destacado?: boolean;
+  masVendido?: boolean;
 }

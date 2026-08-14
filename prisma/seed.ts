@@ -188,7 +188,7 @@ async function main() {
   const prodTazaBlanca = await prisma.producto.create({
     data: {
       id: "taza-blanca",
-      catId: catTazas.id,
+      categorias: { connect: [{ id: catTazas.id }] },
       provId: provInsumos.id,
       nombre: "Taza Blanca 11oz",
       descrip: "Taza de cerámica blanca premium importada. Ideal para regalos corporativos o personales. Resistente a microondas y lavavajillas. Calidad fotográfica HD.",
@@ -226,7 +226,7 @@ async function main() {
   const prodTazaMagica = await prisma.producto.create({
     data: {
       id: "taza-magica",
-      catId: catTazas.id,
+      categorias: { connect: [{ id: catTazas.id }] },
       provId: provInsumos.id,
       nombre: "Taza Mágica Color Cambiante",
       descrip: "Taza negra mate que revela tu foto o diseño a todo color cuando se vierte líquido caliente. ¡El regalo sorpresa perfecto!",
@@ -257,7 +257,7 @@ async function main() {
   const prodCollar = await prisma.producto.create({
     data: {
       id: "collar-corazon",
-      catId: catJoyeria.id,
+      categorias: { connect: [{ id: catJoyeria.id }] },
       provId: provJoyas.id,
       nombre: "Collar Corazón Grabado",
       descrip: "Hermoso collar de dije corazón de plata ley 925 fabricado por joyeros locales. Personaliza el dije con un grabado láser de nombre, fecha o iniciales.",
@@ -299,7 +299,7 @@ async function main() {
   const prodPolo = await prisma.producto.create({
     data: {
       id: "polo-blanco",
-      catId: catRopa.id,
+      categorias: { connect: [{ id: catRopa.id }] },
       provId: provInsumos.id,
       nombre: "Polo Blanco Sublimado (A4)",
       descrip: "Polo cuello redondo 100% poliéster tacto algodón. Impresión máxima tamaño A4 en el pecho o espalda. Colores vivos que no se destiñen.",

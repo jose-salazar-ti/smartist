@@ -18,12 +18,8 @@ if (process.env.NODE_ENV !== "production") {
 
 const adapter = new PrismaPg(pool);
 
-// Bulletproof check: Recreate PrismaClient if global cache is stale (missing new models)
-const isCacheValid = globalForPrisma.prisma && "mensajeContacto" in globalForPrisma.prisma;
-
-export const prisma = isCacheValid
-  ? globalForPrisma.prisma
-  : new PrismaClient({ adapter });
+// Instantiate fresh PrismaClient with current generated schema
+export const prisma = new PrismaClient({ adapter });
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;

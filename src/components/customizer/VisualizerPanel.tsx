@@ -94,6 +94,7 @@ export default function VisualizerPanel({
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={{ objectFit: 'cover', objectPosition: 'center', pointerEvents: 'none', userSelect: 'none' }}
                   priority
+                  unoptimized
                   draggable={false}
                   onContextMenu={(e) => e.preventDefault()}
                   onDragStart={(e) => e.preventDefault()}
@@ -163,7 +164,7 @@ export default function VisualizerPanel({
                 transition: 'border-color 0.3s', background: 'var(--bg-dark-3)'
               }}
             >
-              <Image src={img} alt={`Gallery ${idx}`} fill sizes="80px" style={{ objectFit: 'cover' }} />
+              <Image src={img} alt={`Gallery ${idx}`} fill sizes="80px" style={{ objectFit: 'cover' }} unoptimized />
             </div>
           ))}
         </div>

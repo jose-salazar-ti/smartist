@@ -401,7 +401,7 @@ export default function AdminOrdersPage() {
                   return (
                     <TableRow key={order.id} className="border-slate-100 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-white/2">
                       <TableCell className="font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
-                        #{order.id.slice(0, 8).toUpperCase()}
+                        N° {order.id.slice(0, 8).toUpperCase()}
                       </TableCell>
                       <TableCell className="text-sm">
                         <div className="font-medium text-slate-900 dark:text-slate-100">{order.user?.name}</div>
@@ -471,7 +471,7 @@ export default function AdminOrdersPage() {
               <div className="relative overflow-hidden bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-transparent p-4 sm:p-5 border-b border-slate-100 dark:border-white/5 shrink-0 flex justify-between items-center">
                 <DialogHeader className="relative z-10 flex flex-row items-center gap-4">
                   <DialogTitle className="font-heading font-extrabold text-xl tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
-                    <span className="text-indigo-600 dark:text-indigo-400">#</span>
+                    <span className="text-indigo-600 dark:text-indigo-400">N° </span>
                     {selectedOrder.id.slice(0, 8).toUpperCase()}
                   </DialogTitle>
                   <div className="flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400 font-medium bg-slate-100 dark:bg-white/5 px-2 py-1 rounded-md">

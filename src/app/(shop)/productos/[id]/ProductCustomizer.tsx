@@ -262,11 +262,11 @@ export default function ProductCustomizer({ product, relatedProducts = [] }: Pro
                       src={related.imageUrl || "/img/placeholder.png"} 
                       alt={related.name} 
                     />
-                    {related.isCustomizable ? (
-                      <span className="product-badge customizable">🎨 <span className="hidden sm:inline">Personalizable</span></span>
-                    ) : (
-                      <span className="product-badge popular">🔥 <span className="hidden sm:inline">Más Vendido</span></span>
-                    )}
+                    {related.masVendido ? (
+                      <span className="product-badge popular">Más Vendido</span>
+                    ) : related.isCustomizable ? (
+                      <span className="product-badge customizable">Personalizable</span>
+                    ) : null}
                   </div>
                   
                   <div className="product-info" style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>

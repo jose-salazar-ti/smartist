@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
-import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -67,8 +66,6 @@ export default function Navbar() {
               </span>
             )}
           </Link>
-
-          <ThemeToggle />
 
           <Link href="/login">
             <button className="btn btn-primary btn-login flex items-center justify-center gap-1.5">
